@@ -8,7 +8,7 @@ public class PetclinicApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(PetclinicApplication.class, args);
-		System.out.println("no to w droge");
+		System.out.println("Welcome to Shih Tzoo");
 	}
 
 }
