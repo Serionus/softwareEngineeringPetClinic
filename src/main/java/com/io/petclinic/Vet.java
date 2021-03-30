@@ -14,8 +14,7 @@ public class Vet extends Human {
         super(firstname, surname);
     }
 
-    public Vet() {
-    }
+    public Vet() { super();}
 
     public Long getVetId() {
         return vetId;
@@ -24,6 +23,8 @@ public class Vet extends Human {
     public void setVetId(Long vetId) {
         this.vetId = vetId;
     }
+
+
 
     @Override
     public boolean equals(Object o) {
