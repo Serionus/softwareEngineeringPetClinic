@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity
 public class Owner extends Human {
 
-    private @Id @GeneratedValue Long id;
+    private @Id @GeneratedValue Long ownerId;
 
     public Owner() {
         super();
@@ -18,12 +18,12 @@ public class Owner extends Human {
         super(firstname, surname);
     }
 
-    public Long getId() {
-        return id;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setOwnerId(Long id) {
+        this.ownerId = id;
     }
 
     @Override
@@ -32,18 +32,18 @@ public class Owner extends Human {
         if (!(o instanceof Owner)) return false;
         if (!super.equals(o)) return false;
         Owner owner = (Owner) o;
-        return id.equals(owner.id);
+        return ownerId.equals(owner.ownerId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), id);
+        return Objects.hash(super.hashCode(), ownerId);
     }
 
     @Override
     public String toString() {
         final StringBuilder message = new StringBuilder("Owner{");
-        message.append("firstname='").append(getFirstname()).append("', surname='").append(getSurname()).append("', id=").append(id).append("}");
+        message.append("firstname='").append(getFirstname()).append("', surname='").append(getSurname()).append("', id=").append(ownerId).append("}");
         return message.toString();
     }
 }

@@ -32,7 +32,7 @@ public class OwnerController {
                     owner.setSurname(newOwner.getSurname());
                     return repository.save(owner);
                 }).orElseGet( () -> {
-                    newOwner.setId(id);
+                    newOwner.setOwnerId(id);
                     return repository.save(newOwner);
                 });
     }
