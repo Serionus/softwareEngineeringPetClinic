@@ -71,6 +71,7 @@ public class Owner extends Human {
     }
 
 
+
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), ownerId, pets);
