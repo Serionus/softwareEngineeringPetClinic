@@ -23,8 +23,8 @@ public class PetController {
 
 
     @GetMapping("/pets")
-    List<Pet> getAll(@PathVariable Long id) {
-        return repository.findAll();
+    public void getAllPets() {
+        repository.findAll();
     }
 
 //    @PostMapping("/owners/{id}/pets/")

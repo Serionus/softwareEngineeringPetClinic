@@ -1,46 +1,35 @@
 package com.io.petclinic.controllers;
 
-import com.io.petclinic.exceptions.VetNotFoundException;
 import com.io.petclinic.model.entities.Vet;
-import com.io.petclinic.model.repositories.VetRepository;
+import com.io.petclinic.model.services.VetService;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 public class VetController {
+    private final VetService vetService;
 
-    private final VetRepository vetRepository;
-
-    public VetController(VetRepository vetRepository) { this.vetRepository = vetRepository; }
+    public VetController(VetService vetService) {
+        this.vetService = vetService;
+    }
 
     @GetMapping("/vets")
-    List<Vet> all(){
-        return vetRepository.findAll();
+    public void getAllVets(){
+        vetService.findAllVets();
     }
 
     @GetMapping("/vets/{id}")
-    Vet vet(@PathVariable Long id){
-        return vetRepository.findById(id)
-                .orElseThrow( () -> new VetNotFoundException(id));
+    public void getVetByID(@PathVariable Long id){
+        vetService.findVet(id);
     }
 
     @PutMapping("/vets/{id}")
-    Vet updatedVet(@RequestBody Vet newVet, @PathVariable Long id){
-        return vetRepository.findById(id)
-                .map( vet -> {
-                    vet.setFirstname(newVet.getFirstname());
-                    vet.setSurname(newVet.getSurname());
-                    return vetRepository.save(vet);
-                }).orElseGet( () -> {
-                    newVet.setVetId(id);
-                    return vetRepository.save(newVet);
-                });
+    public void updatedVet(@RequestBody Vet newVet, @PathVariable Long id){
+        vetService.updateVet(newVet, id);
     }
 
 
     @DeleteMapping("vets/{id}")
-    void delete(@PathVariable Long id){
-        vetRepository.deleteById(id);
+    public void deleteVet(@PathVariable Long id){
+        vetService.deleteVet(id);
     }
 }
