@@ -1,4 +1,4 @@
-package com.io.petclinic;
+package com.io.petclinic.model.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

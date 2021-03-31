@@ -1,5 +1,7 @@
-package com.io.petclinic;
+package com.io.petclinic.utils;
 
+import com.io.petclinic.model.entities.Owner;
+import com.io.petclinic.model.repositories.OwnerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -8,8 +10,8 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
-public class Utils {
-    private static final Logger log = LoggerFactory.getLogger(Utils.class);
+public class InitRepository {
+    private static final Logger log = LoggerFactory.getLogger(InitRepository.class);
 
     @Bean
     CommandLineRunner init(OwnerRepository ownerRepository){

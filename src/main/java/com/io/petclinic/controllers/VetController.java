@@ -1,5 +1,8 @@
-package com.io.petclinic;
+package com.io.petclinic.controllers;
 
+import com.io.petclinic.exceptions.VetNotFoundException;
+import com.io.petclinic.model.entities.Vet;
+import com.io.petclinic.model.repositories.VetRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,7 +1,7 @@
-package com.io.petclinic;
+package com.io.petclinic.exceptions;
 
 public class OwnerNotFoundException extends RuntimeException{
-    OwnerNotFoundException(Long id){
+    public OwnerNotFoundException(Long id){
         super("No such owner with id = " + id);
     }
 }

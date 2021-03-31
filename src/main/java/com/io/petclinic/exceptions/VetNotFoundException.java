@@ -1,7 +1,7 @@
-package com.io.petclinic;
+package com.io.petclinic.exceptions;
 
 public class VetNotFoundException extends RuntimeException{
-    VetNotFoundException(Long id){
+    public VetNotFoundException(Long id){
         super("No such vet with id = " + id);
     }
 }
