@@ -1,0 +1,82 @@
+@startuml PetClinic
+
+
+package entities <<Folder>> {
+
+    entity Human {
+
+    }
+
+    entity Owner extends Human {
+
+    }
+
+    entity Vet extends Human {
+
+    }
+
+    entity Visit {
+
+    }
+
+    entity Pet {
+
+    }
+}
+
+
+package repositories <<Folder>> {
+    interface VetRepository 
+
+    interface PetRepository 
+
+    interface OwnerRepository
+
+    interface VisitRepository
+}
+
+package services <<Folder>> {
+    class OwnerService {
+
+    }
+
+    class PetService {
+
+    }
+
+    class VetService {
+
+    }
+
+    class VisitService {
+
+    }
+}
+
+ 
+
+
+Visit *-- VisitService
+
+
+class GreetingController {
+
+}
+
+class OwnerController {
+
+}
+
+class PetController {
+
+}
+
+class VetController {
+
+}
+
+class VisitController {
+
+}
+
+@enduml
