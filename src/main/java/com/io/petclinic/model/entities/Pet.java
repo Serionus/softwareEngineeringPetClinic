@@ -3,6 +3,8 @@ package com.io.petclinic.model.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -10,18 +12,17 @@ public class Pet {
 
     private @Id @GeneratedValue Long petId;
     private Long ownerId;
-
     private String species;
+    @OneToMany
+    private List<Visit> visits;
 
-    public Pet(Long petId, String species) {
-        this.petId = petId;
+    public Pet(String species) {
         this.species = species;
     }
 
     public Pet() {
 
     }
-
 
     public Long getPetId() {
         return petId;
@@ -61,7 +62,5 @@ public class Pet {
         sb.append('}');
         return sb.toString();
     }
-
-
 
 }

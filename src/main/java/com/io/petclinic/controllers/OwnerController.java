@@ -1,6 +1,7 @@
 package com.io.petclinic.controllers;
 
 import com.io.petclinic.model.entities.Owner;
+import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.services.OwnerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,8 +32,13 @@ public class OwnerController {
         return ownerService.updateOwner(newOwner, id);
     }
 
-    @DeleteMapping("owners/{id}")
+    @DeleteMapping("/owners/{id}")
     public void delete(@PathVariable Long id){
         ownerService.deleteOwner(id);
+    }
+
+    @GetMapping("/owners/{ownerId}/pets/{petId}")
+    public Pet getPet(@PathVariable Long ownerId, Long petId){
+       return null;
     }
 }

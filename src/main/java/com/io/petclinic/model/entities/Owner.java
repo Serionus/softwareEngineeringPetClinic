@@ -10,6 +10,9 @@ public class Owner extends Human {
 
     private @Id @GeneratedValue Long ownerId;
 
+    @OneToMany
+    private List<Pet> pets;
+
     public Owner() {
         super();
     }
@@ -26,18 +29,48 @@ public class Owner extends Human {
         this.ownerId = id;
     }
 
+    public List<Pet> getPets() {
+        return pets;
+    }
+
+    public void setPets(List<Pet> pets) {
+        this.pets = pets;
+    }
+
+    public Pet addNewPet(Pet pet) {
+        pets.add(pet);
+        return pet;
+    }
+
+    public void addNewVisit(Pet pet, Visit visit) {
+        pet.getVisits().add(visit);
+    }
+
+    public void cancelVisit() {
+
+    }
+
+   public Pet getPetById(Long id){
+        for (Pet pet: pets){
+            if (pet.getPetId().equals(id)){
+                return pet;
+            }
+        }
+        return null;
+   }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Owner)) return false;
         if (!super.equals(o)) return false;
         Owner owner = (Owner) o;
-        return ownerId.equals(owner.ownerId);
+        return ownerId.equals(owner.ownerId) && pets.equals(owner.pets);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), ownerId);
+        return Objects.hash(super.hashCode(), ownerId, pets);
     }
 
     @Override
