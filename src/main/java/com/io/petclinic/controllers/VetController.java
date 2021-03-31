@@ -4,6 +4,8 @@ import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.services.VetService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class VetController {
     private final VetService vetService;
@@ -13,18 +15,18 @@ public class VetController {
     }
 
     @GetMapping("/vets")
-    public void getAllVets(){
-        vetService.findAllVets();
+    public List<Vet> getAllVets(){
+        return vetService.findAllVets();
     }
 
     @GetMapping("/vets/{id}")
-    public void getVetByID(@PathVariable Long id){
-        vetService.findVet(id);
+    public Vet getVet(@PathVariable Long id){
+        return vetService.findVet(id);
     }
 
     @PutMapping("/vets/{id}")
-    public void updatedVet(@RequestBody Vet newVet, @PathVariable Long id){
-        vetService.updateVet(newVet, id);
+    public Vet updateVet(@RequestBody Vet newVet, @PathVariable Long id){
+        return vetService.updateVet(newVet, id);
     }
 
 

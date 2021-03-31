@@ -4,6 +4,8 @@ import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.services.OwnerService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 public class OwnerController {
@@ -15,18 +17,18 @@ public class OwnerController {
     }
 
     @GetMapping("/owners")
-    public void getAllOwners(){
-        ownerService.findAllOwners();
+    public List<Owner> getAllOwners(){
+        return ownerService.findAllOwners();
     }
 
     @GetMapping("/owners/{id}")
-    public void getOwner(@PathVariable Long id){
-        ownerService.findOwner(id);
+    public Owner getOwner(@PathVariable Long id){
+        return ownerService.findOwner(id);
     }
 
     @PutMapping("/owners/{id}")
-    public void updateOwner(@RequestBody Owner newOwner, @PathVariable Long id){
-        ownerService.updateOwner(newOwner, id);
+    public Owner updateOwner(@RequestBody Owner newOwner, @PathVariable Long id){
+        return ownerService.updateOwner(newOwner, id);
     }
 
     @DeleteMapping("owners/{id}")
