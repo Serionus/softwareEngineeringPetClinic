@@ -3,6 +3,8 @@ package com.io.petclinic.model.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -68,6 +70,7 @@ public class Owner extends Human {
         return ownerId.equals(owner.ownerId) && pets.equals(owner.pets);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(super.hashCode(), ownerId, pets);
@@ -79,4 +82,6 @@ public class Owner extends Human {
         message.append("firstname='").append(getFirstname()).append("', surname='").append(getSurname()).append("', id=").append(ownerId).append("}");
         return message.toString();
     }
+
+
 }

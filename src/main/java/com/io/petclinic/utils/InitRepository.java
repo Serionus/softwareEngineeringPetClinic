@@ -3,6 +3,7 @@ package com.io.petclinic.utils;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.repositories.OwnerRepository;
+import com.io.petclinic.model.repositories.PetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;

@@ -24,7 +24,7 @@ public class Vet extends Human {
         this.vetId = vetId;
     }
 
-
+    private int officeHours;  // wiem że nie int tylko coś czasowego ale jako placeholder
 
     @Override
     public boolean equals(Object o) {

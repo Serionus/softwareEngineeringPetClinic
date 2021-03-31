@@ -36,6 +36,8 @@ public class Pet {
         return species;
     }
 
+    public List<Visit> getVisits() { return visits; }
+
     public void setSpecies(String species) {
         this.species = species;
     }
