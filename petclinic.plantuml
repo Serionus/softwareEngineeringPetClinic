@@ -1,70 +1,100 @@
 @startuml PetClinic
 
 
-package entities <<Folder>> {
+abstract Human{
+    -String firstName
+    -String surname
+}
 
-    entity Human {
+entity Owner extends Human {
+    -Long ownerId
+    +void addNewPet(Pet)
+    +void addNewVisit(Pet)
+    +void cancelVisit(Long id)
+    +Pet getPetById(Long)
+}
 
-    }
+entity Vet extends Human {
+    -Long vetId
+    -List<Visit> visits
+    -Date workingHours
+}
 
-    entity Owner extends Human {
+entity Visit {
+    -Long visitId
+    -Date beginTime
+    -Long petId
+}
 
-    }
-
-    entity Vet extends Human {
-
-    }
-
-    entity Visit {
-
-    }
-
-    entity Pet {
-
-    }
+entity Pet {
+    -Long petId
+    -String name
+    -String species
+    -List<Visit> visits
 }
 
 
-package repositories <<Folder>> {
-    interface VetRepository 
+interface VetRepository 
+interface PetRepository 
+interface OwnerRepository
+interface VisitRepository
+interface JpaRepository
 
-    interface PetRepository 
+JpaRepository <|.. VetRepository
+JpaRepository <|.. PetRepository
+OwnerRepository ..|> JpaRepository
+VisitRepository ..|> JpaRepository
 
-    interface OwnerRepository
+PetRepository <|.. PetService
+VetRepository <|.. VetService
+OwnerService ..|> OwnerRepository
+VisitService ..|> VisitRepository
 
-    interface VisitRepository
+class OwnerService {
+    -OwnerRepository ownerRepository
+    -VisitRepository visitRepository
+    -PetRepository petRepository
+    +Owner findOwner(Long)
+    +Owner updateOwner(Owner, Long)
+    +void deleteOwner(Long)
+    +Pet addPet(Owner, Pet)
+    +List findAllOwners()
 }
 
-package services <<Folder>> {
-    class OwnerService {
-
-    }
-
-    class PetService {
-
-    }
-
-    class VetService {
-
-    }
-
-    class VisitService {
-
-    }
+class PetService {
+    -PetRepository repository
+    +List findAllPets()
+    +Pet createPet(String, String)
+    +void deletePet()
 }
 
- 
+class VetService {
+    -VetRepository repository
+    +List findAllVets()
+    +Vet findVet(Long)
+    +Vet updateVet(Vet, Long)
+    +void deleteVet(Long)
+}
 
-
-Visit *-- VisitService
-
+class VisitService {
+    -VisitRepository repository
+    +Visit createVisit(Pet)
+    +void deleteVisit()
+    +List<Visit> getAllVisits()
+    +Visit getVisitById()
+}
 
 class GreetingController {
 
 }
 
 class OwnerController {
-
+    -OwnerService ownerService
+    +List getAllOwners()
+    +Owner getOwner(@PathVariable Long)
+    +Owner updateOwner(Owner, Long)
+    +void delete(Long)
+    +Pet getPet(Long, Long)
 }
 
 class PetController {
@@ -72,7 +102,12 @@ class PetController {
 }
 
 class VetController {
-
+    -VetService vetService
+    -VisitService visitService
+    +List<Vet> getAllVets()
+    +Vet getVet(@PathVariable Long)
+    +Vet updateVet(@RequestBody Vet, @PathVariable Long)
+    +void deleteVet(@PathVariable Long)
 }
 
 class VisitController {
