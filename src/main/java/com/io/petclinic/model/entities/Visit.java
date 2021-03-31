@@ -8,12 +8,12 @@ import java.util.Objects;
 @Entity
 public class Visit {
 
-    private int beginningTime;
+    private int beginTime;
 
     private @Id @GeneratedValue Long visitId;
 
     public Visit(int beginningTime, Long visitId) {
-        this.beginningTime = beginningTime;
+        this.beginTime = beginningTime;
         this.visitId = visitId;
     }
 
@@ -21,12 +21,12 @@ public class Visit {
 
     }
 
-    public int getBeginningTime() {
-        return beginningTime;
+    public int getBeginTime() {
+        return beginTime;
     }
 
-    public void setBeginningTime(int beginningTime) {
-        this.beginningTime = beginningTime;
+    public void setBeginTime(int beginTime) {
+        this.beginTime = beginTime;
     }
 
     public Long getVisitId() {
@@ -42,19 +42,19 @@ public class Visit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Visit visit = (Visit) o;
-        return beginningTime == visit.beginningTime &&
+        return beginTime == visit.beginTime &&
                 visitId.equals(visit.visitId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(beginningTime, visitId);
+        return Objects.hash(beginTime, visitId);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Visit{");
-        sb.append("beginningTime=").append(beginningTime);
+        sb.append("beginningTime=").append(beginTime);
         sb.append(", visitId=").append(visitId);
         sb.append('}');
         return sb.toString();

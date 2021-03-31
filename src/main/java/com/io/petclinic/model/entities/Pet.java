@@ -11,12 +11,14 @@ import java.util.Objects;
 public class Pet {
 
     private @Id @GeneratedValue Long petId;
-    private Long ownerId;
+    private String name;
     private String species;
+
     @OneToMany
     private List<Visit> visits;
 
-    public Pet(String species) {
+    public Pet(String name, String species) {
+        this.name = name;
         this.species = species;
     }
 
@@ -30,6 +32,10 @@ public class Pet {
 
     public void setPetId(Long id) {
         this.petId = id;
+    }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
     }
 
     public String getSpecies() {
@@ -47,13 +53,13 @@ public class Pet {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Pet pet = (Pet) o;
-        return petId.equals(pet.petId) &&
-                species.equals(pet.species);
+        return petId.equals(pet.petId) && name.equals(pet.name)
+                && species.equals(pet.species);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(petId, species);
+        return Objects.hash(petId, name, species);
     }
 
     @Override

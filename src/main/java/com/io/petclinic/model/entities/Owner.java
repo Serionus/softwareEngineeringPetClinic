@@ -39,9 +39,8 @@ public class Owner extends Human {
         this.pets = pets;
     }
 
-    public Pet addNewPet(Pet pet) {
+    public void addNewPet(Pet pet) {
         pets.add(pet);
-        return pet;
     }
 
     public void addNewVisit(Pet pet, Visit visit) {
@@ -69,7 +68,6 @@ public class Owner extends Human {
         Owner owner = (Owner) o;
         return ownerId.equals(owner.ownerId) && pets.equals(owner.pets);
     }
-
 
 
     @Override

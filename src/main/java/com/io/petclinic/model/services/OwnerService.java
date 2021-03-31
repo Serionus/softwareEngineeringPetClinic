@@ -16,16 +16,20 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
-    private final VisitRepository visitRepository;
+//    private VisitRepository visitRepository;
 
-    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, VisitRepository visitRepository) {
+    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
-        this.visitRepository = visitRepository;
+//        this.visitRepository = visitRepository;
     }
 
     public List<Owner> findAllOwners(){
         return ownerRepository.findAll();
+    }
+
+    public Owner createOwner(String firstname, String surname){
+        return new Owner(firstname, surname);
     }
 
     public Owner findOwner(Long id){
@@ -50,7 +54,7 @@ public class OwnerService {
     }
 
 
-    public Pet getPet(Long ownerId, Long petId){
+    public Pet getOwnersPet(Long ownerId, Long petId){
         return ownerRepository.findById(ownerId)
                 .map( owner -> {
                     return owner.getPetById(petId);
@@ -60,8 +64,9 @@ public class OwnerService {
                 });
     }
 
-    public Pet addPet(Owner owner, Pet pet){
-        owner.addNewPet(pet);
-        return petRepository.save(pet);
+    public void addPet(Long id, Pet newPet){
+        Owner owner = ownerRepository.findById(id).orElseThrow(() -> new OwnerNotFoundException(id));
+        petRepository.save(newPet);
+
     }
 }

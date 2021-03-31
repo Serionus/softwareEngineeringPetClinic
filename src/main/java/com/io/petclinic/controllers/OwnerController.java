@@ -3,6 +3,7 @@ package com.io.petclinic.controllers;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.services.OwnerService;
+import com.io.petclinic.model.services.PetService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
 public class OwnerController {
 
     private final OwnerService ownerService;
+    private final PetService petService;
 
-    public OwnerController(OwnerService ownerService) {
+    public OwnerController(OwnerService ownerService, PetService petService) {
         this.ownerService = ownerService;
+        this.petService = petService;
     }
 
     @GetMapping("/owners")
@@ -39,6 +42,12 @@ public class OwnerController {
 
     @GetMapping("/owners/{ownerId}/pets/{petId}")
     public Pet getPet(@PathVariable Long ownerId, Long petId){
-       return null;
+       return ownerService.getOwnersPet(ownerId, petId);
+    }
+
+    @PostMapping("/owners/{ownerId}/pets/add")
+    public void addPet(@PathVariable Long ownerId, @RequestParam String name, String species){
+        Pet newPet = petService.createPet(name, species);
+        ownerService.addPet(ownerId, newPet);
     }
 }
