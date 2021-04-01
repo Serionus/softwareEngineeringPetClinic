@@ -33,7 +33,6 @@ entity Pet {
     -List<Visit> visits
 }
 
-
 interface VetRepository 
 interface PetRepository 
 interface OwnerRepository
@@ -49,6 +48,12 @@ PetRepository <|.. PetService
 VetRepository <|.. VetService
 OwnerService ..|> OwnerRepository
 VisitService ..|> VisitRepository
+
+PetService <|.. PetController
+VetService <|.. VetController
+OwnerController ..|> OwnerService
+VisitController ..|> VisitService
+
 
 class OwnerService {
     -OwnerRepository ownerRepository
@@ -85,12 +90,13 @@ class VisitService {
 }
 
 class GreetingController {
-
+    -placeholder token
+    +placeholder login()
 }
 
 class OwnerController {
     -OwnerService ownerService
-    +List getAllOwners()
+    +List<Owner> getAllOwners()
     +Owner getOwner(@PathVariable Long)
     +Owner updateOwner(Owner, Long)
     +void delete(Long)
@@ -98,9 +104,17 @@ class OwnerController {
 }
 
 class PetController {
-
+    -PetService petService
+    +List getAllPets()
 }
 
+class VisitController {
+    -VisitService visitService
+    +List<Visit> getAllVisits()
+    +Visit getVisit(@PathVariable Long)
+    +Visit updateVisit(Visit)
+    +void delete(Long)
+}
 class VetController {
     -VetService vetService
     -VisitService visitService
@@ -108,10 +122,6 @@ class VetController {
     +Vet getVet(@PathVariable Long)
     +Vet updateVet(@RequestBody Vet, @PathVariable Long)
     +void deleteVet(@PathVariable Long)
-}
-
-class VisitController {
-
 }
 
 @enduml
