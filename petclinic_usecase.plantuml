@@ -1,0 +1,29 @@
+@startuml PetClinic UseCase
+
+skinparam actorStyle awesome
+
+
+left to right direction
+
+' owner - usecases
+:Owner: --> (Dodanie zwierzaka do systemu)
+:Owner: --> (Umówienie wizyty)
+:Owner: --> (Wybór terminu wizyty)
+:Owner: --> (Usunięcie wizyty)
+:Owner: --> (Dokonanie rejestracji)
+(Dokonanie rejestracji) -> (Logowanie) #line.dashed : <extends>
+
+(Wybór terminu wizyty) -> (Wybór zwierzaka) #line.dashed : <extends>
+(Usunięcie wizyty) -> (Wybór terminu wizyty) #line.dashed : <include>
+(Wybór zwierzaka) <- (Umówienie wizyty) #line.dashed : <extends>
+
+' vet - usecases
+
+:Vet:
+' (Another usecase) as (UC2)
+' usecase UC3
+' usecase (Last\nusecase) as UC4
+
+
+
+@enduml
