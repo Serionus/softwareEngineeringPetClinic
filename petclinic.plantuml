@@ -49,10 +49,13 @@ VetRepository <|.. VetService
 OwnerService ..|> OwnerRepository
 VisitService ..|> VisitRepository
 
-PetService <|.. PetController
-VetService <|.. VetController
-OwnerController ..|> OwnerService
-VisitController ..|> VisitService
+PetService o.. PetController
+VetService o.. VetController
+OwnerController ..o OwnerService
+VisitController ..o VisitService
+
+Pet -* Human
+Visit <.. Human
 
 
 class OwnerService {
