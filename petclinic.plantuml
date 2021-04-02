@@ -44,19 +44,22 @@ JpaRepository <|.. PetRepository
 OwnerRepository ..|> JpaRepository
 VisitRepository ..|> JpaRepository
 
-PetRepository <|.. PetService
-VetRepository <|.. VetService
-OwnerService ..|> OwnerRepository
-VisitService ..|> VisitRepository
+PetRepository ..o PetService
+VetRepository ..o VetService
+OwnerService o.. OwnerRepository
+VisitService o.. VisitRepository
 
-PetService o.. PetController
-VetService o.. VetController
-OwnerController ..o OwnerService
-VisitController ..o VisitService
+PetService <.. PetController
+VetService <.. VetController
+OwnerController ..> OwnerService
+VisitController ..> VisitService
 
 Pet -* Human
 Visit <.. Human
+Pet "1..1" - Visit
 
+GreetingController -> Owner
+Vet <- GreetingController
 
 class OwnerService {
     -OwnerRepository ownerRepository
