@@ -1,0 +1,28 @@
+@startuml PetClinic Sequence1 Create Account
+
+actor Owner
+participant LoginService
+database OwnerRepository
+participant OwnerService
+
+Owner -> LoginService : registration(credentials)
+
+loop
+    LoginService -> OwnerRepository : searchForOwner(id)
+end
+
+alt account already exists
+    LoginService <- OwnerRepository : searchForOwner(id)
+    Owner <- LoginService : AccountAlreadyExistException(id)
+end
+
+OwnerRepository -> LoginService : noSuchOwner()
+LoginService -> OwnerService : createOwner(id)
+
+OwnerService -> OwnerRepository : addOwner(Owner)
+
+alt invalid data type given
+    OwnerService -> Owner : OwnerNotCreatedException()
+end
+
+@enduml
