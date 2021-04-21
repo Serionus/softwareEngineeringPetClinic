@@ -1,52 +1,36 @@
 @startuml Sequence2 Make An Appointment
 
 actor Owner
-participant LoginService
 participant OwnerService
-database OwnerRepository
 
 participant PetService
-database PetRepository
+participant PetRepository
 
 participant VisitService
-database VisitRepository
+participant VisitRepository
 
 
-Owner -> LoginService : login(credentials) 
-LoginService -> OwnerService : login(credentials)
+OwnerService -> PetService : getAllPets()
 
-loop    
-    OwnerService -> OwnerRepository : searchForOwner(id)
+loop
+    PetService -> PetRepository : searchForPetsByOwner(id)
 end
 
-alt no such owner
-    OwnerRepository -> LoginService: noSuchOwner()
-    Owner <- LoginService : AccountDoesntExistException()
+PetRepository -> PetService : returnPets()
+
+alt no pets
+    OwnerService -> Owner : backToOwnerManagement()
 end
-
-OwnerService -> OwnerRepository : getOwner(owner)
-OwnerRepository -> OwnerService : returnOwner()
-
-OwnerService -> PetService : getPet(id)
 
 note right
 w sytuacji braku zwierząt 
 nie można umówić wizyty
 end note
 
-alt no pets
-    OwnerService -> Owner : backToOwnerManagement()
-end
+Owner -> OwnerService : choosePet(Pet)
+OwnerService -> PetService : getPet(id)
 
-loop
-    PetService -> PetRepository : searchForPet(id)
-end
-
-PetRepository -> PetService : returnPet()
-PetService -> OwnerService : getPet(id)
-
-
-OwnerService -> VisitService : createVisit(Pet, Vet)
+OwnerService -> VisitService : createVisit(Pet, Visit)
 
 note over VisitRepository
 nie można wybrać 
@@ -56,7 +40,7 @@ alt visit already booked
     OwnerService -> Owner : backToOwnerManagement()
 end
 
-VisitService -> VisitRepository : addVisit(Visit)
+VisitService -> VisitRepository : bookVisit(Visit, Pet)
 OwnerService -> Owner : backToOwnerManagement()
 
 @enduml

@@ -1,28 +1,44 @@
 @startuml PetClinic Sequence1 Create Account
 
-actor Owner
+actor User
 participant LoginService
-database OwnerRepository
-participant OwnerService
+participant VetRepository
+participant OwnerRepository
 
-Owner -> LoginService : registration(credentials)
+User -> LoginService : registration(credentials, roleKey)
 
 loop
-    LoginService -> OwnerRepository : searchForOwner(id)
+    LoginService -> VetRepository : searchForAccount(username)
 end
 
-alt account already exists
-    LoginService <- OwnerRepository : searchForOwner(id)
-    Owner <- LoginService : AccountAlreadyExistException(id)
+alt roleKey == vet
+    alt invalid data type given
+        LoginService -> User : UserNotCreatedException()
+    end
+    VetRepository -> LoginService : returnVet()
+    alt account already exists
+        User <- LoginService : AccountAlreadyExistException(username)
+    end
+    LoginService -> VetRepository : createAccount(credentials)
+    
 end
 
-OwnerRepository -> LoginService : noSuchOwner()
-LoginService -> OwnerService : createOwner(id)
-
-OwnerService -> OwnerRepository : addOwner(Owner)
-
-alt invalid data type given
-    OwnerService -> Owner : OwnerNotCreatedException()
+loop
+    LoginService -> OwnerRepository : searchForAccount(username)
 end
+
+alt roleKey == owner
+    alt invalid data type given
+        LoginService -> User : UserNotCreatedException()
+    end
+    OwnerRepository -> LoginService : returnOwner()
+    alt account already exists
+        User <- LoginService : AccountAlreadyExistException(username)
+    end
+    LoginService -> OwnerRepository : createAccount(credentials)
+    
+end
+
+LoginService -> User : invalidRoleKeyException()
 
 @enduml
