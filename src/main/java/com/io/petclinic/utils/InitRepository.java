@@ -1,11 +1,13 @@
 package com.io.petclinic.utils;
 
-import com.io.petclinic.model.entities.Owner;
-import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
+import com.io.petclinic.model.repositories.VetRepository;
+import com.io.petclinic.model.repositories.VisitRepository;
 import com.io.petclinic.model.services.OwnerService;
 import com.io.petclinic.model.services.PetService;
+import com.io.petclinic.model.services.VetService;
+import com.io.petclinic.model.services.VisitService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -18,9 +20,12 @@ public class InitRepository {
     private static final Logger log = LoggerFactory.getLogger(InitRepository.class);
 
     @Bean
-    CommandLineRunner init(OwnerRepository ownerRepository, PetRepository petRepository){
+    CommandLineRunner init(OwnerRepository ownerRepository, PetRepository petRepository,
+                           VetRepository vetRepository, VisitRepository visitRepository){
         PetService petService = new PetService(petRepository);
-        OwnerService ownerService = new OwnerService(ownerRepository, petRepository, petService);
+        OwnerService ownerService = new OwnerService(ownerRepository, petRepository, petService, visitRepository);
+        VisitService visitService = new VisitService(visitRepository, ownerRepository, vetRepository, petRepository);
+
         return args -> {
             ownerService.createOwner("Antonio", "Pampersas");
             ownerService.createOwner("Weronika", "Pampersas");
@@ -29,6 +34,7 @@ public class InitRepository {
             ownerService.addPet(3L, "Szczerbatek", "Nocna Furia");
             ownerService.addPet(1L, "Olo", "Hipopotam");
             ownerService.addPet(1L, "Rabarbara", "Owca");
+
 
             System.out.println("-----------------");
             System.out.println("Find all owners:");
@@ -64,6 +70,18 @@ public class InitRepository {
 
             System.out.println("-------------------");
             System.out.println("Death of Pampersas");
+
+
+            System.out.println("##########################");
+            System.out.println("Get all visits by owner:");
+            System.out.println();
+
+            System.out.println("##########################");
+            System.out.println("Get all visits by vet:");
+
+            System.out.println("##########################");
+            System.out.println("Get all visits by pet:");
+
 
         };
     }

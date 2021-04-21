@@ -38,6 +38,11 @@ public class Vet extends Human {
 
     private int officeHours;  // wiem że nie int tylko coś czasowego ale jako placeholder
 
+    public void addNewVisit(Visit visit) {
+        getVisits().add(visit);
+    }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

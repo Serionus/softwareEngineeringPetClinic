@@ -3,27 +3,33 @@ package com.io.petclinic.model.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 public class Visit {
 
-    private int beginTime;
+    LocalDateTime visitDate;
 
     private @Id @GeneratedValue Long visitId;
 
-    // co ten konstruktor, tu coś nie tak :((
-    public Visit(int beginningTime, Long visitId) {
-        this.beginTime = beginningTime;
-        this.visitId = visitId;
+    //  :) <3
+    public Visit() {
+
     }
 
-    public int getBeginTime() {
-        return beginTime;
+    public Visit(int year, int month, int day,int hour, int minute) {
+        this.visitDate = LocalDate.of(year, month, day).atTime(hour, minute);
     }
 
-    public void setBeginTime(int beginTime) {
-        this.beginTime = beginTime;
+
+    public LocalDateTime getBeginTime() {
+        return visitDate;
+    }
+
+    public void setBeginTime(LocalDateTime visitDate) {
+        this.visitDate = visitDate;
     }
 
     public Long getVisitId() {
@@ -39,19 +45,19 @@ public class Visit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Visit visit = (Visit) o;
-        return beginTime == visit.beginTime &&
+        return visitDate == visit.visitDate &&
                 visitId.equals(visit.visitId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(beginTime, visitId);
+        return Objects.hash(visitDate, visitId);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Visit{");
-        sb.append("beginningTime=").append(beginTime);
+        sb.append("beginningTime=").append(visitDate);
         sb.append(", visitId=").append(visitId);
         sb.append('}');
         return sb.toString();

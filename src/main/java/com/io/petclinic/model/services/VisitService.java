@@ -1,6 +1,7 @@
 package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.OwnerNotFoundException;
+import com.io.petclinic.exceptions.PetNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
@@ -12,6 +13,7 @@ import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -30,9 +32,10 @@ public class VisitService {
 
     public List<Visit> findAllVisits() { return visitRepository.findAll(); }
 
-    public void createVisit(int beginningTime, Long visitId) {
-        Visit visit = new Visit(beginningTime, visitId); // nie pasuje mi konstruktor
+    public Visit createVisit(LocalDateTime visitDate) {
+        Visit visit = new Visit(1000, 10, 2, 1, 10);
         visitRepository.save(visit);
+        return visit;
     }
 
     public Visit updateVisit(Visit newVisit, Long id){
@@ -47,7 +50,9 @@ public class VisitService {
     }
 
 
-
+    public void deleteVisitById(Long id) {
+        visitRepository.deleteById(id);
+    }
 
     public List<Visit> getAllOwnerVisits(Long ownerId) {
         Owner wantedOwner = ownerRepository.findById(ownerId)
@@ -59,7 +64,6 @@ public class VisitService {
         return null;
     }
 
-
     // czy potrzebujemy tego? czy lepiej jedna metoda na zasadzie userId
     // zamiast X metod do petId, ownerId i vetId
     public List<Visit> getAllVetVisits(Long vetId) {
@@ -67,4 +71,11 @@ public class VisitService {
                 .orElseThrow( () -> new VetNotFoundException(vetId));
         return wantedVet.getVisits();
     }
+
+    public List<Visit> getAllPetVisits(Long petId) {
+        Pet wantedPet = petRepository.findById(petId)
+                .orElseThrow( () -> new PetNotFoundException(petId));
+        return wantedPet.getVisits();
+    }
+
 }

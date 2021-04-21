@@ -1,22 +1,35 @@
 package com.io.petclinic.model.services;
 
+import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
 import com.io.petclinic.model.entities.Vet;
+import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.VetRepository;
+import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
 public class VetService {
     private final VetRepository vetRepository;
+    private final VisitRepository visitRepository;
+    private final VisitService visitService;
 
-    public VetService(VetRepository repository) {
+    public VetService(VetRepository repository, VisitRepository visitRepository, VisitService visitService) {
         this.vetRepository = repository;
+        this.visitRepository = visitRepository;
+        this.visitService = visitService;
     }
 
     public List<Vet> findAllVets(){
         return vetRepository.findAll();
+    }
+
+    public void createVet(String firstname, String surname){
+        Vet vet = new Vet(firstname, surname);
+        vetRepository.save(vet);
     }
 
     public Vet findVet(Long id){
@@ -38,5 +51,14 @@ public class VetService {
 
     public void deleteVet(Long id){
         vetRepository.deleteById(id);
+    }
+
+    public void addVisit (Long visitId, LocalDateTime visitDate){
+        Vet vet = vetRepository.findById(visitId).orElseThrow(() -> new OwnerNotFoundException(visitId));
+        Visit newVisit = visitService.createVisit(visitDate);
+        System.out.println(vet.toString());
+        vet.addNewVisit(newVisit);
+        visitRepository.save(newVisit);
+        vetRepository.save(vet);
     }
 }

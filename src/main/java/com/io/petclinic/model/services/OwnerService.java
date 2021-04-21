@@ -17,10 +17,10 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
-    private VisitRepository visitRepository;
-    private PetService petService;
+    private final VisitRepository visitRepository;
+    private final PetService petService;
 
-    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, PetService petService) {
+    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, PetService petService, VisitRepository visitRepository) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
         this.visitRepository = visitRepository;
