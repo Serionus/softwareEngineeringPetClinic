@@ -9,34 +9,34 @@ import java.util.List;
 
 @Service
 public class VetService {
-    private final VetRepository repository;
+    private final VetRepository vetRepository;
 
     public VetService(VetRepository repository) {
-        this.repository = repository;
+        this.vetRepository = repository;
     }
 
     public List<Vet> findAllVets(){
-        return repository.findAll();
+        return vetRepository.findAll();
     }
 
     public Vet findVet(Long id){
-        return repository.findById(id)
+        return vetRepository.findById(id)
                 .orElseThrow( () -> new VetNotFoundException(id));
     }
 
     public Vet updateVet(Vet newVet, Long id){
-        return repository.findById(id)
+        return vetRepository.findById(id)
                 .map( vet -> {
                     vet.setFirstname(newVet.getFirstname());
                     vet.setSurname(newVet.getSurname());
-                    return repository.save(vet);
+                    return vetRepository.save(vet);
                 }).orElseGet( () -> {
             newVet.setVetId(id);
-            return repository.save(newVet);
+            return vetRepository.save(newVet);
         });
     }
 
     public void deleteVet(Long id){
-        repository.deleteById(id);
+        vetRepository.deleteById(id);
     }
 }

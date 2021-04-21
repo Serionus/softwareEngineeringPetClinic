@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class VisitService {
-    private final VisitRepository repository;
+    private final VisitRepository visitRepository;
 
     public VisitService(VisitRepository repository) {
-        this.repository = repository;
+        this.visitRepository = repository;
     }
 }

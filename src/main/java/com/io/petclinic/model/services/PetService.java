@@ -9,25 +9,23 @@ import java.util.List;
 
 @Service
 public class PetService {
-    private final PetRepository repository;
+    private final PetRepository petRepository;
 
     public PetService(PetRepository repository) {
-        this.repository = repository;
+        this.petRepository = repository;
     }
 
     public List<Pet> findAllPets(){
-        return repository.findAll();
+        return petRepository.findAll();
     }
 
     public Pet findPetById(Long id){
-        return repository.findById(id).orElseThrow(() -> new PetNotFoundException(id));
+        return petRepository.findById(id).orElseThrow(() -> new PetNotFoundException(id));
     }
 
     public Pet createPet(String name, String species){
-        return new Pet(name, species);
-    }
-
-    public Pet savePetToRepository(Pet newPet){
-        return repository.save(newPet);
+        Pet newPet = new Pet(name, species);
+        petRepository.save(newPet);
+        return newPet;
     }
 }

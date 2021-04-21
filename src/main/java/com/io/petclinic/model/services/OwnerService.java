@@ -54,7 +54,8 @@ public class OwnerService {
                 });
     }
 
-    public void deleteOwner(Long id){
+    // owners should stay in database even if irl they no longer attend the clinic
+    public void deleteOwner(Long id) {
         ownerRepository.deleteById(id);
         //hmm ciekawe czemu
     }
