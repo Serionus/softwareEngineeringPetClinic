@@ -12,13 +12,10 @@ public class Visit {
 
     private @Id @GeneratedValue Long visitId;
 
+    // co ten konstruktor, tu coś nie tak :((
     public Visit(int beginningTime, Long visitId) {
         this.beginTime = beginningTime;
         this.visitId = visitId;
-    }
-
-    public Visit() {
-
     }
 
     public int getBeginTime() {

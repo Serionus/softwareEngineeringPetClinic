@@ -3,12 +3,17 @@ package com.io.petclinic.model.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Vet extends Human {
 
     private @Id @GeneratedValue Long vetId;
+
+    @OneToMany
+    private List<Visit> visits;
 
     public Vet(String firstname, String surname) {
         super(firstname, surname);
@@ -23,6 +28,13 @@ public class Vet extends Human {
     public void setVetId(Long vetId) {
         this.vetId = vetId;
     }
+
+    public void setVisits(List<Visit> visits) {
+        this.visits = visits;
+    }
+
+    public List<Visit> getVisits() { return visits; }
+
 
     private int officeHours;  // wiem że nie int tylko coś czasowego ale jako placeholder
 
