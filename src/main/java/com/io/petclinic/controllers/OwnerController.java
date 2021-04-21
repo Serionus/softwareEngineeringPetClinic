@@ -30,10 +30,10 @@ public class OwnerController {
         return ownerService.findOwner(id);
     }
 
-    @PutMapping("/owners/{id}")
-    public Owner updateOwner(@RequestBody Owner newOwner, @PathVariable Long id){
-        return ownerService.updateOwner(newOwner, id);
-    }
+//    @PutMapping("/owners/{id}")
+//    public Owner updateOwner(@RequestBody Owner newOwner, @PathVariable Long id){
+////        return ownerService.updateOwner(newOwner, id);
+//    }
 
     @DeleteMapping("/owners/{id}")
     public void delete(@PathVariable Long id){
@@ -47,7 +47,7 @@ public class OwnerController {
 
     @PostMapping("/owners/{ownerId}/pets/add")
     public void addPet(@PathVariable Long ownerId, @RequestParam String name, String species){
-        Pet newPet = petService.createPet(name, species);
-        ownerService.addPet(ownerId, newPet);
+//        Pet newPet = petService.createPet(name, species);
+//        ownerService.addPet(ownerId, newPet);
     }
 }

@@ -7,6 +7,7 @@ import javax.persistence.OneToMany;
 import java.util.List;
 import java.util.Objects;
 
+
 @Entity
 public class Pet {
 

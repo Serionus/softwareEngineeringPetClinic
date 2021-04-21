@@ -9,6 +9,7 @@ import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -16,20 +17,23 @@ public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final PetRepository petRepository;
-//    private VisitRepository visitRepository;
+    private VisitRepository visitRepository;
+    private PetService petService;
 
-    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository) {
+    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, PetService petService) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
-//        this.visitRepository = visitRepository;
+        this.visitRepository = visitRepository;
+        this.petService = petService;
     }
 
     public List<Owner> findAllOwners(){
         return ownerRepository.findAll();
     }
 
-    public Owner createOwner(String firstname, String surname){
-        return new Owner(firstname, surname);
+    public void createOwner(String firstname, String surname){
+        Owner owner = new Owner(firstname, surname);
+        ownerRepository.save(owner);
     }
 
     public Owner findOwner(Long id){
@@ -37,36 +41,45 @@ public class OwnerService {
                 .orElseThrow( () -> new OwnerNotFoundException(id));
     }
 
-    public Owner updateOwner(Owner newOwner, Long id){
+    public Owner updateOwner(String newFirstName, String newSurname, Long id){
+        Owner updatedOwner = new Owner(newFirstName, newSurname);
         return ownerRepository.findById(id)
                 .map( owner -> {
-                    owner.setFirstname(newOwner.getFirstname());
-                    owner.setSurname(newOwner.getSurname());
+                    owner.setFirstname(updatedOwner.getFirstname());
+                    owner.setSurname(updatedOwner.getSurname());
                     return ownerRepository.save(owner);
                 }).orElseGet( () -> {
-                    newOwner.setOwnerId(id);
-                    return ownerRepository.save(newOwner);
+                    updatedOwner.setOwnerId(id);
+                    return ownerRepository.save(updatedOwner);
                 });
     }
 
     public void deleteOwner(Long id){
         ownerRepository.deleteById(id);
+        //hmm ciekawe czemu
     }
 
 
     public Pet getOwnersPet(Long ownerId, Long petId){
-        return ownerRepository.findById(ownerId)
-                .map( owner -> {
-                    return owner.getPetById(petId);
-
-                }).orElseThrow( () -> {
-                    return new OwnerNotFoundException(ownerId);
-                });
+        Owner wantedOwner = ownerRepository.findById(ownerId)
+                .orElseThrow( () -> new OwnerNotFoundException(ownerId));
+        System.out.println(wantedOwner.getPets().size());
+        return wantedOwner.getPetById(petId);
     }
 
-    public void addPet(Long id, Pet newPet){
+    public List<Pet> getAllPets(Long ownerId){
+        Owner wantedOwner = ownerRepository.findById(ownerId)
+                .orElseThrow( () -> new OwnerNotFoundException(ownerId));
+        return wantedOwner.getPets();
+    }
+
+    public void addPet(Long id, String name, String species){
         Owner owner = ownerRepository.findById(id).orElseThrow(() -> new OwnerNotFoundException(id));
+        Pet newPet = petService.createPet(name, species);
+        System.out.println(owner.toString());
+        owner.addNewPet(newPet);
         petRepository.save(newPet);
-
+        ownerRepository.save(owner);
     }
+
 }

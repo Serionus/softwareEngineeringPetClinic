@@ -1,19 +1,18 @@
 package com.io.petclinic.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
 
 @Entity
 public class Owner extends Human {
 
     private @Id @GeneratedValue Long ownerId;
 
-    @OneToMany
-    private List<Pet> pets;
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Pet> pets = new ArrayList<>();
 
     public Owner() {
         super();
@@ -53,6 +52,7 @@ public class Owner extends Human {
 
    public Pet getPetById(Long id){
         for (Pet pet: pets){
+            System.out.println("szuszu");
             if (pet.getPetId().equals(id)){
                 return pet;
             }
