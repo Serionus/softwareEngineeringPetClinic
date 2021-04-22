@@ -28,4 +28,8 @@ public class PetService {
         petRepository.save(newPet);
         return newPet;
     }
+
+    public void deleteVisit(Long visitId){
+
+    }
 }

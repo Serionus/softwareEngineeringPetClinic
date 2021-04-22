@@ -2,8 +2,11 @@ package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.PetNotFoundException;
+import com.io.petclinic.exceptions.VetNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
+import com.io.petclinic.model.entities.Vet;
+import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
@@ -81,6 +84,24 @@ public class OwnerService {
         owner.addNewPet(newPet);
         petRepository.save(newPet);
         ownerRepository.save(owner);
+    }
+
+    public void deleteVisit(Long ownerId, Long visitId, Long petId){
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
+        Pet pet = owner.getPetById(petId);
+        Visit wantedVisit = pet.getVisitById(visitId);
+//        owner.   .remove(wantedVisit);
+//        vetRepository.save(vet);
+        visitRepository.save(wantedVisit);
+    }
+
+    public void addVisit (Long ownerId, Long petId, int year, int month, int day, int hour, int minutes){
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
+        Pet pet = owner.getPetById(petId);
+        LocalDateTime wantedDate = LocalDateTime.of(year,month,day,hour,minutes);
+        owner.addNewVisit(pet, visitService.findVisitByDate(wantedDate));
+        ownerRepository.save(owner);
+        petRepository.save(pet);
     }
 
 }

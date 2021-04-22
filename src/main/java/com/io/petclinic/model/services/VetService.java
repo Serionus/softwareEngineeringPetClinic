@@ -55,10 +55,17 @@ public class VetService {
 
     public void addVisit (Long vetId, int year, int month, int day, int hour, int minutes){
         Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
-        Visit newVisit = visitService.createVisit(year, month, day, hour, minutes);
-        System.out.println(vet.toString());
-        vet.addNewVisit(newVisit);
-        visitRepository.save(newVisit);
+        LocalDateTime wantedDate = LocalDateTime.of(year,month,day,hour,minutes);
+        vet.addNewVisit(visitService.findVisitByDate(wantedDate));
         vetRepository.save(vet);
     }
+
+    public void deleteVisit(Long vetId, Long visitId){
+        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
+        Visit wantedVisit = vet.getVisitById(visitId);
+        vet.getVisits().remove(wantedVisit);
+        vetRepository.save(vet);
+        visitRepository.save(wantedVisit);
+    }
+
 }

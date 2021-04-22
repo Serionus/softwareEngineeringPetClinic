@@ -1,9 +1,6 @@
 package com.io.petclinic.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -13,7 +10,7 @@ public class Vet extends Human {
 
     private @Id @GeneratedValue Long vetId;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Visit> visits = new ArrayList<>();
 
     public Vet(String firstname, String surname) {
@@ -44,6 +41,16 @@ public class Vet extends Human {
         getVisits().add(visit);
     }
 
+
+    public Visit getVisitById(Long id){
+        for (Visit visit: visits){
+            System.out.println("szuszu");
+            if (visit.getVisitId().equals(id)){
+                return visit;
+            }
+        }
+        return null;
+    }
 
     @Override
     public boolean equals(Object o) {

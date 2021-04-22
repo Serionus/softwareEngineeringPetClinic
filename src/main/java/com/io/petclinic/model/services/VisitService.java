@@ -63,6 +63,15 @@ public class VisitService {
                 });
     }
 
+    public Visit findVisitByDate(LocalDateTime date){
+        List<Visit> allVisits = visitRepository.findAll();
+        for (Visit visit: allVisits) {
+            if(visit.getBeginTime().isEqual(date)) { // lib LocalDateTime has its own isEqual method for comparing dates
+                return visit;
+            }
+        }
+        return null;
+    }
 
     public void deleteVisitById(Long id) {
         visitRepository.deleteById(id);
@@ -78,8 +87,6 @@ public class VisitService {
         return null;
     }
 
-    // czy potrzebujemy tego? czy lepiej jedna metoda na zasadzie userId
-    // zamiast X metod do petId, ownerId i vetId
     public List<Visit> getAllVetVisits(Long vetId) {
         Vet wantedVet = vetRepository.findById(vetId)
                 .orElseThrow( () -> new VetNotFoundException(vetId));

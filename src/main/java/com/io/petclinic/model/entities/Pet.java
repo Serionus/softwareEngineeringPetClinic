@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -16,7 +17,7 @@ public class Pet {
     private String species;
 
     @OneToMany
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
     public Pet(String name, String species) {
         this.name = name;
@@ -47,6 +48,16 @@ public class Pet {
 
     public void setSpecies(String species) {
         this.species = species;
+    }
+
+    public Visit getVisitById(Long id){
+        for (Visit visit: visits){
+            System.out.println("szuszu");
+            if (visit.getVisitId().equals(id)){
+                return visit;
+            }
+        }
+        return null;
     }
 
     @Override

@@ -14,6 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDate;
+
 
 @Configuration
 public class InitRepository {
@@ -25,6 +27,7 @@ public class InitRepository {
         PetService petService = new PetService(petRepository);
         OwnerService ownerService = new OwnerService(ownerRepository, petRepository, petService, visitRepository);
         VisitService visitService = new VisitService(visitRepository, ownerRepository, vetRepository, petRepository);
+        VetService vetService = new VetService(vetRepository, visitRepository, visitService);
 
         return args -> {
             ownerService.createOwner("Antonio", "Pampersas");
@@ -74,7 +77,18 @@ public class InitRepository {
             visitService.generateVisits();
             System.out.println(visitService.findAllVisits());
 
-
+            System.out.println("testowanie veta");
+            vetService.createVet("Steve", "Irwin");
+            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 9, 0);
+            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 12, 30);
+            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 3, 15, 30);
+            System.out.println(vetService.findVet(88L).getVisits());
+            System.out.println("Ciekawe czy sie wywali");
+            System.out.println(visitRepository.findById(8L));
+            System.out.println("Usuwansko");
+            vetService.deleteVisit(88L, 8L);
+            System.out.println(vetService.findVet(88L).getVisits());
+            System.out.println(visitRepository.findById(8L));
 
 
         };
