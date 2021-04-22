@@ -13,6 +13,7 @@ import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,12 +23,14 @@ public class OwnerService {
     private final PetRepository petRepository;
     private final VisitRepository visitRepository;
     private final PetService petService;
+    private final VisitService visitService;
 
-    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, PetService petService, VisitRepository visitRepository) {
+    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, PetService petService, VisitRepository visitRepository, VisitService visitService) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
         this.visitRepository = visitRepository;
         this.petService = petService;
+        this.visitService = visitService;
     }
 
     public List<Owner> findAllOwners(){
