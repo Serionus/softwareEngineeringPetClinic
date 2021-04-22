@@ -13,6 +13,7 @@ import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -32,10 +33,23 @@ public class VisitService {
 
     public List<Visit> findAllVisits() { return visitRepository.findAll(); }
 
-    public Visit createVisit(LocalDateTime visitDate) {
-        Visit visit = new Visit(1000, 10, 2, 1, 10);
+    public Visit createVisit(int year, int month, int day, int hour, int minute) {
+        Visit visit = new Visit(year, month, day, hour, minute);
         visitRepository.save(visit);
         return visit;
+    }
+
+    public void generateVisits() {
+        for(int i = 1; i < 6; i++) {
+            for (int j = 0; j < 16; j++) {
+                int hour = j/2;
+                if (j%2 == 0){
+                    createVisit(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), i, 9 + hour, 0);
+                } else {
+                    createVisit(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), i, 9 + hour, 30);
+                }
+            }
+        }
     }
 
     public Visit updateVisit(Visit newVisit, Long id){

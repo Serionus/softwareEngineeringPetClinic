@@ -36,51 +36,45 @@ public class InitRepository {
             ownerService.addPet(1L, "Rabarbara", "Owca");
 
 
-            System.out.println("-----------------");
-            System.out.println("Find all owners:");
-            System.out.println(ownerService.findAllOwners());
+//            System.out.println("-----------------");
+//            System.out.println("Find all owners:");
+//            System.out.println(ownerService.findAllOwners());
+//
+//            System.out.println("-----------------");
+//            System.out.println("Update owner...");
+//            ownerService.updateOwner("Rudolf", "Valentino", 1L);
+//
+//            System.out.println("-----------------");
+//            System.out.println("Find all owners: ");
+//            System.out.println(ownerService.findAllOwners());
+//
+//            System.out.println("-----------------");
+//            System.out.println("Find updated owner by id");
+//            System.out.println(ownerService.findOwner(1L));
+//
+//            System.out.println("-----------------");
+//            System.out.println("Find all pets (pet service):");
+//            System.out.println(petService.findAllPets());
+//
+//            System.out.println("-----------------");
+//            System.out.println("Get owner's pet");
+//            System.out.println(ownerService.getOwnersPet(1L, 4L));
+//
+//            System.out.println("-----------------");
+//            System.out.println("Find pet by id: ");
+//            System.out.println(petService.findPetById(4L));
+//
+//            System.out.println("-----------------");
+//            System.out.println("Get all pets by owner's id");
+//            System.out.println(ownerService.getAllPets(1L));
+//
+//            System.out.println("-------------------");
+//            System.out.println("Death of Pampersas");
+            System.out.println("testowańsko visit generatora, ktory dziala dzieki Hani");
+            visitService.generateVisits();
+            System.out.println(visitService.findAllVisits());
 
-            System.out.println("-----------------");
-            System.out.println("Update owner...");
-            ownerService.updateOwner("Rudolf", "Valentino", 1L);
 
-            System.out.println("-----------------");
-            System.out.println("Find all owners: ");
-            System.out.println(ownerService.findAllOwners());
-
-            System.out.println("-----------------");
-            System.out.println("Find updated owner by id");
-            System.out.println(ownerService.findOwner(1L));
-
-            System.out.println("-----------------");
-            System.out.println("Find all pets (pet service):");
-            System.out.println(petService.findAllPets());
-
-            System.out.println("-----------------");
-            System.out.println("Get owner's pet");
-            System.out.println(ownerService.getOwnersPet(1L, 4L));
-
-            System.out.println("-----------------");
-            System.out.println("Find pet by id: ");
-            System.out.println(petService.findPetById(4L));
-
-            System.out.println("-----------------");
-            System.out.println("Get all pets by owner's id");
-            System.out.println(ownerService.getAllPets(1L));
-
-            System.out.println("-------------------");
-            System.out.println("Death of Pampersas");
-
-
-            System.out.println("##########################");
-            System.out.println("Get all visits by owner:");
-            System.out.println();
-
-            System.out.println("##########################");
-            System.out.println("Get all visits by vet:");
-
-            System.out.println("##########################");
-            System.out.println("Get all visits by pet:");
 
 
         };

@@ -53,9 +53,9 @@ public class VetService {
         vetRepository.deleteById(id);
     }
 
-    public void addVisit (Long visitId, LocalDateTime visitDate){
-        Vet vet = vetRepository.findById(visitId).orElseThrow(() -> new OwnerNotFoundException(visitId));
-        Visit newVisit = visitService.createVisit(visitDate);
+    public void addVisit (Long vetId, int year, int month, int day, int hour, int minutes){
+        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
+        Visit newVisit = visitService.createVisit(year, month, day, hour, minutes);
         System.out.println(vet.toString());
         vet.addNewVisit(newVisit);
         visitRepository.save(newVisit);

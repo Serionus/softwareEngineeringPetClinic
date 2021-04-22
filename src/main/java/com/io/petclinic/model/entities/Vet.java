@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ public class Vet extends Human {
     private @Id @GeneratedValue Long vetId;
 
     @OneToMany
-    private List<Visit> visits;
+    private List<Visit> visits = new ArrayList<>();
 
     public Vet(String firstname, String surname) {
         super(firstname, surname);
@@ -34,6 +35,7 @@ public class Vet extends Human {
     }
 
     public List<Visit> getVisits() { return visits; }
+
 
 
     private int officeHours;  // wiem że nie int tylko coś czasowego ale jako placeholder
