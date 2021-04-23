@@ -1,7 +1,7 @@
 package com.io.petclinic.model.services;
 
-import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
+import com.io.petclinic.exceptions.VisitNotFoundException;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.VetRepository;
@@ -67,5 +67,17 @@ public class VetService {
         vetRepository.save(vet);
         visitRepository.save(wantedVisit);
     }
+
+    public void updateVisit(Long vetId, Long visitId, int year, int month, int day, int hour, int minutes) {
+        Vet vet = vetRepository.findById(vetId).orElseThrow( () -> new VetNotFoundException(vetId));
+        Visit wantedVisit = vet.getVisitById(visitId);
+        if (wantedVisit == null) {
+            throw new VisitNotFoundException(visitId);
+        }
+        deleteVisit(vetId, visitId);
+        addVisit(vetId, year, month, day, hour, minutes);
+
+    }
+
 
 }

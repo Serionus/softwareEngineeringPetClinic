@@ -3,6 +3,7 @@ package com.io.petclinic.model.services;
 import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.PetNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
+import com.io.petclinic.exceptions.VisitNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
@@ -93,18 +94,67 @@ public class OwnerService {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
         Pet pet = owner.getPetById(petId);
         Visit wantedVisit = pet.getVisitById(visitId);
-//        owner.   .remove(wantedVisit);
-//        vetRepository.save(vet);
+        owner.deleteVisit(pet, wantedVisit);
         visitRepository.save(wantedVisit);
+        petRepository.save(pet);
     }
+    // dziękuję :) ;)
 
     public void addVisit (Long ownerId, Long petId, int year, int month, int day, int hour, int minutes){
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
         Pet pet = owner.getPetById(petId);
+        if (pet == null){
+            throw new PetNotFoundException(petId);
+        }
+
         LocalDateTime wantedDate = LocalDateTime.of(year,month,day,hour,minutes);
-        owner.addNewVisit(pet, visitService.findVisitByDate(wantedDate));
-        ownerRepository.save(owner);
+        Visit wantedVisit = visitService.findVisitByDate(wantedDate);
+        if(wantedVisit == null) {
+            System.out.println("Nie ma takiej wizyty chopie");
+        }
+
+        List<Pet> allPets = petRepository.findAll();
+        for (Pet p: allPets) {
+            if (p.getVisitById(wantedVisit.getVisitId()) != null) {
+                System.out.println(pet.getVisits());
+                System.out.println("Termin wizyty zajęty! Wybierz inny - add visit :)");
+                return;
+            }
+        }
+
+        owner.addNewVisit(pet, wantedVisit);
         petRepository.save(pet);
     }
+
+    public void rescheduleVisit(Long ownerId, Long visitId, Long petId, int year, int month, int day, int hour, int minutes) {
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow( () -> new OwnerNotFoundException(ownerId));
+        Pet pet = owner.getPetById(petId);
+
+        if (pet == null) {
+            throw new PetNotFoundException(petId);
+        }
+
+        Visit visitToReschedule = pet.getVisitById(visitId);
+        if (visitToReschedule == null) {
+            throw new VisitNotFoundException(visitId);
+        }
+
+        List<Pet> allPets = petRepository.findAll();
+        LocalDateTime rescheduledTime = LocalDateTime.of(year, month, day, hour, minutes);
+        for (Pet p: allPets) {
+            List<Visit> allPetsVisits = p.getVisits();
+
+            for (Visit v: allPetsVisits) {
+                if (v.getBeginTime().isEqual(rescheduledTime)) {
+                    System.out.println("Termin wizyty zajęty! Wybierz inny - reschedule :)");
+                    return;
+                }
+            }
+        }
+        System.out.println("to się nie wykona 2: electric bogaloo");
+        deleteVisit(ownerId, visitId, petId);
+        addVisit(ownerId, petId, year, month, day, hour, minutes);
+    }
+
 
 }

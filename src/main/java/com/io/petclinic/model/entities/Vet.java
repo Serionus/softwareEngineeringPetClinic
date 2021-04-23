@@ -33,10 +33,6 @@ public class Vet extends Human {
 
     public List<Visit> getVisits() { return visits; }
 
-
-
-    private int officeHours;  // wiem że nie int tylko coś czasowego ale jako placeholder
-
     public void addNewVisit(Visit visit) {
         getVisits().add(visit);
     }

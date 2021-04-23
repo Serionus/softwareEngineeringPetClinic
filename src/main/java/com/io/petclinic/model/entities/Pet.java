@@ -1,9 +1,6 @@
 package com.io.petclinic.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -16,7 +13,7 @@ public class Pet {
     private String name;
     private String species;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private List<Visit> visits = new ArrayList<>();
 
     public Pet(String name, String species) {
@@ -52,7 +49,7 @@ public class Pet {
 
     public Visit getVisitById(Long id){
         for (Visit visit: visits){
-            System.out.println("szuszu");
+            System.out.println("szuszu współpracuj ze mną proszę");
             if (visit.getVisitId().equals(id)){
                 return visit;
             }

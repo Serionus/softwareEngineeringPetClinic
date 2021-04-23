@@ -43,7 +43,7 @@ public class VisitService {
         for(int i = 1; i < 6; i++) {
             for (int j = 0; j < 16; j++) {
                 int hour = j/2;
-                if (j%2 == 0){
+                if (j%2 == 0) {
                     createVisit(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), i, 9 + hour, 0);
                 } else {
                     createVisit(LocalDate.now().getYear(), LocalDate.now().getMonthValue(), i, 9 + hour, 30);

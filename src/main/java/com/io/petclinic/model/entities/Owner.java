@@ -43,7 +43,12 @@ public class Owner extends Human {
     }
 
     public void addNewVisit(Pet pet, Visit visit) {
+        System.out.println("dodajem wizytem");
         pet.getVisits().add(visit);
+    }
+
+    public void deleteVisit(Pet pet, Visit visit){
+        pet.getVisits().remove(visit);
     }
 
     public void cancelVisit() {
