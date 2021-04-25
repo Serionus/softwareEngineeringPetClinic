@@ -10,14 +10,16 @@ public class Vet extends Human {
 
     private @Id @GeneratedValue Long vetId;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
 
     public Vet(String firstname, String surname) {
         super(firstname, surname);
     }
 
-    public Vet() { super();}
+    public Vet() {
+        super();
+    }
 
     public Long getVetId() {
         return vetId;
@@ -31,45 +33,29 @@ public class Vet extends Human {
         this.visits = visits;
     }
 
-    public List<Visit> getVisits() { return visits; }
-
-
-
-    private int officeHours;  // wiem że nie int tylko coś czasowego ale jako placeholder
-
-    public void addNewVisit(Visit visit) {
-        getVisits().add(visit);
-    }
-
-
-    public Visit getVisitById(Long id){
-        for (Visit visit: visits){
-            System.out.println("szuszu");
-            if (visit.getVisitId().equals(id)){
-                return visit;
-            }
-        }
-        return null;
+    public List<Visit> getVisits() {
+        return visits;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Vet)) return false;
         if (!super.equals(o)) return false;
         Vet vet = (Vet) o;
-        return vetId.equals(vet.vetId);
+        return vetId.equals(vet.vetId) && visits.equals(vet.visits);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), vetId);
+        return Objects.hash(super.hashCode(), vetId, visits);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Vet{");
         sb.append("vetId=").append(vetId);
+        sb.append(", visits=").append(visits);
         sb.append('}');
         return sb.toString();
     }

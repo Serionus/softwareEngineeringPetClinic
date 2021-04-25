@@ -24,72 +24,87 @@ public class InitRepository {
     @Bean
     CommandLineRunner init(OwnerRepository ownerRepository, PetRepository petRepository,
                            VetRepository vetRepository, VisitRepository visitRepository){
-        PetService petService = new PetService(petRepository);
-        OwnerService ownerService = new OwnerService(ownerRepository, petRepository, petService, visitRepository);
-        VisitService visitService = new VisitService(visitRepository, ownerRepository, vetRepository, petRepository);
+
+        OwnerService ownerService = new OwnerService(ownerRepository, petRepository);
+        PetService petService = new PetService(petRepository, visitRepository, ownerRepository);
+        VisitService visitService = new VisitService(visitRepository, vetRepository, petRepository);
         VetService vetService = new VetService(vetRepository, visitRepository, visitService);
 
         return args -> {
+            System.out.println("-----------------");
+            System.out.println("Find all owners without pets:");
             ownerService.createOwner("Antonio", "Pampersas");
             ownerService.createOwner("Weronika", "Pampersas");
             ownerService.createOwner("Hanna", "Pampersas");
-            ownerService.addPet(1L, "Piesio", "Samoyed");
-            ownerService.addPet(3L, "Szczerbatek", "Nocna Furia");
-            ownerService.addPet(1L, "Olo", "Hipopotam");
-            ownerService.addPet(1L, "Rabarbara", "Owca");
+            System.out.println(ownerService.findAllOwners());
 
+            petService.addPet(1L, "Piesio", "Samoyed");
+            petService.addPet(1L, "Olo", "Hipopotam");
+            petService.addPet(1L, "Rabarbara", "Owca");
+            petService.addPet(3L, "Szczerbatek", "Nocna Furia");
+
+            System.out.println("-----------------");
+            System.out.println("Find all pets:");
+            System.out.println(petService.findAllPets());
+
+            System.out.println("-----------------");
+            System.out.println("Get all pets by owner's id:");
+            System.out.println(petService.getAllPets(1L));
+
+            System.out.println("-----------------");
+            System.out.println("Update owner...");
+            ownerService.updateOwner("Rudolf", "Valentino", 1L);
+
+            System.out.println("-----------------");
+            System.out.println("Find all owners: ");
+            System.out.println(ownerService.findAllOwners());
+            System.out.println(petService.getAllPets(1L));
+
+            System.out.println("-----------------");
+            System.out.println("Find pet by id: ");
+            System.out.println(petService.findPet(4L));
+
+            System.out.println("-----------------");
+            System.out.println("Update pet: ");
+            System.out.println(petService.updatePet("Sylwester", "Kot", ownerService.findOwner(1L), 4L));
+            System.out.println("-----------------");
+            System.out.println("Find pet by id: ");
+            System.out.println(petService.findPet(4L));
 
 //            System.out.println("-----------------");
-//            System.out.println("Find all owners:");
-//            System.out.println(ownerService.findAllOwners());
-//
-//            System.out.println("-----------------");
-//            System.out.println("Update owner...");
-//            ownerService.updateOwner("Rudolf", "Valentino", 1L);
-//
-//            System.out.println("-----------------");
-//            System.out.println("Find all owners: ");
-//            System.out.println(ownerService.findAllOwners());
-//
-//            System.out.println("-----------------");
-//            System.out.println("Find updated owner by id");
-//            System.out.println(ownerService.findOwner(1L));
-//
-//            System.out.println("-----------------");
-//            System.out.println("Find all pets (pet service):");
-//            System.out.println(petService.findAllPets());
-//
-//            System.out.println("-----------------");
-//            System.out.println("Get owner's pet");
-//            System.out.println(ownerService.getOwnersPet(1L, 4L));
-//
+//            System.out.println("Rip pet ");
+//            petService.deletePet(4L);
 //            System.out.println("-----------------");
 //            System.out.println("Find pet by id: ");
-//            System.out.println(petService.findPetById(4L));
-//
-//            System.out.println("-----------------");
-//            System.out.println("Get all pets by owner's id");
-//            System.out.println(ownerService.getAllPets(1L));
-//
-//            System.out.println("-------------------");
-//            System.out.println("Death of Pampersas");
-            System.out.println("testowańsko visit generatora, ktory dziala dzieki Hani");
-            visitService.generateVisits();
-            System.out.println(visitService.findAllVisits());
+//            System.out.println(petService.findPet(4L));
+            System.out.println("-------------------");
+            System.out.println("Update beofre death");
+            ownerService.updateOwner("załeb", "kurwa", 1L);
+            System.out.println(petService.getAllPets(1L));
+            System.out.println("-------------------");
+            System.out.println("Death of Pampersas");
+            ownerService.deleteOwner(1L);
+            System.out.println(ownerService.findAllOwners());
+            System.out.println(petService.findAllPets());
+//            System.out.println("testowańsko visit generatora, ktory dziala dzieki Hani");
+            //rip visit generator ale nadal dzięki Haniu
 
-            System.out.println("testowanie veta");
-            vetService.createVet("Steve", "Irwin");
-            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 9, 0);
-            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 12, 30);
-            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 3, 15, 30);
-            System.out.println(vetService.findVet(88L).getVisits());
-            System.out.println("Ciekawe czy sie wywali");
-            System.out.println(visitRepository.findById(8L));
-            System.out.println("Usuwansko");
-            vetService.deleteVisit(88L, 8L);
-            System.out.println(vetService.findVet(88L).getVisits());
-            System.out.println(visitRepository.findById(8L));
+//            System.out.println(visitService.findAllVisits());
 
+//
+//            System.out.println("testowanie veta");
+//            vetService.createVet("Steve", "Irwin");
+//            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 9, 0);
+//            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 12, 30);
+//            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 3, 15, 30);
+//            System.out.println(vetService.findVet(88L).getVisits());
+//            System.out.println("Ciekawe czy sie wywali");
+//            System.out.println(visitRepository.findById(8L));
+//            System.out.println("Usuwansko");
+//            vetService.deleteVisit(88L, 8L);
+//            System.out.println(vetService.findVet(88L).getVisits());
+//            System.out.println(visitRepository.findById(8L));
+//
 
         };
     }

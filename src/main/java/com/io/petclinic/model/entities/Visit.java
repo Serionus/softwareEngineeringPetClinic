@@ -1,35 +1,63 @@
 package com.io.petclinic.model.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.time.LocalDate;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
 public class Visit {
 
-    LocalDateTime visitDate;
+    private LocalDateTime beginTime;
+    private LocalDateTime endTime;
+    @ManyToOne
+    private Vet vet;
+    @ManyToOne
+    private Pet pet;
 
     private @Id @GeneratedValue Long visitId;
 
     //  :) <3
+
+    public Visit(Vet vet, LocalDateTime beginTime, LocalDateTime endTime) {
+        this.vet = vet;
+        this.beginTime = beginTime;
+        this.endTime = endTime;
+    }
+
     public Visit() {
 
     }
 
-    public Visit(int year, int month, int day,int hour, int minute) {
-        this.visitDate = LocalDate.of(year, month, day).atTime(hour, minute);
-    }
-
-
     public LocalDateTime getBeginTime() {
-        return visitDate;
+        return beginTime;
     }
 
-    public void setBeginTime(LocalDateTime visitDate) {
-        this.visitDate = visitDate;
+    public void setBeginTime(LocalDateTime beginTime) {
+        this.beginTime = beginTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public Vet getVet() {
+        return vet;
+    }
+
+    public void setVet(Vet vet) {
+        this.vet = vet;
+    }
+
+    public Pet getPet() {
+        return pet;
+    }
+
+    public void setPet(Pet pet) {
+        this.pet = pet;
     }
 
     public Long getVisitId() {
@@ -43,21 +71,23 @@ public class Visit {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Visit)) return false;
         Visit visit = (Visit) o;
-        return visitDate == visit.visitDate &&
-                visitId.equals(visit.visitId);
+        return beginTime.equals(visit.beginTime) && endTime.equals(visit.endTime) && vet.equals(visit.vet) && Objects.equals(pet, visit.pet) && visitId.equals(visit.visitId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(visitDate, visitId);
+        return Objects.hash(beginTime, endTime, vet, pet, visitId);
     }
 
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Visit{");
-        sb.append("beginningTime=").append(visitDate);
+        sb.append("beginTime=").append(beginTime);
+        sb.append(", endTime=").append(endTime);
+        sb.append(", vet=").append(vet);
+        sb.append(", pet=").append(pet);
         sb.append(", visitId=").append(visitId);
         sb.append('}');
         return sb.toString();

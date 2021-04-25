@@ -40,10 +40,10 @@ public class OwnerController {
         ownerService.deleteOwner(id);
     }
 
-    @GetMapping("/owners/{ownerId}/pets/{petId}")
-    public Pet getPet(@PathVariable Long ownerId, Long petId){
-       return ownerService.getOwnersPet(ownerId, petId);
-    }
+//    @GetMapping("/owners/{ownerId}/pets/{petId}")
+//    public Pet getPet(@PathVariable Long ownerId, Long petId){
+////       return ownerService.getOwnersPet(ownerId, petId);
+//    }
 
     @PostMapping("/owners/{ownerId}/pets/add")
     public void addPet(@PathVariable Long ownerId, @RequestParam String name, String species){
