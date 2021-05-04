@@ -1,7 +1,7 @@
 package com.io.petclinic.controllers;
 
 
-import com.io.petclinic.model.entities.Pet;
+import com.io.petclinic.controllers.entities.PetDTO;
 import com.io.petclinic.model.repositories.PetRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,15 +13,15 @@ import java.util.List;
 @RestController
 public class PetController {
 
-    private final PetRepository repository;
+    private final PetRepository petRepository;
 
-    public PetController(PetRepository repository) {
-        this.repository = repository;
+    public PetController(PetRepository petRepository) {
+        this.petRepository = petRepository;
     }
 
     @GetMapping("/pets")
-    public List<Pet> getAllPets() {
-        return repository.findAll();
+    public List<PetDTO> getAllPets() {
+        return (List<PetDTO>) petRepository.findAll().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies()));
     }
 
 //    @PostMapping("/owners/{id}/pets/")

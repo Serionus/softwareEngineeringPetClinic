@@ -10,8 +10,8 @@ import java.util.Objects;
 public class Owner extends Human {
 
     private @Id @GeneratedValue Long ownerId;
-
-    @OneToMany(fetch = FetchType.EAGER)
+    // co to sie stało z cascade to nie wiedzą nawet trzej królowie
+    @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 
     public Owner() {
@@ -38,33 +38,6 @@ public class Owner extends Human {
         this.pets = pets;
     }
 
-    public void addNewPet(Pet pet) {
-        pets.add(pet);
-    }
-
-    public void addNewVisit(Pet pet, Visit visit) {
-        System.out.println("dodajem wizytem");
-        pet.getVisits().add(visit);
-    }
-
-    public void deleteVisit(Pet pet, Visit visit){
-        pet.getVisits().remove(visit);
-    }
-
-    public void cancelVisit() {
-
-    }
-
-   public Pet getPetById(Long id){
-        for (Pet pet: pets){
-            System.out.println("szuszu");
-            if (pet.getPetId().equals(id)){
-                return pet;
-            }
-        }
-        return null;
-   }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,7 +46,6 @@ public class Owner extends Human {
         Owner owner = (Owner) o;
         return ownerId.equals(owner.ownerId) && pets.equals(owner.pets);
     }
-
 
     @Override
     public int hashCode() {
@@ -86,6 +58,5 @@ public class Owner extends Human {
         message.append("firstname='").append(getFirstname()).append("', surname='").append(getSurname()).append("', id=").append(ownerId).append("}");
         return message.toString();
     }
-
 
 }

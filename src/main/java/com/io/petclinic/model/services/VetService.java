@@ -1,7 +1,10 @@
 package com.io.petclinic.model.services;
 
+import com.io.petclinic.exceptions.CannotCreateVisitException;
+import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
 import com.io.petclinic.exceptions.VisitNotFoundException;
+import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.VetRepository;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VetService {
@@ -53,31 +57,24 @@ public class VetService {
         vetRepository.deleteById(id);
     }
 
-    public void addVisit (Long vetId, int year, int month, int day, int hour, int minutes){
-        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
-        LocalDateTime wantedDate = LocalDateTime.of(year,month,day,hour,minutes);
-        vet.addNewVisit(visitService.findVisitByDate(wantedDate));
-        vetRepository.save(vet);
+    public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
+        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).size() == 0){
+            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
+        } else {
+            throw new CannotCreateVisitException();
+        }
     }
 
     public void deleteVisit(Long vetId, Long visitId){
         Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
-        Visit wantedVisit = vet.getVisitById(visitId);
-        vet.getVisits().remove(wantedVisit);
-        vetRepository.save(vet);
-        visitRepository.save(wantedVisit);
-    }
-
-    public void updateVisit(Long vetId, Long visitId, int year, int month, int day, int hour, int minutes) {
-        Vet vet = vetRepository.findById(vetId).orElseThrow( () -> new VetNotFoundException(vetId));
-        Visit wantedVisit = vet.getVisitById(visitId);
-        if (wantedVisit == null) {
+        Optional<Visit> wantedVisit = visitRepository.findById(visitId);
+        if(wantedVisit.isPresent()){
+            vet.getVisits().remove(wantedVisit.get());
+            vetRepository.save(vet);
+            visitRepository.save(wantedVisit.get());
+        } else {
             throw new VisitNotFoundException(visitId);
         }
-        deleteVisit(vetId, visitId);
-        addVisit(vetId, year, month, day, hour, minutes);
-
     }
-
 
 }
