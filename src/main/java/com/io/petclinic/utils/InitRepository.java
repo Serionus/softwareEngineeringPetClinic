@@ -14,6 +14,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+
 
 @Configuration
 public class InitRepository {
@@ -72,9 +74,10 @@ public class InitRepository {
             System.out.println("-----------------");
             System.out.println("Rip pet ");
             petService.deletePet(4L);
+            System.out.println(petService.findAllPets());
             System.out.println("-----------------");
-            System.out.println("Find pet by id: ");
-            System.out.println(petService.findPet(4L));
+//            System.out.println("Find pet by id: ");
+//            System.out.println(petService.findPet(4L));
             System.out.println("-------------------");
             System.out.println("Death of Pampersas");
             ownerService.deleteOwner(1L);
@@ -82,12 +85,24 @@ public class InitRepository {
             System.out.println(petService.findAllPets());
 //            System.out.println("testowańsko visit generatora, ktory dziala dzieki Hani");
             //rip visit generator ale nadal dzięki Haniu
-
 //            System.out.println(visitService.findAllVisits());
-
-//
-//            System.out.println("testowanie veta");
-//            vetService.createVet("Steve", "Irwin");
+            System.out.println("testowanie veta");
+            vetService.createVet("Steve", "Irwin");
+            vetService.createVet("Wombat", "Skansen");
+            System.out.println(vetService.findAllVets());
+            vetService.updateVet("Horben", "Kansen", 9L);
+            System.out.println(vetService.findAllVets());
+            LocalDateTime teraz = LocalDateTime.now();
+            LocalDateTime potem = LocalDateTime.now().plusHours(1);
+            visitService.addVisit(8L, teraz, potem);
+            System.out.println(visitService.findAllVisits());
+            visitService.assignPetToVisit(7L, 10L);
+            System.out.println(petService.findPet(7L));
+            System.out.println(vetService.findVet(8L));
+            System.out.println(visitService.findAllVisits());
+//            vetService.deleteVet(9L);
+//            System.out.println("delete wombat");
+//            System.out.println(vetService.findAllVets());
 //            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 9, 0);
 //            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 12, 30);
 //            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 3, 15, 30);

@@ -27,10 +27,6 @@ public class VetService {
         this.visitService = visitService;
     }
 
-    public List<Vet> findAllVets(){
-        return vetRepository.findAll();
-    }
-
     public void createVet(String firstname, String surname){
         Vet vet = new Vet(firstname, surname);
         vetRepository.save(vet);
@@ -41,40 +37,24 @@ public class VetService {
                 .orElseThrow( () -> new VetNotFoundException(id));
     }
 
-    public Vet updateVet(Vet newVet, Long id){
+    public List<Vet> findAllVets(){
+        return vetRepository.findAll();
+    }
+
+    public Vet updateVet(String newFirstname,String newSurname, Long id){
+        Vet updatedVet = new Vet(newFirstname, newSurname);
         return vetRepository.findById(id)
                 .map( vet -> {
-                    vet.setFirstname(newVet.getFirstname());
-                    vet.setSurname(newVet.getSurname());
+                    vet.setFirstname(newFirstname);
+                    vet.setSurname(newSurname);
                     return vetRepository.save(vet);
                 }).orElseGet( () -> {
-            newVet.setVetId(id);
-            return vetRepository.save(newVet);
+                    updatedVet.setVetId(id);
+                    return vetRepository.save(updatedVet);
         });
     }
 
     public void deleteVet(Long id){
         vetRepository.deleteById(id);
     }
-
-    public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
-        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).size() == 0){
-            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
-        } else {
-            throw new CannotCreateVisitException();
-        }
-    }
-
-    public void deleteVisit(Long vetId, Long visitId){
-        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
-        Optional<Visit> wantedVisit = visitRepository.findById(visitId);
-        if(wantedVisit.isPresent()){
-            vet.getVisits().remove(wantedVisit.get());
-            vetRepository.save(vet);
-            visitRepository.save(wantedVisit.get());
-        } else {
-            throw new VisitNotFoundException(visitId);
-        }
-    }
-
 }

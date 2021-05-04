@@ -59,9 +59,8 @@ public class PetService {
     public List<Pet> getAllPets(Long ownerId){
         return ownerRepository.findById(ownerId).map(Owner::getPets).orElseThrow(() -> new OwnerNotFoundException(ownerId));
     }
-    @Transactional
+
     public void deletePet(Long petId){
-        petRepository.findById(petId).get().setOwner(null);
-        petRepository.delete(petRepository.findById(petId).get());
+        petRepository.delete(findPet(petId));
     }
 }

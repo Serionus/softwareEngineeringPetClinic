@@ -1,9 +1,6 @@
 package com.io.petclinic.model.services;
 
-import com.io.petclinic.exceptions.OwnerNotFoundException;
-import com.io.petclinic.exceptions.PetNotFoundException;
-import com.io.petclinic.exceptions.VetNotFoundException;
-import com.io.petclinic.exceptions.VisitNotFoundException;
+import com.io.petclinic.exceptions.*;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
@@ -31,6 +28,27 @@ public class VisitService {
         this.petRepository = petRepository;
     }
 
+    public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
+        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).isEmpty()){
+            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
+        } else {
+            throw new CannotCreateVisitException();
+        }
+    }
+
+    public void assignPetToVisit(Long petId, Long visitId){
+        Visit wantedVisit = findVisitById(visitId);
+        if(wantedVisit.getPet() == null){
+            Pet wantedPet = petRepository.findById(petId).orElseThrow( () -> new PetNotFoundException(petId));
+            wantedVisit.setPet(wantedPet);
+            wantedPet.getVisits().add(wantedVisit);
+            petRepository.save(wantedPet);
+            visitRepository.save(wantedVisit);
+        } else {
+            throw new CannotCreateVisitException();
+        }
+    }
+
     public Visit findVisitById(Long visitId){
         return visitRepository.findById(visitId).orElseThrow(() -> new VisitNotFoundException(visitId));
     }
@@ -53,6 +71,18 @@ public class VisitService {
                     newVisit.setVisitId(id);
                     return visitRepository.save(newVisit);
                 });
+    }
+
+    public void deleteVisit(Long vetId, Long visitId){
+        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
+        Optional<Visit> wantedVisit = visitRepository.findById(visitId);
+        if(wantedVisit.isPresent()){
+            vet.getVisits().remove(wantedVisit.get());
+            vetRepository.save(vet);
+            visitRepository.save(wantedVisit.get());
+        } else {
+            throw new VisitNotFoundException(visitId);
+        }
     }
 
 //    public Visit findVisitByDate(LocalDateTime date){
@@ -81,5 +111,4 @@ public class VisitService {
         visitRepository.save(cancelledVisit);
     }
 
-//    publiv
 }

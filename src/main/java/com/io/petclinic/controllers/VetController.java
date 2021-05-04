@@ -24,11 +24,10 @@ public class VetController {
         return vetService.findVet(id);
     }
 
-    @PutMapping("/vets/{id}")
-    public Vet updateVet(@RequestBody Vet newVet, @PathVariable Long id){
-        return vetService.updateVet(newVet, id);
-    }
-
+//    @PutMapping("/vets/{id}")
+//    public Vet updateVet(@RequestBody Vet newVet, @PathVariable Long id){
+//        return vetService.updateVet(newVet, id);
+//    }
 
     @DeleteMapping("vets/{id}")
     public void deleteVet(@PathVariable Long id){
