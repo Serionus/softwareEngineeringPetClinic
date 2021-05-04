@@ -14,8 +14,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDate;
-
 
 @Configuration
 public class InitRepository {
@@ -38,10 +36,10 @@ public class InitRepository {
             ownerService.createOwner("Hanna", "Pampersas");
             System.out.println(ownerService.findAllOwners());
 
-            petService.addPet(1L, "Piesio", "Samoyed");
-            petService.addPet(1L, "Olo", "Hipopotam");
-            petService.addPet(1L, "Rabarbara", "Owca");
-            petService.addPet(3L, "Szczerbatek", "Nocna Furia");
+            petService.createPet(1L, "Piesio", "Samoyed");
+            petService.createPet(1L, "Olo", "Hipopotam");
+            petService.createPet(1L, "Rabarbara", "Owca");
+            petService.createPet(3L, "Szczerbatek", "Nocna Furia");
 
             System.out.println("-----------------");
             System.out.println("Find all pets:");
@@ -71,16 +69,12 @@ public class InitRepository {
             System.out.println("Find pet by id: ");
             System.out.println(petService.findPet(4L));
 
-//            System.out.println("-----------------");
-//            System.out.println("Rip pet ");
-//            petService.deletePet(4L);
-//            System.out.println("-----------------");
-//            System.out.println("Find pet by id: ");
-//            System.out.println(petService.findPet(4L));
-            System.out.println("-------------------");
-            System.out.println("Update beofre death");
-            ownerService.updateOwner("załeb", "kurwa", 1L);
-            System.out.println(petService.getAllPets(1L));
+            System.out.println("-----------------");
+            System.out.println("Rip pet ");
+            petService.deletePet(4L);
+            System.out.println("-----------------");
+            System.out.println("Find pet by id: ");
+            System.out.println(petService.findPet(4L));
             System.out.println("-------------------");
             System.out.println("Death of Pampersas");
             ownerService.deleteOwner(1L);

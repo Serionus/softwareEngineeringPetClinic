@@ -54,13 +54,8 @@ public class OwnerService {
     public void deleteOwner(Long id) {
         ownerRepository.deleteById(id);
         //hmm ciekawe czemu
+        //hehe
         //25.04 odwieczna zagadka rozwiązana
     }
-
-//    public void deletePet(Long ownerId, Long petId){
-//        Owner owner = ownerRepository.findById(ownerId).orElseThrow(()-> new OwnerNotFoundException(ownerId));
-//        Pet petToBeDeleted = petRepository.getPetByPetId(petId);
-//        owner.getPets().remove(petToBeDeleted);
-//    }
 
 }

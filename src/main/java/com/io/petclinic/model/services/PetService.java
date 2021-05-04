@@ -26,6 +26,14 @@ public class PetService {
         this.ownerRepository = ownerRepository;
     }
 
+    public void createPet(Long ownerId, String name, String species){
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
+        Pet newPet = new Pet(name, species, owner);
+        owner.getPets().add(newPet);
+        petRepository.save(newPet);
+        ownerRepository.save(owner);
+    }
+
     public Pet findPet(Long id){
         return petRepository.findById(id).orElseThrow(() -> new PetNotFoundException(id));
     }
@@ -46,14 +54,6 @@ public class PetService {
                     updatedPet.setPetId(petId);
                     return petRepository.save(updatedPet);
                 });
-    }
-
-    public void addPet(Long ownerId, String name, String species){
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
-        Pet newPet = new Pet(name, species, owner);
-        owner.getPets().add(newPet);
-        petRepository.save(newPet);
-        ownerRepository.save(owner);
     }
 
     public List<Pet> getAllPets(Long ownerId){
