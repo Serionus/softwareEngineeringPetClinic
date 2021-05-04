@@ -73,17 +73,7 @@ public class VisitService {
                 });
     }
 
-    public void deleteVisit(Long vetId, Long visitId){
-        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
-        Optional<Visit> wantedVisit = visitRepository.findById(visitId);
-        if(wantedVisit.isPresent()){
-            vet.getVisits().remove(wantedVisit.get());
-            vetRepository.save(vet);
-            visitRepository.save(wantedVisit.get());
-        } else {
-            throw new VisitNotFoundException(visitId);
-        }
-    }
+
 
 //    public Visit findVisitByDate(LocalDateTime date){
 //        List<Visit> allVisits = visitRepository.findAll();
@@ -105,10 +95,16 @@ public class VisitService {
         return visitRepository.findAllByPetPetId(petId);
     }
 
+    //anuluje bo pet anuluje
     public void cancelVisit(Long visitId){
         Visit cancelledVisit = findVisitById(visitId);
         cancelledVisit.setPet(null);
         visitRepository.save(cancelledVisit);
     }
 
+    public void deleteVisit(Long visitId){
+        Visit cancelledVisit = findVisitById(visitId);
+        cancelledVisit.setPet(null);
+        visitRepository.deleteById(visitId);
+    }
 }

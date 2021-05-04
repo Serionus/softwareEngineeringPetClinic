@@ -4,8 +4,10 @@ import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.PetNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
+import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
+import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -16,12 +18,13 @@ import java.util.Optional;
 public class OwnerService {
 
     private final OwnerRepository ownerRepository;
+    private final VisitRepository visitRepository;
     private final PetRepository petRepository;
 
-    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository) {
+    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, VisitRepository visitRepository) {
         this.ownerRepository = ownerRepository;
         this.petRepository = petRepository;
-
+        this.visitRepository = visitRepository;
     }
 
     public void createOwner(String firstname, String surname){
@@ -52,6 +55,13 @@ public class OwnerService {
 
     // owners should stay in database even if irl they no longer attend the clinic
     public void deleteOwner(Long id) {
+        for (Pet pet:
+             findOwner(id).getPets()) {
+            for (Visit visit: pet.getVisits()) {
+                visit.setPet(null);
+                visitRepository.save(visit);
+            }
+        }
         ownerRepository.deleteById(id);
         //hmm ciekawe czemu
         //hehe

@@ -25,7 +25,7 @@ public class InitRepository {
     CommandLineRunner init(OwnerRepository ownerRepository, PetRepository petRepository,
                            VetRepository vetRepository, VisitRepository visitRepository){
 
-        OwnerService ownerService = new OwnerService(ownerRepository, petRepository);
+        OwnerService ownerService = new OwnerService(ownerRepository, petRepository, visitRepository);
         PetService petService = new PetService(petRepository, visitRepository, ownerRepository);
         VisitService visitService = new VisitService(visitRepository, vetRepository, petRepository);
         VetService vetService = new VetService(vetRepository, visitRepository, visitService);
@@ -72,17 +72,17 @@ public class InitRepository {
             System.out.println(petService.findPet(4L));
 
             System.out.println("-----------------");
-            System.out.println("Rip pet ");
-            petService.deletePet(4L);
+//            System.out.println("Rip pet ");
+//            petService.deletePet(4L);
             System.out.println(petService.findAllPets());
             System.out.println("-----------------");
 //            System.out.println("Find pet by id: ");
 //            System.out.println(petService.findPet(4L));
             System.out.println("-------------------");
             System.out.println("Death of Pampersas");
-            ownerService.deleteOwner(1L);
-            System.out.println(ownerService.findAllOwners());
-            System.out.println(petService.findAllPets());
+//            ownerService.deleteOwner(1L);
+//            System.out.println(ownerService.findAllOwners());
+//            System.out.println(petService.findAllPets());
 //            System.out.println("testowańsko visit generatora, ktory dziala dzieki Hani");
             //rip visit generator ale nadal dzięki Haniu
 //            System.out.println(visitService.findAllVisits());
@@ -101,29 +101,19 @@ public class InitRepository {
             System.out.println(vetService.findVet(8L));
             System.out.println(visitService.findAllVisits());
 //            vetService.deleteVet(8L);
-            petService.deletePet(7L);
+//            petService.deletePet(7L);
+//            ownerService.deleteOwner(3L);
+            visitService.deleteVisit(10L);
             System.out.println("losto caradhras, sedho, hodo, nuitho i ruith!");
             System.out.println("tudzież usuniecie veta ktore dziala i usuwa visite");
             System.out.println("ale jak usuwa peta to nie powinen usuwac visit ;(");
-//            System.out.println(petService.findPet(7L));
+            System.out.println(petService.findAllPets());
+            System.out.println(petService.findPet(7L));
             System.out.println(vetService.findVet(8L));
-//            System.out.println(visitService.findAllVisits());
-
+            System.out.println(visitService.findAllVisits());
 
 //            System.out.println("delete wombat");
 //            System.out.println(vetService.findAllVets());
-//            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 9, 0);
-//            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 1, 12, 30);
-//            vetService.addVisit(88L, LocalDate.now().getYear(), LocalDate.now().getMonthValue(), 3, 15, 30);
-//            System.out.println(vetService.findVet(88L).getVisits());
-//            System.out.println("Ciekawe czy sie wywali");
-//            System.out.println(visitRepository.findById(8L));
-//            System.out.println("Usuwansko");
-//            vetService.deleteVisit(88L, 8L);
-//            System.out.println(vetService.findVet(88L).getVisits());
-//            System.out.println(visitRepository.findById(8L));
-//
-
         };
     }
 }

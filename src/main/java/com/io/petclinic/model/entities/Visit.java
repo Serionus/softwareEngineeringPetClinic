@@ -11,7 +11,7 @@ public class Visit {
     private LocalDateTime endTime;
     @ManyToOne
     private Vet vet;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Pet pet = null;
 
     private @Id @GeneratedValue Long visitId;
@@ -92,7 +92,7 @@ public class Visit {
         } else {
             sb.append(", Pet{name='").append(pet.getName()).append("', species='").append(pet.getSpecies()).append("'");
         }
-        sb.append(", visitId=").append(visitId);
+        sb.append("}, visitId=").append(visitId);
         sb.append('}');
         return sb.toString();
     }
