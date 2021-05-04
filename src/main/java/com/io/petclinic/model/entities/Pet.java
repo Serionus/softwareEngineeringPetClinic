@@ -16,7 +16,7 @@ public class Pet {
     @ManyToOne
     private Owner owner;
 
-    @OneToMany(mappedBy = "pet", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "pet", fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private List<Visit> visits = new ArrayList<>();
 
     public Pet(String name, String species, Owner owner) {

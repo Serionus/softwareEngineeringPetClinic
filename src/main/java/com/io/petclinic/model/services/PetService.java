@@ -61,6 +61,15 @@ public class PetService {
     }
 
     public void deletePet(Long petId){
+        Pet petToDelete = findPet(petId);
+        System.out.println(petToDelete.getVisits().isEmpty());
+        for (Visit visit: petToDelete.getVisits()) {
+            System.out.println(visit.toString());
+            visit.setPet(null);
+            System.out.println(visit.toString());
+        }
+        petToDelete.getVisits().clear();
+        System.out.println(petToDelete.getVisits());
         petRepository.delete(findPet(petId));
     }
 }
