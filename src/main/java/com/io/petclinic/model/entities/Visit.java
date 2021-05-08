@@ -9,9 +9,9 @@ public class Visit {
 
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
-    @ManyToOne
+    @ManyToOne(cascade =CascadeType.MERGE)
     private Vet vet;
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Pet pet = null;
 
     private @Id @GeneratedValue Long visitId;

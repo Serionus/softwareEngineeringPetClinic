@@ -100,17 +100,16 @@ public class InitRepository {
             System.out.println(petService.findPet(7L));
             System.out.println(vetService.findVet(8L));
             System.out.println(visitService.findAllVisits());
+//            System.out.println("testy usuniec");
 //            vetService.deleteVet(8L);
-//            petService.deletePet(7L);
+            petService.deletePet(7L);
 //            ownerService.deleteOwner(3L);
-            visitService.deleteVisit(10L);
-            System.out.println("losto caradhras, sedho, hodo, nuitho i ruith!");
-            System.out.println("tudzież usuniecie veta ktore dziala i usuwa visite");
-            System.out.println("ale jak usuwa peta to nie powinen usuwac visit ;(");
+//            visitService.deleteVisit(10L);
+//            System.out.println("losto caradhras, sedho, hodo, nuitho i ruith!");
+
             System.out.println(petService.findAllPets());
-            System.out.println(petService.findPet(7L));
-            System.out.println(vetService.findVet(8L));
             System.out.println(visitService.findAllVisits());
+            System.out.println(vetService.findAllVets());
 
 //            System.out.println("delete wombat");
 //            System.out.println(vetService.findAllVets());
