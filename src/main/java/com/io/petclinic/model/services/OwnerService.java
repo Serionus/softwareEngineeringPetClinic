@@ -1,7 +1,6 @@
 package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.OwnerNotFoundException;
-import com.io.petclinic.exceptions.PetNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Visit;
@@ -10,20 +9,16 @@ import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OwnerService {
 
     private final OwnerRepository ownerRepository;
     private final VisitRepository visitRepository;
-    private final PetRepository petRepository;
 
-    public OwnerService(OwnerRepository ownerRepository, PetRepository petRepository, VisitRepository visitRepository) {
+    public OwnerService(OwnerRepository ownerRepository, VisitRepository visitRepository) {
         this.ownerRepository = ownerRepository;
-        this.petRepository = petRepository;
         this.visitRepository = visitRepository;
     }
 

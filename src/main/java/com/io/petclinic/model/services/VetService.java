@@ -1,30 +1,18 @@
 package com.io.petclinic.model.services;
 
-import com.io.petclinic.exceptions.CannotCreateVisitException;
-import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
-import com.io.petclinic.exceptions.VisitNotFoundException;
-import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
-import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VetService {
     private final VetRepository vetRepository;
-    private final VisitRepository visitRepository;
-    private final VisitService visitService;
 
-    public VetService(VetRepository repository, VisitRepository visitRepository, VisitService visitService) {
+    public VetService(VetRepository repository) {
         this.vetRepository = repository;
-        this.visitRepository = visitRepository;
-        this.visitService = visitService;
     }
 
     public void createVet(String firstname, String surname){

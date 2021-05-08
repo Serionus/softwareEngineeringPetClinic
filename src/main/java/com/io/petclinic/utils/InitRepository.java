@@ -8,8 +8,6 @@ import com.io.petclinic.model.services.OwnerService;
 import com.io.petclinic.model.services.PetService;
 import com.io.petclinic.model.services.VetService;
 import com.io.petclinic.model.services.VisitService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,16 +17,15 @@ import java.time.LocalDateTime;
 
 @Configuration
 public class InitRepository {
-    private static final Logger log = LoggerFactory.getLogger(InitRepository.class);
 
     @Bean
     CommandLineRunner init(OwnerRepository ownerRepository, PetRepository petRepository,
                            VetRepository vetRepository, VisitRepository visitRepository){
 
-        OwnerService ownerService = new OwnerService(ownerRepository, petRepository, visitRepository);
+        OwnerService ownerService = new OwnerService(ownerRepository, visitRepository);
         PetService petService = new PetService(petRepository, visitRepository, ownerRepository);
         VisitService visitService = new VisitService(visitRepository, vetRepository, petRepository);
-        VetService vetService = new VetService(vetRepository, visitRepository, visitService);
+        VetService vetService = new VetService(vetRepository);
 
         return args -> {
             System.out.println("-----------------");
@@ -102,9 +99,9 @@ public class InitRepository {
             System.out.println(visitService.findAllVisits());
 //            System.out.println("testy usuniec");
 //            vetService.deleteVet(8L);
-            petService.deletePet(7L);
+//            petService.deletePet(7L);
 //            ownerService.deleteOwner(3L);
-//            visitService.deleteVisit(10L);
+            visitService.deleteVisit(10L);
 //            System.out.println("losto caradhras, sedho, hodo, nuitho i ruith!");
 
             System.out.println(petService.findAllPets());

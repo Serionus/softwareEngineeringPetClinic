@@ -1,20 +1,16 @@
 package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.*;
-import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.entities.Visit;
-import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VisitService {
