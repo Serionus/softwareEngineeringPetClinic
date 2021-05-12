@@ -3,7 +3,6 @@ package com.io.petclinic.model.services;
 import com.io.petclinic.exceptions.VetNotFoundException;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.repositories.VetRepository;
-import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

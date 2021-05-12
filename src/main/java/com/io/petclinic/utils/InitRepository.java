@@ -94,16 +94,19 @@ public class InitRepository {
             visitService.addVisit(8L, teraz, potem);
             System.out.println(visitService.findAllVisits());
             visitService.assignPetToVisit(7L, 10L);
+            System.out.println("\n");
             System.out.println(petService.findPet(7L));
             System.out.println(vetService.findVet(8L));
             System.out.println(visitService.findAllVisits());
-//            System.out.println("testy usuniec");
+            System.out.println("\n");
+            System.out.println("testy usuniec");
+            System.out.println("\n");
 //            vetService.deleteVet(8L);
 //            petService.deletePet(7L);
 //            ownerService.deleteOwner(3L);
-            visitService.deleteVisit(10L);
+//            visitService.deleteVisit(10L);
 //            System.out.println("losto caradhras, sedho, hodo, nuitho i ruith!");
-
+            System.out.println(ownerService.findAllOwners());
             System.out.println(petService.findAllPets());
             System.out.println(visitService.findAllVisits());
             System.out.println(vetService.findAllVets());
