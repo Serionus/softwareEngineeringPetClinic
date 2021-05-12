@@ -90,7 +90,7 @@ public class Pet {
         sb.append("petId=").append(petId);
         sb.append(", name='").append(name).append('\'');
         sb.append(", species='").append(species).append('\'');
-        sb.append(", owner=").append(owner);
+//        sb.append(", owner=").append(owner);
         sb.append(", visits=").append(visits);
         sb.append('}');
         return sb.toString();
