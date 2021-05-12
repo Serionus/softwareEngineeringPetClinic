@@ -1,5 +1,7 @@
 package com.io.petclinic.controllers;
 
+import com.io.petclinic.controllers.entities.HumanDTO;
+import com.io.petclinic.controllers.entities.PetDTO;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.services.OwnerService;
@@ -21,13 +23,14 @@ public class OwnerController {
     }
 
     @GetMapping("/owners")
-    public List<Owner> getAllOwners(){
-        return ownerService.findAllOwners();
+    public List<HumanDTO> getAllOwners(){
+        return (List<HumanDTO>) ownerService.findAllOwners().stream().map(owner -> new HumanDTO(owner.getFirstname(), owner.getSurname()));
     }
 
     @GetMapping("/owners/{id}")
-    public Owner getOwner(@PathVariable Long id){
-        return ownerService.findOwner(id);
+    public HumanDTO getOwner(@PathVariable Long id){
+        Owner owner = ownerService.findOwner(id);
+        return new HumanDTO(owner.getFirstname(), owner.getSurname());
     }
 
 //    @PutMapping("/owners/{id}")
