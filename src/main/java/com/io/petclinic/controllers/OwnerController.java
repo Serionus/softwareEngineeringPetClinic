@@ -48,6 +48,6 @@ public class OwnerController {
     @PostMapping("/owners/{ownerId}/pets/add")
     public void addPet(@PathVariable Long ownerId, @RequestParam String name, String species){
 //        Pet newPet = petService.createPet(name, species);
-//        ownerService.addPet(ownerId, newPet);
+//        ownerService.createPet(ownerId, newPet);
     }
 }

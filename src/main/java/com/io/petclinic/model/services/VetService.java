@@ -1,34 +1,18 @@
 package com.io.petclinic.model.services;
 
-import com.io.petclinic.exceptions.CannotCreateVisitException;
-import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
-import com.io.petclinic.exceptions.VisitNotFoundException;
-import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
-import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VetService {
     private final VetRepository vetRepository;
-    private final VisitRepository visitRepository;
-    private final VisitService visitService;
 
-    public VetService(VetRepository repository, VisitRepository visitRepository, VisitService visitService) {
+    public VetService(VetRepository repository) {
         this.vetRepository = repository;
-        this.visitRepository = visitRepository;
-        this.visitService = visitService;
-    }
-
-    public List<Vet> findAllVets(){
-        return vetRepository.findAll();
     }
 
     public void createVet(String firstname, String surname){
@@ -41,40 +25,24 @@ public class VetService {
                 .orElseThrow( () -> new VetNotFoundException(id));
     }
 
-    public Vet updateVet(Vet newVet, Long id){
+    public List<Vet> findAllVets(){
+        return vetRepository.findAll();
+    }
+
+    public Vet updateVet(String newFirstname,String newSurname, Long id){
+        Vet updatedVet = new Vet(newFirstname, newSurname);
         return vetRepository.findById(id)
                 .map( vet -> {
-                    vet.setFirstname(newVet.getFirstname());
-                    vet.setSurname(newVet.getSurname());
+                    vet.setFirstname(newFirstname);
+                    vet.setSurname(newSurname);
                     return vetRepository.save(vet);
                 }).orElseGet( () -> {
-            newVet.setVetId(id);
-            return vetRepository.save(newVet);
+                    updatedVet.setVetId(id);
+                    return vetRepository.save(updatedVet);
         });
     }
 
     public void deleteVet(Long id){
         vetRepository.deleteById(id);
     }
-
-    public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
-        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).size() == 0){
-            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
-        } else {
-            throw new CannotCreateVisitException();
-        }
-    }
-
-    public void deleteVisit(Long vetId, Long visitId){
-        Vet vet = vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId));
-        Optional<Visit> wantedVisit = visitRepository.findById(visitId);
-        if(wantedVisit.isPresent()){
-            vet.getVisits().remove(wantedVisit.get());
-            vetRepository.save(vet);
-            visitRepository.save(wantedVisit.get());
-        } else {
-            throw new VisitNotFoundException(visitId);
-        }
-    }
-
 }

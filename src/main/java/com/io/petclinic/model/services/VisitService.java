@@ -1,23 +1,16 @@
 package com.io.petclinic.model.services;
 
-import com.io.petclinic.exceptions.OwnerNotFoundException;
-import com.io.petclinic.exceptions.PetNotFoundException;
-import com.io.petclinic.exceptions.VetNotFoundException;
-import com.io.petclinic.exceptions.VisitNotFoundException;
-import com.io.petclinic.model.entities.Owner;
+import com.io.petclinic.exceptions.*;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.entities.Visit;
-import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VisitService {
@@ -29,6 +22,27 @@ public class VisitService {
         this.visitRepository = repository;
         this.vetRepository = vetRepository;
         this.petRepository = petRepository;
+    }
+
+    public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
+        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).isEmpty()){
+            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
+        } else {
+            throw new CannotCreateVisitException();
+        }
+    }
+
+    public void assignPetToVisit(Long petId, Long visitId){
+        Visit wantedVisit = findVisitById(visitId);
+        if(wantedVisit.getPet() == null){
+            Pet wantedPet = petRepository.findById(petId).orElseThrow( () -> new PetNotFoundException(petId));
+            wantedVisit.setPet(wantedPet);
+            wantedPet.getVisits().add(wantedVisit);
+            petRepository.save(wantedPet);
+            visitRepository.save(wantedVisit);
+        } else {
+            throw new CannotCreateVisitException();
+        }
     }
 
     public Visit findVisitById(Long visitId){
@@ -55,6 +69,8 @@ public class VisitService {
                 });
     }
 
+
+
 //    public Visit findVisitByDate(LocalDateTime date){
 //        List<Visit> allVisits = visitRepository.findAll();
 //        for (Visit visit: allVisits) {
@@ -75,11 +91,16 @@ public class VisitService {
         return visitRepository.findAllByPetPetId(petId);
     }
 
+    //anuluje bo pet anuluje
     public void cancelVisit(Long visitId){
         Visit cancelledVisit = findVisitById(visitId);
         cancelledVisit.setPet(null);
         visitRepository.save(cancelledVisit);
     }
 
-//    publiv
+    public void deleteVisit(Long visitId){
+        Visit cancelledVisit = findVisitById(visitId);
+        cancelledVisit.setPet(null);
+        visitRepository.deleteById(visitId);
+    }
 }

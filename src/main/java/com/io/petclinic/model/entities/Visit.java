@@ -9,14 +9,14 @@ public class Visit {
 
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
-    @ManyToOne
+    @ManyToOne(cascade =CascadeType.MERGE)
     private Vet vet;
-    @ManyToOne
-    private Pet pet;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Pet pet = null;
 
     private @Id @GeneratedValue Long visitId;
 
-    //  :) <3
+    //  :) <3 ;( ;o
 
     public Visit(Vet vet, LocalDateTime beginTime, LocalDateTime endTime) {
         this.vet = vet;
@@ -86,9 +86,13 @@ public class Visit {
         final StringBuilder sb = new StringBuilder("Visit{");
         sb.append("beginTime=").append(beginTime);
         sb.append(", endTime=").append(endTime);
-        sb.append(", vet=").append(vet);
-        sb.append(", pet=").append(pet);
-        sb.append(", visitId=").append(visitId);
+        sb.append(", Vet{firstname='").append(vet.getFirstname()).append("', surname='").append(vet.getSurname()).append("'}");
+        if(pet == null){
+            sb.append(", No pet assigned to this visit");
+        } else {
+            sb.append(", Pet{name='").append(pet.getName()).append("', species='").append(pet.getSpecies()).append("'");
+        }
+        sb.append("}, visitId=").append(visitId);
         sb.append('}');
         return sb.toString();
     }

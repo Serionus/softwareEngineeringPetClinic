@@ -9,9 +9,6 @@ import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,6 +21,14 @@ public class PetService {
         this.petRepository = repository;
         this.visitRepository = visitRepository;
         this.ownerRepository = ownerRepository;
+    }
+
+    public void createPet(Long ownerId, String name, String species){
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
+        Pet newPet = new Pet(name, species, owner);
+        owner.getPets().add(newPet);
+        petRepository.save(newPet);
+        ownerRepository.save(owner);
     }
 
     public Pet findPet(Long id){
@@ -48,20 +53,16 @@ public class PetService {
                 });
     }
 
-    public void addPet(Long ownerId, String name, String species){
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
-        Pet newPet = new Pet(name, species, owner);
-        owner.getPets().add(newPet);
-        petRepository.save(newPet);
-        ownerRepository.save(owner);
-    }
-
     public List<Pet> getAllPets(Long ownerId){
         return ownerRepository.findById(ownerId).map(Owner::getPets).orElseThrow(() -> new OwnerNotFoundException(ownerId));
     }
-    @Transactional
+
     public void deletePet(Long petId){
-        petRepository.findById(petId).get().setOwner(null);
-        petRepository.delete(petRepository.findById(petId).get());
+        Pet petToDelete = findPet(petId);
+        for (Visit visit: petToDelete.getVisits()) {
+            visit.setPet(null);
+            visitRepository.save(visit);
+        }
+        petRepository.delete(findPet(petId));
     }
 }

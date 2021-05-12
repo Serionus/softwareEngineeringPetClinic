@@ -10,7 +10,6 @@ import java.util.Objects;
 public class Owner extends Human {
 
     private @Id @GeneratedValue Long ownerId;
-    // co to sie stało z cascade to nie wiedzą nawet trzej królowie
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 

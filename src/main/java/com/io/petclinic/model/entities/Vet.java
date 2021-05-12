@@ -10,7 +10,7 @@ public class Vet extends Human {
 
     private @Id @GeneratedValue Long vetId;
 
-    @OneToMany(mappedBy = "vet", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "vet", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
 
     public Vet(String firstname, String surname) {
@@ -54,8 +54,10 @@ public class Vet extends Human {
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("Vet{");
-        sb.append("vetId=").append(vetId);
+        sb.append("firstname='").append(getFirstname()).append("', surname='").append(getSurname());
+        sb.append("', vetId=").append(vetId);
         sb.append(", visits=").append(visits);
+
         sb.append('}');
         return sb.toString();
     }
