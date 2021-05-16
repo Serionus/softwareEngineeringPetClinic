@@ -14,7 +14,8 @@ public class Owner extends Human {
             allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
                     generator = "id_sequence")
-
+    @Column(name = "owner_id",
+            updatable = false)
     private Long ownerId;
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();

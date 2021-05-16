@@ -1,11 +1,16 @@
 package com.io.petclinic.model.entities;
 
+import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import java.util.Objects;
 
 @MappedSuperclass
 public abstract class Human {
+    @Column(name = "firstname",
+            columnDefinition = "TEXT")
     private String firstname;
+    @Column(name = "surname",
+            columnDefinition = "TEXT")
     private String surname;
 
     public Human(String firstname, String surname) {

@@ -12,7 +12,11 @@ public class Pet {
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "id_sequence")
     private Long petId;
+    @Column(name = "name",
+            columnDefinition = "TEXT")
     private String name;
+    @Column(name = "species",
+            columnDefinition = "TEXT")
     private String species;
     @ManyToOne
     private Owner owner;
