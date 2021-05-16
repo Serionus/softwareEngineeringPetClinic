@@ -19,6 +19,7 @@ public class Owner extends Human {
     @Column(name = "owner_id",
             updatable = false)
     private Long ownerId;
+
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 

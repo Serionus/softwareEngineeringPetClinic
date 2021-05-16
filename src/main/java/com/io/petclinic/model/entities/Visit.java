@@ -14,14 +14,18 @@ public class Visit {
     @Column(name = "visit_id",
             updatable = false)
     private Long visitId;
+
     @Column(name = "begin_time",
             nullable = false)
     private LocalDateTime beginTime;
+
     @Column(name = "end_time",
             nullable = false)
     private LocalDateTime endTime;
+
     @ManyToOne(cascade =CascadeType.MERGE)
     private Vet vet;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Pet pet = null;
 

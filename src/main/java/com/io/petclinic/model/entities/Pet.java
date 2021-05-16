@@ -15,12 +15,15 @@ public class Pet {
     @Column(name = "pet_id",
             updatable = false)
     private Long petId;
+
     @Column(name = "name",
             columnDefinition = "TEXT")
     private String name;
+
     @Column(name = "species",
             columnDefinition = "TEXT")
     private String species;
+
     @ManyToOne
     private Owner owner;
 
