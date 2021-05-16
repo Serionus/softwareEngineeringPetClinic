@@ -7,14 +7,17 @@ import java.util.Objects;
 @Entity(name = "Visit")
 public class Visit {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "id_sequence")
+    private Long visitId;
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
     @ManyToOne(cascade =CascadeType.MERGE)
     private Vet vet;
     @ManyToOne(cascade = CascadeType.MERGE)
     private Pet pet = null;
-    @Id
-    private @GeneratedValue Long visitId;
+
 
     //  :) <3 ;( ;o
 

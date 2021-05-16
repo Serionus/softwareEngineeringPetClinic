@@ -8,7 +8,14 @@ import java.util.Objects;
 @Entity(name = "Owner")
 public class Owner extends Human {
     @Id
-    private @GeneratedValue Long ownerId;
+    @SequenceGenerator(
+            name = "id_sequence",
+            sequenceName = "id_sequence",
+            allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+                    generator = "id_sequence")
+
+    private Long ownerId;
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 

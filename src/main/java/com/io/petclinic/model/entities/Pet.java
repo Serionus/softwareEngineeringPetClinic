@@ -9,7 +9,9 @@ import java.util.Objects;
 public class Pet {
 
     @Id
-    private @GeneratedValue Long petId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "id_sequence")
+    private Long petId;
     private String name;
     private String species;
     @ManyToOne

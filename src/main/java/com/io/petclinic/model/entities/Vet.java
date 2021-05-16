@@ -9,7 +9,9 @@ import java.util.Objects;
 public class Vet extends Human {
 
     @Id
-    private @GeneratedValue Long vetId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "id_sequence")
+    private Long vetId;
 
     @OneToMany(mappedBy = "vet", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
