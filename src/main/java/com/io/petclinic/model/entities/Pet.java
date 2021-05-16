@@ -5,12 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-@Entity
-@Table
+@Entity(name = "Pet")
 public class Pet {
 
-    private @Id @GeneratedValue Long petId;
+    @Id
+    private @GeneratedValue Long petId;
     private String name;
     private String species;
     @ManyToOne

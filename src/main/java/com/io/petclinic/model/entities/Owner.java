@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-@Entity
+@Entity(name = "Owner")
 public class Owner extends Human {
-
-    private @Id @GeneratedValue Long ownerId;
+    @Id
+    private @GeneratedValue Long ownerId;
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 
