@@ -5,13 +5,20 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity(name = "Visit")
+@Table(name = "visit")
 public class Visit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "id_sequence")
+    @Column(name = "visit_id",
+            updatable = false)
     private Long visitId;
+    @Column(name = "begin_time",
+            nullable = false)
     private LocalDateTime beginTime;
+    @Column(name = "end_time",
+            nullable = false)
     private LocalDateTime endTime;
     @ManyToOne(cascade =CascadeType.MERGE)
     private Vet vet;

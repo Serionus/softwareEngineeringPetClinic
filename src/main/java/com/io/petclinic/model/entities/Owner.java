@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Owner")
+@Table(name = "owner",
+        uniqueConstraints = {@UniqueConstraint(name = "unique_name", columnNames = {"firstname", "surname"})})
 public class Owner extends Human {
     @Id
     @SequenceGenerator(

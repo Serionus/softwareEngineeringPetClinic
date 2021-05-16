@@ -6,11 +6,14 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Vet")
+@Table(name = "vet")
 public class Vet extends Human {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "id_sequence")
+    @Column(name = "vet_id",
+            updatable = false)
     private Long vetId;
 
     @OneToMany(mappedBy = "vet", fetch = FetchType.EAGER, orphanRemoval = true)
