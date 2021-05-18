@@ -49,8 +49,8 @@ public class InitRepository {
             System.out.println(petService.getAllPets(1L));
 
             System.out.println("-----------------");
-            System.out.println("Update owner...");
-            ownerService.updateOwner("Rudolf", "Valentino", 1L);
+//            System.out.println("Update owner...");
+//            ownerService.updateOwner("Rudolf", "Valentino", 1L);
 
             System.out.println("-----------------");
             System.out.println("Find all owners: ");
