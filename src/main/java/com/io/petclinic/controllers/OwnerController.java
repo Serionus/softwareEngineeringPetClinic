@@ -6,9 +6,11 @@ import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.services.OwnerService;
 import com.io.petclinic.model.services.PetService;
+import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -16,15 +18,17 @@ public class OwnerController {
 
     private final OwnerService ownerService;
     private final PetService petService;
+    private final ModelMapper modelMapper;
 
-    public OwnerController(OwnerService ownerService, PetService petService) {
+    public OwnerController(OwnerService ownerService, PetService petService, ModelMapper modelMapper) {
         this.ownerService = ownerService;
         this.petService = petService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/owners")
     public List<HumanDTO> getAllOwners(){
-        return (List<HumanDTO>) ownerService.findAllOwners().stream().map(owner -> new HumanDTO(owner.getFirstname(), owner.getSurname()));
+        return ownerService.findAllOwners().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @GetMapping("/owners/{id}")
@@ -52,5 +56,9 @@ public class OwnerController {
     public void addPet(@PathVariable Long ownerId, @RequestParam String name, String species){
 //        Pet newPet = petService.createPet(name, species);
 //        ownerService.createPet(ownerId, newPet);
+    }
+
+    private HumanDTO convertToDTO(Owner owner){
+        return modelMapper.map(owner, HumanDTO.class);
     }
 }
