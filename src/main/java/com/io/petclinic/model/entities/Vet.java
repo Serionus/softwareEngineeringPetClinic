@@ -11,8 +11,8 @@ public class Vet extends Human {
 
     @Id
     @GeneratedValue
-//            (strategy = GenerationType.SEQUENCE,
-//            generator = "id_sequence")
+            (strategy = GenerationType.SEQUENCE,
+            generator = "id_sequence")
     @Column(name = "vet_id",
             updatable = false)
     private Long vetId;
