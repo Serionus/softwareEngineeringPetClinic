@@ -10,6 +10,10 @@ import java.util.Objects;
 public class Pet {
 
     @Id
+    @SequenceGenerator(
+            name = "id_sequence",
+            sequenceName = "id_sequence",
+            allocationSize = 1)
     @GeneratedValue
             (strategy = GenerationType.SEQUENCE,
             generator = "id_sequence")
