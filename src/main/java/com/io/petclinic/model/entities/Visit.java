@@ -9,8 +9,9 @@ import java.util.Objects;
 public class Visit {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "id_sequence")
+    @GeneratedValue
+//            (strategy = GenerationType.SEQUENCE,
+//            generator = "id_sequence")
     @Column(name = "visit_id",
             updatable = false)
     private Long visitId;
