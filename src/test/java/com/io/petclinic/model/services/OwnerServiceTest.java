@@ -1,5 +1,6 @@
 package com.io.petclinic.model.services;
 
+import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
@@ -13,7 +14,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -46,26 +50,54 @@ class OwnerServiceTest {
         underTest.createOwner("Bruce", "Wayne");
         ArgumentCaptor<Owner> ownerArgumentCaptor = ArgumentCaptor.forClass(Owner.class);
         verify(ownerRepository).save(ownerArgumentCaptor.capture());
-        verify(ownerRepository).findAll();
 //        Owner capturedOwner = ownerArgumentCaptor.getValue();
 //        assertThat(capturedOwner).isEqualTo(createdOwner);
     }
 
+
     @Test
     void canFindAllOwners() {
-        List<Owner> expectedList = Arrays.asList(new Owner("dupa", "jasia"));
+        //Given
+        List<Owner> expectedList = Arrays.asList(
+                new Owner("Edward", "Nigma"),
+                new Owner("Harvey", "Dent"));
         when(ownerRepository.findAll()).thenReturn(expectedList);
 
-        //kiedy wywołuję to
+        //When
         List<Owner> allOwners = underTest.findAllOwners();
-        //sprawdzam, czy wykonało się to
+        //Then
         verify(ownerRepository).findAll();
-        Assertions.assertThat(allOwners).containsExactlyElementsOf(expectedList);
+        assertThat(allOwners).containsExactlyElementsOf(expectedList);
 
     }
 
     @Test
-    void findOwner() {
+    void shouldFindOwner() {
+        // Given
+        Owner expectedOwner = new Owner("Edward", "Nigma");
+        when(ownerRepository.findById(expectedOwner.getOwnerId())).thenReturn(Optional.of(expectedOwner));
+
+        // When
+        Owner returnedOwner = underTest.findOwner(expectedOwner.getOwnerId());
+
+        // Then
+        assertThat(returnedOwner).isEqualTo(expectedOwner);
+        verify(ownerRepository).findById(expectedOwner.getOwnerId());
+    }
+
+    @Test
+    void shouldThrowException() {
+        // Given
+        when(ownerRepository.findById(1L)).thenThrow(new OwnerNotFoundException(1L));
+
+       // When w przypadku wyjątków nie robimy tak jak niżej blok When i Then sie pokrywa
+//        Owner returnedOwner = underTest.findOwner(1L);
+//        // Then
+        assertThatThrownBy(() -> underTest.findOwner(1L))
+                .isInstanceOf(OwnerNotFoundException.class)
+                .hasMessageContaining("No such owner with id = 1");
+//        Assertions.assertThat(returnedOwner).isEqualTo(expectedOwner);
+//        verify(ownerRepository).findById(expectedOwner.getOwnerId());
     }
 
     @Test
@@ -74,5 +106,15 @@ class OwnerServiceTest {
 
     @Test
     void deleteOwner() {
+        // Given
+//        Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
+//        when(ownerRepository.findById(ownerToBeDeleted.getOwnerId())).thenReturn(Optional.of(ownerToBeDeleted));
+//        doNothing().when(ownerRepository).deleteById(null);
+//
+//        // When
+//        underTest.deleteOwner(ownerToBeDeleted.getOwnerId());
+//
+//        // Then
+//        verify(ownerRepository).delete(ownerToBeDeleted);
     }
 }
