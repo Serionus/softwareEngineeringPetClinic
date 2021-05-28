@@ -7,10 +7,7 @@ import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.services.PetService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,6 +29,17 @@ public class PetController {
     public PetDTO getPet(@PathVariable Long id){
         Pet pet = petService.findPet(id);
         return new PetDTO(pet.getName(), pet.getSpecies());
+    }
+
+    //    @GetMapping("/owners/{ownerId}/pets/{petId}")
+//    public Pet getPet(@PathVariable Long ownerId, Long petId){
+////       return ownerService.getOwnersPet(ownerId, petId);
+//    }
+
+    @PostMapping("/owners/{ownerId}/pets/add")
+    public void addPet(@PathVariable Long ownerId, @RequestParam String name, String species){
+//        Pet newPet = petService.createPet(name, species);
+//        ownerService.createPet(ownerId, newPet);
     }
 
 }
