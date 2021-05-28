@@ -57,14 +57,15 @@ class OwnerServiceTest {
 
     @Test
     void canFindAllOwners() {
+        //Given
         List<Owner> expectedList = Arrays.asList(
                 new Owner("Edward", "Nigma"),
                 new Owner("Harvey", "Dent"));
         when(ownerRepository.findAll()).thenReturn(expectedList);
 
-        //kiedy wywołuję to
+        //When
         List<Owner> allOwners = underTest.findAllOwners();
-        //sprawdzam, czy wykonało się to
+        //Then
         verify(ownerRepository).findAll();
         assertThat(allOwners).containsExactlyElementsOf(expectedList);
 
@@ -86,11 +87,10 @@ class OwnerServiceTest {
 
     @Test
     void shouldThrowException() {
-        // Given niepotrzebne ale strzezonego Pan Bog strzeze
-        Optional<Object> empty = Optional.empty();
+        // Given
         when(ownerRepository.findById(1L)).thenThrow(new OwnerNotFoundException(1L));
 
-//        // When w przypadku wyjątków nie robimy tak jak niżej blok When i Then sie pokrywa
+       // When w przypadku wyjątków nie robimy tak jak niżej blok When i Then sie pokrywa
 //        Owner returnedOwner = underTest.findOwner(1L);
 //        // Then
         assertThatThrownBy(() -> underTest.findOwner(1L))
@@ -107,13 +107,14 @@ class OwnerServiceTest {
     @Test
     void deleteOwner() {
         // Given
-        Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
-        when(ownerRepository.findById(ownerToBeDeleted.getOwnerId())).thenReturn(Optional.of(ownerToBeDeleted));
-
-        // When
-        underTest.deleteOwner(ownerToBeDeleted.getOwnerId());
-
-        // Then
-        verify(ownerRepository).delete(ownerToBeDeleted);
+//        Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
+//        when(ownerRepository.findById(ownerToBeDeleted.getOwnerId())).thenReturn(Optional.of(ownerToBeDeleted));
+//        doNothing().when(ownerRepository).deleteById(null);
+//
+//        // When
+//        underTest.deleteOwner(ownerToBeDeleted.getOwnerId());
+//
+//        // Then
+//        verify(ownerRepository).delete(ownerToBeDeleted);
     }
 }
