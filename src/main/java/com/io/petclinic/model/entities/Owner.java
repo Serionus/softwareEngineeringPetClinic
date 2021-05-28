@@ -5,11 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-@Entity
+@Entity(name = "Owner")
+@Table(name = "owner",
+        uniqueConstraints = {@UniqueConstraint(name = "unique_name", columnNames = {"firstname", "surname"})})
 public class Owner extends Human {
+    @Id
+    @SequenceGenerator(
+            name = "id_sequence",
+            sequenceName = "id_sequence",
+            allocationSize = 1)
+    @GeneratedValue
+            (strategy = GenerationType.SEQUENCE,
+                    generator = "id_sequence")
+    @Column(name = "owner_id",
+            updatable = false)
+    private Long ownerId;
 
-    private @Id @GeneratedValue Long ownerId;
     @OneToMany(mappedBy = "owner", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Pet> pets = new ArrayList<>();
 

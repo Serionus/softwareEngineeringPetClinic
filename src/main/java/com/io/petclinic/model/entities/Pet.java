@@ -5,14 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
-@Entity
-@Table
+@Entity(name = "Pet")
+@Table(name = "pet")
 public class Pet {
 
-    private @Id @GeneratedValue Long petId;
+    @Id
+    @SequenceGenerator(
+            name = "id_sequence",
+            sequenceName = "id_sequence",
+            allocationSize = 1)
+    @GeneratedValue
+            (strategy = GenerationType.SEQUENCE,
+            generator = "id_sequence")
+    @Column(name = "pet_id",
+            updatable = false)
+    private Long petId;
+
+    @Column(name = "name",
+            columnDefinition = "TEXT")
     private String name;
+
+    @Column(name = "species",
+            columnDefinition = "TEXT")
     private String species;
+
     @ManyToOne
     private Owner owner;
 

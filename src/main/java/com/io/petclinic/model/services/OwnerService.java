@@ -5,7 +5,6 @@ import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.OwnerRepository;
-import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 

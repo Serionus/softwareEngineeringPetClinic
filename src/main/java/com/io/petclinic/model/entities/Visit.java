@@ -4,17 +4,36 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "Visit")
+@Table(name = "visit")
 public class Visit {
 
+    @Id
+    @SequenceGenerator(
+            name = "id_sequence",
+            sequenceName = "id_sequence",
+            allocationSize = 1)
+    @GeneratedValue
+            (strategy = GenerationType.SEQUENCE,
+            generator = "id_sequence")
+    @Column(name = "visit_id",
+            updatable = false)
+    private Long visitId;
+
+    @Column(name = "begin_time",
+            nullable = false)
     private LocalDateTime beginTime;
+
+    @Column(name = "end_time",
+            nullable = false)
     private LocalDateTime endTime;
+
     @ManyToOne(cascade =CascadeType.MERGE)
     private Vet vet;
+
     @ManyToOne(cascade = CascadeType.MERGE)
     private Pet pet = null;
 
-    private @Id @GeneratedValue Long visitId;
 
     //  :) <3 ;( ;o
 
