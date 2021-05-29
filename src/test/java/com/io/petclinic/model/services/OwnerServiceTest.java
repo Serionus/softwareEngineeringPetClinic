@@ -106,15 +106,17 @@ class OwnerServiceTest {
 
     @Test
     void deleteOwner() {
-        // Given
-//        Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
-//        when(ownerRepository.findById(ownerToBeDeleted.getOwnerId())).thenReturn(Optional.of(ownerToBeDeleted));
-//        doNothing().when(ownerRepository).deleteById(null);
-//
-//        // When
-//        underTest.deleteOwner(ownerToBeDeleted.getOwnerId());
-//
-//        // Then
-//        verify(ownerRepository).delete(ownerToBeDeleted);
+         //Given
+        Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
+        long excpetedId = 1L;
+
+        when(ownerRepository.findById(excpetedId)).thenReturn(Optional.of(ownerToBeDeleted));
+        doNothing().when(ownerRepository).deleteById(excpetedId);
+
+        // When
+        underTest.deleteOwner(excpetedId);
+
+        // Then
+        verify(ownerRepository).deleteById(excpetedId);
     }
 }
