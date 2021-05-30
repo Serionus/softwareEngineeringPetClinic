@@ -8,6 +8,9 @@ public class VisitDTO {
     private String vetName;
     private String petName;
 
+    public VisitDTO() {
+    }
+
     public VisitDTO(LocalDateTime beginTime, LocalDateTime endTime, String vetName, String petName) {
         this.beginTime = beginTime;
         this.endTime = endTime;

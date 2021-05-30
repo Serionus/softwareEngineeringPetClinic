@@ -4,6 +4,9 @@ public class PetDTO {
     private String name;
     private String species;
 
+    public PetDTO() {
+    }
+
     public PetDTO(String name, String species) {
         this.name = name;
         this.species = species;
