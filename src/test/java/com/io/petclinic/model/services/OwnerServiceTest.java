@@ -96,12 +96,33 @@ class OwnerServiceTest {
         assertThatThrownBy(() -> underTest.findOwner(1L))
                 .isInstanceOf(OwnerNotFoundException.class)
                 .hasMessageContaining("No such owner with id = 1");
-//        Assertions.assertThat(returnedOwner).isEqualTo(expectedOwner);
+//        assertThat(returnedOwner).isEqualTo(expectedOwner);
 //        verify(ownerRepository).findById(expectedOwner.getOwnerId());
     }
 
     @Test
-    void updateOwner() {
+    void updateExistingOwner() {
+        //Given
+        Owner ownerToBeUpdated = new Owner("Edward", "Nigma");
+        Owner ownerExpectedAfterUpdate = new Owner("update", "test");
+        long excpetedId = 1L;
+        ownerToBeUpdated.setOwnerId(excpetedId);
+        ownerExpectedAfterUpdate.setOwnerId(excpetedId);
+
+        when(ownerRepository.findById(excpetedId)).thenReturn(Optional.of(ownerToBeUpdated));
+        when(ownerRepository.save(ownerExpectedAfterUpdate)).thenReturn(ownerExpectedAfterUpdate);
+
+        //When
+        Owner updatedOwner = underTest.updateOwner("update", "test", 1L);
+
+        //Then
+        assertThat(updatedOwner.getFirstname()).isEqualTo("update");
+        assertThat(updatedOwner.getSurname()).isEqualTo("test");
+        verify(ownerRepository).findById(ownerToBeUpdated.getOwnerId());
+        verify(ownerRepository).save(updatedOwner);
+
+
+
     }
 
     @Test
