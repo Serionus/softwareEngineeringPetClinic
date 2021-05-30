@@ -32,6 +32,11 @@ public class OwnerController {
         return new HumanDTO(owner.getFirstname(), owner.getSurname());
     }
 
+    @PostMapping("/create-owner")
+    public void createOwner(@RequestParam String firstName, String surname){
+        ownerService.createOwner(firstName, surname);
+    }
+
     @PutMapping("/owners/{id}")
     public Owner updateOwner(@RequestBody HumanDTO newOwner, @PathVariable Long id){
         return ownerService.updateOwner(newOwner.getFirstname(), newOwner.getSurname(), id);
