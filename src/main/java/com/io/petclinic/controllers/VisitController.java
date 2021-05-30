@@ -26,9 +26,14 @@ public class VisitController {
         return visitService.findAllVisits().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    @GetMapping("/owners/{ownerId}/pets/{petId}/visits}")
+    @GetMapping("/owners/{ownerId}/pets/{petId}/visits")
     public List<VisitDTO> getPetAllVisits(@PathVariable Long ownerId, Long petId){
         return visitService.getAllPetVisits(petId).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    @GetMapping("/vets/{vetId}/visits")
+    public List<VisitDTO> getVetAllVisits(@PathVariable Long vetId){
+        return visitService.getAllVetVisits(vetId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     private VisitDTO convertToDTO(Visit visit){

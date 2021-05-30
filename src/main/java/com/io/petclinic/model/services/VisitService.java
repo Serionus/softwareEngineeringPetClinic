@@ -82,9 +82,7 @@ public class VisitService {
 //    }
 
     public List<Visit> getAllVetVisits(Long vetId) {
-        Vet wantedVet = vetRepository.findById(vetId)
-                .orElseThrow( () -> new VetNotFoundException(vetId));
-        return wantedVet.getVisits();
+        return visitRepository.findAllByVetVetId(vetId);
     }
 
     public List<Visit> getAllPetVisits(Long petId) {
