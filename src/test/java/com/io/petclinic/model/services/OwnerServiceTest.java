@@ -129,6 +129,8 @@ class OwnerServiceTest {
     void deleteOwner() {
          //Given
         Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
+
+        // czy obchodzi nas literowka, chyba nie
         long excpetedId = 1L;
 
         when(ownerRepository.findById(excpetedId)).thenReturn(Optional.of(ownerToBeDeleted));
