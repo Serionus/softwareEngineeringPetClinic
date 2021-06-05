@@ -10,7 +10,7 @@ import com.io.petclinic.model.services.PetService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+//Hania todo
 @RequestMapping("/owners/{id}")
 @RestController
 public class PetController {
@@ -20,10 +20,10 @@ public class PetController {
         this.petService = petService;
     }
 
-    @GetMapping("/pets")
-    public List<PetDTO> getAllPets() {
-        return (List<PetDTO>) petService.findAllPets().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies()));
-    }
+//    @GetMapping("/pets")
+//    public List<PetDTO> getAllPets() {
+//        return (List<PetDTO>) petService.findAllPets().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies()));
+//    }
 
     @GetMapping("/pets/{id}")
     public PetDTO getPet(@PathVariable Long id){

@@ -5,14 +5,21 @@ import java.time.LocalDateTime;
 public class VisitDTO {
     private LocalDateTime beginTime;
     private LocalDateTime endTime;
-    private String vetName;
+    private String vetFirstName;
+    private String vetSurname;
     private String petName;
+    private String petSpecies;
 
-    public VisitDTO(LocalDateTime beginTime, LocalDateTime endTime, String vetName, String petName) {
+    public VisitDTO() {
+    }
+
+    public VisitDTO(LocalDateTime beginTime, LocalDateTime endTime, String vetFirstName, String vetSurname ,String petName, String petSpecies) {
         this.beginTime = beginTime;
         this.endTime = endTime;
-        this.vetName = vetName;
+        this.vetFirstName = vetFirstName;
+        this.vetSurname = vetSurname;
         this.petName = petName;
+        this.petSpecies = petSpecies;
     }
 
     public LocalDateTime getBeginTime() {
@@ -31,12 +38,20 @@ public class VisitDTO {
         this.endTime = endTime;
     }
 
-    public String getVetName() {
-        return vetName;
+    public String getVetFirstName() {
+        return vetFirstName;
     }
 
-    public void setVetName(String vetName) {
-        this.vetName = vetName;
+    public void setVetFirstName(String vetFirstName) {
+        this.vetFirstName = vetFirstName;
+    }
+
+    public String getVetSurname() {
+        return vetSurname;
+    }
+
+    public void setVetSurname(String vetSurname) {
+        this.vetSurname = vetSurname;
     }
 
     public String getPetName() {
@@ -45,5 +60,13 @@ public class VisitDTO {
 
     public void setPetName(String petName) {
         this.petName = petName;
+    }
+
+    public String getPetSpecies() {
+        return petSpecies;
+    }
+
+    public void setPetSpecies(String petSpecies) {
+        this.petSpecies = petSpecies;
     }
 }

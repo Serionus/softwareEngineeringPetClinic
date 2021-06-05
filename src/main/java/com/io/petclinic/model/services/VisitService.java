@@ -2,7 +2,6 @@ package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.*;
 import com.io.petclinic.model.entities.Pet;
-import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VetRepository;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VisitService {
@@ -50,41 +50,32 @@ public class VisitService {
     }
 
     public List<Visit> findAllVisits() { return visitRepository.findAll(); }
-
-    public void deleteVisitById(Long id) {
-        visitRepository.deleteById(id);
+    
+    public void changeVisitDate(LocalDateTime newBeginTime, LocalDateTime newEndTime, Long id){
+        visitRepository.findById(id)
+                .map(visit -> {
+                    if (visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(newBeginTime, newEndTime).isEmpty()) {
+                        visit.setBeginTime(newBeginTime);
+                        visit.setEndTime(newEndTime);
+                        return visitRepository.save(visit);
+                    }
+                    try {
+                        throw new VisitTimeConflictException(id);
+                    } catch (VisitTimeConflictException e) {
+                        e.printStackTrace();
+                    }
+                    return Optional.empty();
+                })
+                .orElseThrow(() ->
+                        new VisitNotFoundException(id));
     }
 
-    public Visit updateVisit(Visit newVisit, Long id){
-        return visitRepository.findById(id)
-                .map( visit -> {
-                    visit.setBeginTime(newVisit.getBeginTime());
-                    visit.setEndTime(newVisit.getEndTime());
-                    visit.setVet(newVisit.getVet());
-                    visit.setPet(newVisit.getPet());
-                    return visitRepository.save(visit);
-                }).orElseGet( () -> {
-                    newVisit.setVisitId(id);
-                    return visitRepository.save(newVisit);
-                });
-    }
 
-
-
-//    public Visit findVisitByDate(LocalDateTime date){
-//        List<Visit> allVisits = visitRepository.findAll();
-//        for (Visit visit: allVisits) {
-//            if(visit.getBeginTime().isEqual(date)) { // lib LocalDateTime has its own isEqual method for comparing dates
-//                return visit;
-//            }
-//        }
-//        return null;
-//    }
+// na pamiątkę dla Hani
+//   if(visit.getBeginTime().isEqual(date)) { // lib LocalDateTime has its own isEqual method for comparing dates
 
     public List<Visit> getAllVetVisits(Long vetId) {
-        Vet wantedVet = vetRepository.findById(vetId)
-                .orElseThrow( () -> new VetNotFoundException(vetId));
-        return wantedVet.getVisits();
+        return visitRepository.findAllByVetVetId(vetId);
     }
 
     public List<Visit> getAllPetVisits(Long petId) {
@@ -99,8 +90,8 @@ public class VisitService {
     }
 
     public void deleteVisit(Long visitId){
-        Visit cancelledVisit = findVisitById(visitId);
-        cancelledVisit.setPet(null);
+        Visit deletedVisit = findVisitById(visitId);
+        deletedVisit.setPet(null);
         visitRepository.deleteById(visitId);
     }
 }

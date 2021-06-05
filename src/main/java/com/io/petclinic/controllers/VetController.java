@@ -25,16 +25,22 @@ public class VetController {
     }
 
     @GetMapping("/vets/{id}")
-    public Vet getVet(@PathVariable Long id){
-        return vetService.findVet(id);
+    public HumanDTO getVet(@PathVariable Long id){
+        Vet vet = vetService.findVet(id);
+        return new HumanDTO(vet.getFirstname(), vet.getSurname());
     }
 
-//    @PutMapping("/vets/{id}")
-//    public Vet updateVet(@RequestBody Vet newVet, @PathVariable Long id){
-//        return vetService.updateVet(newVet, id);
-//    }
+    @PostMapping("/vets/create-vet")
+    public void createVet(@RequestParam String firstName, String surname){
+        vetService.createVet(firstName, surname);
+    }
 
-    @DeleteMapping("vets/{id}")
+    @PutMapping("/vets/{id}/change-data")
+    public Vet updateVet(@RequestBody HumanDTO newVet, @PathVariable Long id){
+        return vetService.updateVet(newVet.getFirstname(), newVet.getSurname(), id);
+    }
+
+    @DeleteMapping("vets/{id}/delete")
     public void deleteVet(@PathVariable Long id){
         vetService.deleteVet(id);
     }

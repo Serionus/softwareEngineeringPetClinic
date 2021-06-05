@@ -32,12 +32,17 @@ public class OwnerController {
         return new HumanDTO(owner.getFirstname(), owner.getSurname());
     }
 
-    @PutMapping("/owners/{id}")
+    @PostMapping("/owners/create-owner")
+    public void createOwner(@RequestParam String firstName, String surname){
+        ownerService.createOwner(firstName, surname);
+    }
+
+    @PutMapping("/owners/{id}/change-data")
     public Owner updateOwner(@RequestBody HumanDTO newOwner, @PathVariable Long id){
         return ownerService.updateOwner(newOwner.getFirstname(), newOwner.getSurname(), id);
     }
 
-    @DeleteMapping("/owners/{id}")
+    @DeleteMapping("/owners/{id}/delete")
     public void delete(@PathVariable Long id){
         ownerService.deleteOwner(id);
     }
