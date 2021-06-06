@@ -1,5 +1,6 @@
 package com.io.petclinic.model.services;
 
+import com.io.petclinic.exceptions.CannotCreateVisitException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
@@ -15,11 +16,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.*;
@@ -59,10 +59,33 @@ class VisitServiceTest {
 
     @Test
     void canAddVisit() {
+        // Given / When
+        when(vetRepository.findById(createdVet.getVetId())).thenReturn(Optional.of(createdVet));
+        when(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime)).thenReturn(Collections.<Visit>emptyList());
         underTest.addVisit(createdVet.getVetId(),beginTime,endTime);
         ArgumentCaptor<Visit> visitArgumentCaptor = ArgumentCaptor.forClass(Visit.class);
 
+        // Then
         verify(visitRepository).save(visitArgumentCaptor.capture());
+    }
+
+    @Test
+    void cantAddOverlappingVisit() {
+        // Given
+        List<Visit> visitList = new ArrayList<>();
+        Visit conflictVisit = new Visit(createdVet, beginTime, endTime);
+        visitList.add(conflictVisit);
+
+//        when(vetRepository.findById(createdVet.getVetId())).thenReturn(Optional.of(createdVet));
+        when(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime)).thenReturn(visitList);
+
+        // When / Then
+
+//        verify(visitRepository).save(visitArgumentCaptor.capture());
+        assertThatThrownBy(() -> underTest.addVisit(createdVet.getVetId(),beginTime,endTime))
+                .isInstanceOf(CannotCreateVisitException.class)
+                .hasMessageContaining("There is already an existing visit at that time");
+
     }
 
     @Test

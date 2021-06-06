@@ -25,7 +25,7 @@ public class VisitService {
     }
 
     public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
-        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(endTime, beginTime).isEmpty()){
+        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).isEmpty()){
             visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
         } else {
             throw new CannotCreateVisitException();
