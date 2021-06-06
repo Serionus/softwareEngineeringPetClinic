@@ -1,6 +1,7 @@
 package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.OwnerNotFoundException;
+import com.io.petclinic.exceptions.OwnersPetNotFoundException;
 import com.io.petclinic.exceptions.PetNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
@@ -33,6 +34,10 @@ public class PetService {
 
     public Pet findPet(Long id){
         return petRepository.findById(id).orElseThrow(() -> new PetNotFoundException(id));
+    }
+
+    public Pet findPetByOwnerIdAndPetId(Long ownerId, Long petId) {
+        return petRepository.findPetByOwnerOwnerIdAndPetId(ownerId, petId).orElseThrow(() -> new OwnersPetNotFoundException(ownerId, petId));
     }
 
     public List<Pet> findAllPets(){

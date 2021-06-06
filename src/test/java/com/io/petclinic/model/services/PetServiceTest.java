@@ -1,6 +1,7 @@
 package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.OwnerNotFoundException;
+import com.io.petclinic.exceptions.PetNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.repositories.OwnerRepository;
@@ -51,8 +52,13 @@ class PetServiceTest {
     @Test
     void canCreatePet() {
         //a tutaj czegos brakuje todo
+        // Given / When
+        when(ownerRepository.findById(createdOwner.getOwnerId())).thenReturn(Optional.of(createdOwner));
+
         underTest.createPet(createdOwner.getOwnerId(), "McSnurtle", "Turtle");
         ArgumentCaptor<Pet> petArgumentCaptor = ArgumentCaptor.forClass(Pet.class);
+
+        // Then
         verify(petRepository).save(petArgumentCaptor.capture());
     }
 
@@ -120,16 +126,16 @@ class PetServiceTest {
     */
     //kopiowańsko kodu a nie ten sam wyjątek todo
     @Test
-    void shouldThrowOwnerException() {
+    void shouldThrowPetException() {
         // Given
 
-        when(ownerRepository.findById(1L)).thenThrow(new OwnerNotFoundException(1L));
+        when(petRepository.findById(1L)).thenThrow(new PetNotFoundException(1L));
 
 
         // Then
         assertThatThrownBy(() -> underTest.findPet(1L))
-                .isInstanceOf(OwnerNotFoundException.class)
-                .hasMessageContaining("No such owner with id = 1");
+                .isInstanceOf(PetNotFoundException.class)
+                .hasMessageContaining("No such pet with id = 1");
 
     }
 

@@ -35,24 +35,19 @@ public class PetController {
         return petService.findAllPets().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    // metoda pobierająca DTO dowolnego istniejącego peta (dla admina :))
     @GetMapping("/pets/{petId}")
     public PetDTO getPet(@PathVariable Long petId){
         Pet pet = petService.findPet(petId);
         return new PetDTO(pet.getName(), pet.getSpecies());
     }
     //prosze pamietac
+    // metoda pobierająca DTO peta danego ownera
     @GetMapping("/owners/{ownerId}/pets/{petId}")
-    public PetDTO getPet(@PathVariable Long ownerId, @PathVariable Long petId){
+    public PetDTO getPetOfCertainOwner(@PathVariable Long ownerId, @PathVariable Long petId){
         //ojej
-        Owner newOwner = ownerService.findOwner(ownerId);
-        List<Pet> allOwnersPets = newOwner.getPets();
-        int index = 0;
-        for (Pet pet: allOwnersPets) {
-            if(pet.getPetId().equals(petId)) {
-                index = allOwnersPets.indexOf(pet);
-            }
-        }
-       return new PetDTO(allOwnersPets.get(index).getName(), allOwnersPets.get(index).getSpecies());
+        Pet pet = petService.findPetByOwnerIdAndPetId(ownerId, petId);
+        return new PetDTO(pet.getName(), pet.getSpecies());
     }
 
     @PostMapping("/owners/{ownerId}/pets/add")
