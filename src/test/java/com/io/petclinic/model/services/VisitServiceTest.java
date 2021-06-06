@@ -92,14 +92,17 @@ class VisitServiceTest {
     void canAssignPetToVisit() {
         // Given
         Visit emptyVisit = new Visit(createdVet, beginTime, endTime);
-        emptyVisit.setPet(createdPet);
-
+        when(visitRepository.findById(1L)).thenReturn(Optional.of(emptyVisit));
+        when(petRepository.findById(2L)).thenReturn(Optional.of(createdPet));
         // When
-        Visit fullVisit = underTest.findVisitById(emptyVisit.getVisitId());
-        Pet assignedPet = fullVisit.getPet();
+        underTest.assignPetToVisit(2L, 1L);
 
         // Then
-        assertThat(assignedPet).isEqualTo(createdPet);
+        verify(petRepository).save(createdPet);
+        verify(visitRepository).save(emptyVisit);
+        //he said he's an expert
+        // HE HE
+        assertThat(emptyVisit.getPet()).isEqualTo(createdPet);
     }
 
     @Test
