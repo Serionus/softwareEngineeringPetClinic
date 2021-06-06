@@ -46,7 +46,7 @@ public class InitRepository {
 
             System.out.println("-----------------");
             System.out.println("Get all pets by owner's id:");
-            System.out.println(petService.getAllPets(1L));
+            System.out.println(petService.getAllPetsOfCertainOwner(1L));
 
             System.out.println("-----------------");
 //            System.out.println("Update owner...");
@@ -55,7 +55,7 @@ public class InitRepository {
             System.out.println("-----------------");
             System.out.println("Find all owners: ");
             System.out.println(ownerService.findAllOwners());
-            System.out.println(petService.getAllPets(1L));
+            System.out.println(petService.getAllPetsOfCertainOwner(1L));
 
             System.out.println("-----------------");
             System.out.println("Find pet by id: ");

@@ -11,6 +11,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 //Hania todo
 @RequestMapping("/owners/{id}")
 @RestController
@@ -27,16 +29,18 @@ public class PetController {
 
     @GetMapping("/pets")
     public List<PetDTO> getAllPets() {
-        //a po co nam modelmapper ;)
-        return (List<PetDTO>) petService.findAllPets().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies()));
+        //a po co nam modelmapper ;) azeby dzialalo
+        // nie robcie tego w domu
+//return (List<PetDTO>) petService.findAllPets().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies())).collect(Collectors.toList());
+        return petService.findAllPets().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    @GetMapping("/pets/{id}")
-    public PetDTO getPet(@PathVariable Long id){
-        Pet pet = petService.findPet(id);
+    @GetMapping("/pets/{petId}")
+    public PetDTO getPet(@PathVariable Long petId){
+        Pet pet = petService.findPet(petId);
         return new PetDTO(pet.getName(), pet.getSpecies());
     }
-
+    //prosze pamietac
     @GetMapping("/owners/{ownerId}/pets/{petId}")
     public PetDTO getPet(@PathVariable Long ownerId, @PathVariable Long petId){
         //ojej
@@ -57,14 +61,13 @@ public class PetController {
     }
 
     // zgodnie z objaśnieniami Michała i Amigosa
-    //Haniutek gapa todo
-    @PutMapping("/owners/{id}/pets/{petId}/change-data")
+    @PutMapping("/owners/{ownerId}/pets/{petId}/change-data")
     public Pet updatePet(@RequestBody PetDTO newPet, @PathVariable Long ownerId, @PathVariable Long petId){
         Owner newOwner = ownerService.findOwner(ownerId);
         return petService.updatePet(newPet.getName(), newPet.getSpecies(), newOwner, petId);
     }
 
-    @DeleteMapping("/owners/{id}/pets/pet{Id}/delete")
+    @DeleteMapping("/owners/{ownerId}/pets/pet{Id}/delete")
     public void delete(@PathVariable Long id){
         petService.deletePet(id);
     }

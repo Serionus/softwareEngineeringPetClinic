@@ -101,8 +101,7 @@ class VetServiceTest {
     @Test
     void shouldThrowVetException() {
         // Given todo
-        //hehe kopiowańsko kodu v2, kwiatków juz wincyj nie bedzie
-        when(vetRepository.findById(1L)).thenThrow(new OwnerNotFoundException(1L));
+        when(vetRepository.findById(1L)).thenThrow(new VetNotFoundException(1L));
 
         // When & Then
         assertThatThrownBy(() -> underTest.findVet(1L))
@@ -114,13 +113,7 @@ class VetServiceTest {
     @Test
     void deleteVet() {
         //Given
-//        Vet vetToBeDeleted = new Vet("Arthur", "Curry");
-
         long expectedId = 1L;
-        //todo
-        //Tutaj jest to zupełnie niepotrzebne (instancja obiektu vet oraz mockowanie findById), bo nie uzywamy tych metod
-        //roznica jest w ownerservice, gdzie w srodku wywolujemy findbyid todo
-//        when(vetRepository.findById(expectedId)).thenReturn(Optional.of(vetToBeDeleted));
         doNothing().when(vetRepository).deleteById(expectedId);
 
         // When

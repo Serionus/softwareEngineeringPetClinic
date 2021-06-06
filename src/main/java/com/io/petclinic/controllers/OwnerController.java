@@ -26,9 +26,9 @@ public class OwnerController {
         return ownerService.findAllOwners().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    @GetMapping("/owners/{id}")
-    public HumanDTO getOwner(@PathVariable Long id){
-        Owner owner = ownerService.findOwner(id);
+    @GetMapping("/owners/{ownerId}")
+    public HumanDTO getOwner(@PathVariable Long ownerId){
+        Owner owner = ownerService.findOwner(ownerId);
         return new HumanDTO(owner.getFirstname(), owner.getSurname());
     }
 
@@ -37,14 +37,14 @@ public class OwnerController {
         ownerService.createOwner(firstName, surname);
     }
 
-    @PutMapping("/owners/{id}/change-data")
-    public Owner updateOwner(@RequestBody HumanDTO newOwner, @PathVariable Long id){
-        return ownerService.updateOwner(newOwner.getFirstname(), newOwner.getSurname(), id);
+    @PutMapping("/owners/{ownerId}/change-data")
+    public Owner updateOwner(@RequestBody HumanDTO newOwner, @PathVariable Long ownerId){
+        return ownerService.updateOwner(newOwner.getFirstname(), newOwner.getSurname(), ownerId);
     }
 
-    @DeleteMapping("/owners/{id}/delete")
-    public void delete(@PathVariable Long id){
-        ownerService.deleteOwner(id);
+    @DeleteMapping("/owners/{ownerId}/delete")
+    public void delete(@PathVariable Long ownerId){
+        ownerService.deleteOwner(ownerId);
     }
 
     private HumanDTO convertToDTO(Owner owner){
