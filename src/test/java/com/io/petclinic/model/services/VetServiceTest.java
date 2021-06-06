@@ -2,7 +2,6 @@ package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.OwnerNotFoundException;
 import com.io.petclinic.exceptions.VetNotFoundException;
-import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.repositories.VetRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,7 +17,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
@@ -102,7 +100,8 @@ class VetServiceTest {
 
     @Test
     void shouldThrowVetException() {
-        // Given
+        // Given todo
+        //hehe kopiowańsko kodu v2, kwiatków juz wincyj nie bedzie
         when(vetRepository.findById(1L)).thenThrow(new OwnerNotFoundException(1L));
 
         // When & Then
@@ -115,11 +114,13 @@ class VetServiceTest {
     @Test
     void deleteVet() {
         //Given
-        Vet vetToBeDeleted = new Vet("Arthur", "Curry");
+//        Vet vetToBeDeleted = new Vet("Arthur", "Curry");
 
         long expectedId = 1L;
-
-        when(vetRepository.findById(expectedId)).thenReturn(Optional.of(vetToBeDeleted));
+        //todo
+        //Tutaj jest to zupełnie niepotrzebne (instancja obiektu vet oraz mockowanie findById), bo nie uzywamy tych metod
+        //roznica jest w ownerservice, gdzie w srodku wywolujemy findbyid todo
+//        when(vetRepository.findById(expectedId)).thenReturn(Optional.of(vetToBeDeleted));
         doNothing().when(vetRepository).deleteById(expectedId);
 
         // When

@@ -93,8 +93,11 @@ public class InitRepository {
             LocalDateTime teraz = LocalDateTime.now();
             LocalDateTime potem = LocalDateTime.now().plusHours(1);
             visitService.addVisit(8L, teraz, potem);
+            visitService.addVisit(8L, teraz, potem);
+            visitService.addVisit(9L, teraz, potem);
             System.out.println(visitService.findAllVisits());
-            visitService.assignPetToVisit(7L, 10L);
+            visitService.assignPetToVisit(5L, 10L);
+
             System.out.println("\n");
 //            System.out.println(visitService.findAllVisits());
 //            System.out.println("\n");

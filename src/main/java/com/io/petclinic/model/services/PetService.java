@@ -63,6 +63,6 @@ public class PetService {
             visit.setPet(null);
             visitRepository.save(visit);
         }
-        petRepository.delete(findPet(petId));
+        petRepository.deleteById(petId);
     }
 }

@@ -7,8 +7,6 @@ import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
-import jdk.vm.ci.meta.Local;
-import org.assertj.core.annotations.Beta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,9 +14,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;

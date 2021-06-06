@@ -27,6 +27,7 @@ public class PetController {
 
     @GetMapping("/pets")
     public List<PetDTO> getAllPets() {
+        //a po co nam modelmapper ;)
         return (List<PetDTO>) petService.findAllPets().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies()));
     }
 
@@ -38,6 +39,7 @@ public class PetController {
 
     @GetMapping("/owners/{ownerId}/pets/{petId}")
     public PetDTO getPet(@PathVariable Long ownerId, @PathVariable Long petId){
+        //ojej
         Owner newOwner = ownerService.findOwner(ownerId);
         List<Pet> allOwnersPets = newOwner.getPets();
         int index = 0;
@@ -55,6 +57,7 @@ public class PetController {
     }
 
     // zgodnie z objaśnieniami Michała i Amigosa
+    //Haniutek gapa todo
     @PutMapping("/owners/{id}/pets/{petId}/change-data")
     public Pet updatePet(@RequestBody PetDTO newPet, @PathVariable Long ownerId, @PathVariable Long petId){
         Owner newOwner = ownerService.findOwner(ownerId);

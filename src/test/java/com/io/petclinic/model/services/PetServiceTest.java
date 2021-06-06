@@ -45,10 +45,12 @@ class PetServiceTest {
     void setUp() {
         underTest = new PetService(petRepository, visitRepository, ownerRepository);
         createdOwner = new Owner("Oliver", "Queen");
+
     }
 
     @Test
     void canCreatePet() {
+        //a tutaj czegos brakuje todo
         underTest.createPet(createdOwner.getOwnerId(), "McSnurtle", "Turtle");
         ArgumentCaptor<Pet> petArgumentCaptor = ArgumentCaptor.forClass(Pet.class);
         verify(petRepository).save(petArgumentCaptor.capture());
@@ -116,9 +118,11 @@ class PetServiceTest {
         chociaż po petID a nie ownerID
         czy ten test jest potrzebny?
     */
+    //kopiowańsko kodu a nie ten sam wyjątek todo
     @Test
     void shouldThrowOwnerException() {
         // Given
+
         when(ownerRepository.findById(1L)).thenThrow(new OwnerNotFoundException(1L));
 
 
@@ -137,13 +141,15 @@ class PetServiceTest {
         long expectedId = 1L;
 
         // When
+
         when(petRepository.findById(expectedId)).thenReturn(Optional.of(petToBeDeleted));
-        doNothing().when(petRepository).deleteByPetId(expectedId);
+        doNothing().when(petRepository).deleteById(expectedId);
 
         underTest.deletePet(expectedId);
 
         // Then
-        verify(petRepository).deleteByPetId(expectedId);
+        //zbombiony delete  todo
+        verify(petRepository).deleteById(expectedId);
 
     }
 }
