@@ -40,6 +40,11 @@ public class VisitController {
         visitService.deleteVisit(visitId);
     }
 
+    @PostMapping("/vets/{vetId}/visits/create-visit")
+    public void createVisit(@PathVariable Long vetId, @RequestBody VisitDTO visit) {
+        visitService.addVisit(vetId, visit.getBeginTime(), visit.getEndTime());
+    }
+
     @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/cancel}")
     public void cancelVisitForPet(@PathVariable Long ownerId, Long petId,Long visitId){
         visitService.cancelVisit(visitId);
