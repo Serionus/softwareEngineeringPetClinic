@@ -75,14 +75,11 @@ class VisitServiceTest {
         List<Visit> visitList = new ArrayList<>();
         Visit conflictVisit = new Visit(createdVet, beginTime, endTime);
         visitList.add(conflictVisit);
-
-//        when(vetRepository.findById(createdVet.getVetId())).thenReturn(Optional.of(createdVet));
-        when(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime)).thenReturn(visitList);
+//
+        when(visitRepository.findAll()).thenReturn(visitList);
 
         // When / Then
-
-//        verify(visitRepository).save(visitArgumentCaptor.capture());
-        assertThatThrownBy(() -> underTest.addVisit(createdVet.getVetId(),beginTime,endTime))
+        assertThatThrownBy(() -> underTest.addVisit(createdVet.getVetId(),beginTime.plusMinutes(2),endTime.minusMinutes(5)))
                 .isInstanceOf(CannotCreateVisitException.class)
                 .hasMessageContaining("There is already an existing visit at that time");
 
