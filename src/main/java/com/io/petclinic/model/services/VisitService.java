@@ -50,7 +50,11 @@ public class VisitService {
     }
 
     public List<Visit> findAllVisits() { return visitRepository.findAll(); }
-    
+
+    public List<Visit> findAllVisitsByPet(Long petId) { return visitRepository.findAllByPetPetId(petId); }
+
+    public List<Visit> findAllVisitsByVet(Long vetId) { return visitRepository.findAllByVetVetId(vetId); }
+
     public void changeVisitDate(LocalDateTime newBeginTime, LocalDateTime newEndTime, Long id){
         visitRepository.findById(id)
                 .map(visit -> {

@@ -130,6 +130,7 @@ class VisitServiceTest {
     void shouldFindVisitById() {
         // Given
         Visit expectedVisit = new Visit(createdVet, beginTime, endTime);
+        when(visitRepository.findById(expectedVisit.getVisitId())).thenReturn(Optional.of(expectedVisit));
 
         // When
         Visit returnedVisit = underTest.findVisitById(expectedVisit.getVisitId());
@@ -160,10 +161,10 @@ class VisitServiceTest {
 
         //When
         when(visitRepository.findAllByVetVetId(createdVet.getVetId())).thenReturn(expectedList);
-        List<Visit> allVisits = underTest.findAllVisits();
+        List<Visit> allVisits = underTest.findAllVisitsByVet(createdVet.getVetId());
 
         //Then
-        verify(visitRepository).findAll();
+        verify(visitRepository).findAllByVetVetId(createdVet.getVetId());
         assertThat(allVisits).containsExactlyElementsOf(expectedList);
     }
 
@@ -174,6 +175,7 @@ class VisitServiceTest {
         LocalDateTime endTimeTwo = beginTimeTwo.plusMinutes(20);
 
         Pet assignedPet = new Pet("Cerberus", "Dog", createdOwner);
+        assignedPet.setPetId(1L);
 
         Visit firstVisit =  new Visit(createdVet, beginTime, endTime);
         Visit secondVisit = new Visit(secondVisitVet, beginTimeTwo, endTimeTwo);
@@ -187,20 +189,30 @@ class VisitServiceTest {
                 secondVisit);
 
         //When
-        when(visitRepository.findAllByPetPetId(assignedPet.getPetId())).thenReturn(expectedList);
-        List<Visit> allVisits = underTest.findAllVisits();
+        when(visitRepository.findAllByPetPetId(1L)).thenReturn(expectedList);
+        List<Visit> allVisits = underTest.findAllVisitsByPet(1L);
 
         //Then
-        verify(visitRepository).findAll();
+        verify(visitRepository).findAllByPetPetId(1L);
         assertThat(allVisits).containsExactlyElementsOf(expectedList);
     }
 
     @Test
-    void cancelVisit() {
+    void canCancelVisit() {
+        Visit visitToBeCanceled = new Visit(createdVet, beginTime, endTime);
+        visitToBeCanceled.setPet(createdPet);
+
+        when(visitRepository.findById(visitToBeCanceled.getVisitId())).thenReturn(Optional.of(visitToBeCanceled));
+
+        underTest.cancelVisit(visitToBeCanceled.getVisitId());
+
+        verify(visitRepository).save(visitToBeCanceled);
+        assertThat(visitToBeCanceled.getPet()).isNull();
+
     }
 
     @Test
-    void deleteVisit() {
+    void canDeleteVisit() {
         //Given
         Visit visitToBeDeleted = new Visit(createdVet, beginTime, endTime);
 
