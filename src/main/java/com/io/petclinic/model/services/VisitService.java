@@ -25,10 +25,13 @@ public class VisitService {
     }
 
     public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
-        if(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).isEmpty()){
-            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
-        } else {
+        //visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).isEmpty()
+        System.out.println("detektyw gadżet");
+        if((visitRepository.findAll().stream().anyMatch(visit -> beginTime.isAfter(visit.getBeginTime()) && endTime.isBefore(visit.getEndTime())))){
             throw new CannotCreateVisitException();
+        } else {
+            System.out.println("co");
+            visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
         }
     }
 

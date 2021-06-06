@@ -61,7 +61,7 @@ class VisitServiceTest {
     void canAddVisit() {
         // Given / When
         when(vetRepository.findById(createdVet.getVetId())).thenReturn(Optional.of(createdVet));
-        when(visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime)).thenReturn(Collections.<Visit>emptyList());
+
         underTest.addVisit(createdVet.getVetId(),beginTime,endTime);
         ArgumentCaptor<Visit> visitArgumentCaptor = ArgumentCaptor.forClass(Visit.class);
 

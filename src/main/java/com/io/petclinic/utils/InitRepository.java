@@ -92,10 +92,14 @@ public class InitRepository {
             System.out.println(vetService.findAllVets());
             LocalDateTime teraz = LocalDateTime.now();
             LocalDateTime potem = LocalDateTime.now().plusHours(1);
-            LocalDateTime jakasData = LocalDateTime.of(1999, 12, 20, 20, 20);
-            LocalDateTime jakasDataPoGodzinie = LocalDateTime.of(1999, 12, 20, 21, 20);
-            visitService.addVisit(8L, jakasData, jakasDataPoGodzinie);
-            visitService.addVisit(8L, jakasData, jakasDataPoGodzinie);
+//            LocalDateTime jakasData = LocalDateTime.of(1999, 12, 20, 20, 20);
+            LocalDateTime jakasData = LocalDateTime.now().plusMinutes(1);
+//            LocalDateTime jakasDataPoGodzinie = LocalDateTime.of(1999, 12, 20, 21, 20);
+            LocalDateTime jakasDataPoGodzinie = jakasData.plusMinutes(20);
+            visitService.addVisit(8L, teraz, potem);
+            System.out.println("powrot do korzeni");
+            System.out.println(visitService.findAllVisits());
+//            visitService.addVisit(8L, jakasData, jakasDataPoGodzinie);
 //            visitService.addVisit(9L, teraz, potem);
             System.out.println("halo");
             System.out.println(visitService.findAllVisits());
