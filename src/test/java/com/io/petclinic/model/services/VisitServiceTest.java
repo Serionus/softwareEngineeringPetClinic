@@ -142,7 +142,23 @@ class VisitServiceTest {
     }
 
     @Test
-    void updateVisit() {
+    void canUpdateVisit() {
+        Visit existingVisit = new Visit(createdVet, beginTime, endTime);
+        existingVisit.setVisitId(1L);
+        LocalDateTime newBeginTime = LocalDateTime.of(1999, 10, 10, 12, 10);
+        LocalDateTime newEndTime = LocalDateTime.of(1999, 10, 10, 13, 10);
+
+        Visit visitAfterUpdate = new Visit(createdVet, newBeginTime, newEndTime);
+        visitAfterUpdate.setVisitId(1L);
+
+        when(visitRepository.findById(1L)).thenReturn(Optional.of(existingVisit));
+        when(visitRepository.save(existingVisit)).thenReturn(visitAfterUpdate);
+
+        underTest.changeVisitDate(newBeginTime, newEndTime, 1L);
+
+        verify(visitRepository).findById(existingVisit.getVisitId());
+        verify(visitRepository).save(visitAfterUpdate);
+
     }
 
     @Test
