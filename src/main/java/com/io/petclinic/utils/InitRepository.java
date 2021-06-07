@@ -97,14 +97,20 @@ public class InitRepository {
 //            LocalDateTime jakasDataPoGodzinie = LocalDateTime.of(1999, 12, 20, 21, 20);
             LocalDateTime jakasDataPoGodzinie = jakasData.plusMinutes(20);
             visitService.addVisit(8L, teraz, potem);
+            visitService.addVisit(8L, teraz.plusHours(1), teraz.plusHours(2));
+            visitService.addVisit(8L, teraz.plusHours(2), teraz.plusHours(3));
+            visitService.addVisit(8L, teraz.plusHours(3), teraz.plusHours(4));
             System.out.println("powrot do korzeni");
             System.out.println(visitService.findAllVisits());
 //            visitService.addVisit(8L, jakasData, jakasDataPoGodzinie);
 //            visitService.addVisit(9L, teraz, potem);
             System.out.println("halo");
-            System.out.println(visitService.findAllVisits());
-            visitService.assignPetToVisit(5L, 10L);
 
+            visitService.assignPetToVisit(5L, 10L);
+            visitService.assignPetToVisit(5L, 11L);
+            visitService.assignPetToVisit(5L, 12L);
+            visitService.assignPetToVisit(5L, 13L);
+            System.out.println(visitService.findAllVisits());
 //            System.out.println(visitService.findAllVisits());
 //            System.out.println("\n");
 //            System.out.println("testy usuniec");

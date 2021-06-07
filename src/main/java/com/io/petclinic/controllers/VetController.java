@@ -24,9 +24,9 @@ public class VetController {
         return vetService.findAllVets().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
-    @GetMapping("/vets/{id}")
-    public HumanDTO getVet(@PathVariable Long id){
-        Vet vet = vetService.findVet(id);
+    @GetMapping("/vets/{vetId}")
+    public HumanDTO getVet(@PathVariable Long vetId){
+        Vet vet = vetService.findVet(vetId);
         return new HumanDTO(vet.getFirstname(), vet.getSurname());
     }
 
@@ -35,14 +35,14 @@ public class VetController {
         vetService.createVet(firstName, surname);
     }
 
-    @PutMapping("/vets/{id}/change-data")
-    public Vet updateVet(@RequestBody HumanDTO newVet, @PathVariable Long id){
-        return vetService.updateVet(newVet.getFirstname(), newVet.getSurname(), id);
+    @PutMapping("/vets/{vetId}/change-data")
+    public Vet updateVet(@RequestBody HumanDTO newVet, @PathVariable Long vetId){
+        return vetService.updateVet(newVet.getFirstname(), newVet.getSurname(), vetId);
     }
 
-    @DeleteMapping("vets/{id}/delete")
-    public void deleteVet(@PathVariable Long id){
-        vetService.deleteVet(id);
+    @DeleteMapping("vets/{vetId}/delete")
+    public void deleteVet(@PathVariable Long vetId){
+        vetService.deleteVet(vetId);
     }
 
     private HumanDTO convertToDTO(Vet vet){

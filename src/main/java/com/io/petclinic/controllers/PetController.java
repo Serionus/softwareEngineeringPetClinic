@@ -1,7 +1,5 @@
 package com.io.petclinic.controllers;
 
-
-import com.io.petclinic.controllers.entities.HumanDTO;
 import com.io.petclinic.controllers.entities.PetDTO;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
@@ -13,8 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//Hania todo
-@RequestMapping("/owners/{id}")
+
 @RestController
 public class PetController {
     private final PetService petService;
@@ -30,8 +27,6 @@ public class PetController {
     @GetMapping("/pets")
     public List<PetDTO> getAllPets() {
         //a po co nam modelmapper ;) azeby dzialalo
-        // nie robcie tego w domu
-//return (List<PetDTO>) petService.findAllPets().stream().map(pet -> new PetDTO(pet.getName(), pet.getSpecies())).collect(Collectors.toList());
         return petService.findAllPets().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -48,6 +43,12 @@ public class PetController {
         //ojej
         Pet pet = petService.findPetByOwnerIdAndPetId(ownerId, petId);
         return new PetDTO(pet.getName(), pet.getSpecies());
+    }
+
+    @GetMapping("/owners/{ownerId}/pets")
+    public List<PetDTO> getPetOfCertainOwner(@PathVariable Long ownerId){
+        //ojej
+        return petService.getAllPetsOfCertainOwner(ownerId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     @PostMapping("/owners/{ownerId}/pets/add")
