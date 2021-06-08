@@ -36,7 +36,7 @@ public class VisitService {
                         || endTime.isEqual(visit.getEndTime())
                 )
             )
-        ) {
+        || beginTime.isEqual(endTime) || beginTime.isAfter(endTime) ) {
             throw new CannotCreateVisitException();
         } else {
             visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
