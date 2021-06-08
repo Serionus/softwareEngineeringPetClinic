@@ -39,7 +39,7 @@ public class OwnerController {
 
     @PutMapping("/owners/{ownerId}/change-data")
     public Owner updateOwner(@RequestBody HumanDTO newOwner, @PathVariable Long ownerId){
-        return ownerService.updateOwner(newOwner.getFirstname(), newOwner.getSurname(), ownerId);
+        return ownerService.updateOwner(newOwner.getFirstname(), newOwner.getSurname(), ownerId).get();
     }
 
     @DeleteMapping("/owners/{ownerId}/delete")

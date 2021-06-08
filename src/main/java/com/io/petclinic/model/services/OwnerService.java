@@ -35,18 +35,14 @@ public class OwnerService {
         return ownerRepository.findById(ownerId).orElseThrow(() -> new OwnerNotFoundException(ownerId));
     }
 
-    public Owner updateOwner(String newFirstName, String newSurname, Long ownerId){
+    public Optional<Owner> updateOwner(String newFirstName, String newSurname, Long ownerId){
         Optional<Owner> ownerToBeUpdated = ownerRepository.findById(ownerId);
-        if(!ownerToBeUpdated.isPresent()) {
-            Owner updatedOwner = new Owner(newFirstName, newSurname, ownerToBeUpdated.get().getLogin(), ownerToBeUpdated.get().getPassword());
-            return ownerRepository.findById(ownerId)
+        if(ownerToBeUpdated.isPresent()) {
+            return ownerToBeUpdated
                     .map(owner -> {
-                        owner.setFirstname(updatedOwner.getFirstname());
-                        owner.setSurname(updatedOwner.getSurname());
+                        owner.setFirstname(newFirstName);
+                        owner.setSurname(newSurname);
                         return ownerRepository.save(owner);
-                    }).orElseGet(() -> {
-                        updatedOwner.setOwnerId(ownerId);
-                        return ownerRepository.save(updatedOwner);
                     });
         }
         throw new OwnerNotFoundException(ownerId);

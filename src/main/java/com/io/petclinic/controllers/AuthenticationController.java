@@ -21,19 +21,19 @@ public class AuthenticationController {
     private String jwtSecret;
 
 
-    @CrossOrigin
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserCredentialsDTO userCredentials) {
-        //funkcja sprawdzająca czy istnieje użytkownik o danym loginie i haśle
-        //i wyciagajaca typ i id usera
-        if (username.equals(userCredentials.getLogin()) && password
-                .equals(userCredentials.getPassword())) {
-            String token = JWT.create()
-                    .withSubject(username)
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
-                    .sign(Algorithm.HMAC256(jwtSecret));
-            return ResponseEntity.ok(new TokenDTO(token, type, id));
-        }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+//    @CrossOrigin
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(@RequestBody UserCredentialsDTO userCredentials) {
+//        //funkcja sprawdzająca czy istnieje użytkownik o danym loginie i haśle
+//        //i wyciagajaca typ i id usera
+//        if (username.equals(userCredentials.getLogin()) && password
+//                .equals(userCredentials.getPassword())) {
+//            String token = JWT.create()
+//                    .withSubject(username)
+//                    .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
+//                    .sign(Algorithm.HMAC256(jwtSecret));
+//            return ResponseEntity.ok(new TokenDTO(token, type, id));
+//        }
+//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+//    }
 }

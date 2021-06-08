@@ -105,21 +105,21 @@ class OwnerServiceTest {
         //Given
         Owner ownerToBeUpdated = new Owner("Edward", "Nigma", "test", "test");
         Owner ownerExpectedAfterUpdate = new Owner("update", "test", "test", "test");
-        long excpetedId = 1L;
-        ownerToBeUpdated.setOwnerId(excpetedId);
-        ownerExpectedAfterUpdate.setOwnerId(excpetedId);
+        long expectedId = 1L;
+        ownerToBeUpdated.setOwnerId(expectedId);
+        ownerExpectedAfterUpdate.setOwnerId(expectedId);
 
-        when(ownerRepository.findById(excpetedId)).thenReturn(Optional.of(ownerToBeUpdated));
+        when(ownerRepository.findById(expectedId)).thenReturn(Optional.of(ownerToBeUpdated));
         when(ownerRepository.save(ownerExpectedAfterUpdate)).thenReturn(ownerExpectedAfterUpdate);
 
         //When
-        Owner updatedOwner = underTest.updateOwner("update", "test", 1L);
+        Optional<Owner> updatedOwner = underTest.updateOwner("update", "test", 1L);
 
         //Then
-        assertThat(updatedOwner.getFirstname()).isEqualTo("update");
-        assertThat(updatedOwner.getSurname()).isEqualTo("test");
+        assertThat(updatedOwner.get().getFirstname()).isEqualTo("update");
+        assertThat(updatedOwner.get().getSurname()).isEqualTo("test");
         verify(ownerRepository).findById(ownerToBeUpdated.getOwnerId());
-        verify(ownerRepository).save(updatedOwner);
+        verify(ownerRepository).save(updatedOwner.get());
 
 
 

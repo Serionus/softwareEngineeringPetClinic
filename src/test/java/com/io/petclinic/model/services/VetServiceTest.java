@@ -89,13 +89,13 @@ class VetServiceTest {
         when(vetRepository.findById(expectedId)).thenReturn(Optional.of(vetToBeUpdated));
         when(vetRepository.save(vetExpectedAfterUpdate)).thenReturn(vetExpectedAfterUpdate);
 
-        Vet updatedVet = underTest.updateVet("Wonder", "Woman", 42L);
+        Optional<Vet> updatedVet = underTest.updateVet("Wonder", "Woman", 42L);
 
         // Then
-        assertThat(updatedVet.getFirstname()).isEqualTo("Wonder");
-        assertThat(updatedVet.getSurname()).isEqualTo("Woman");
+        assertThat(updatedVet.get().getFirstname()).isEqualTo("Wonder");
+        assertThat(updatedVet.get().getSurname()).isEqualTo("Woman");
         verify(vetRepository).findById(vetToBeUpdated.getVetId());
-        verify(vetRepository).save(updatedVet);
+        verify(vetRepository).save(updatedVet.get());
     }
 
     @Test

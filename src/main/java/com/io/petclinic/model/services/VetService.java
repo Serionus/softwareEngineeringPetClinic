@@ -29,18 +29,14 @@ public class VetService {
         return vetRepository.findAll();
     }
 
-    public Vet updateVet(String newFirstname,String newSurname, Long vetId){
+    public Optional<Vet> updateVet(String newFirstname, String newSurname, Long vetId){
         Optional<Vet> vetToBeUpdated = vetRepository.findById(vetId);
         if(vetToBeUpdated.isPresent()) {
-            Vet updatedVet = new Vet(newFirstname, newSurname, vetToBeUpdated.get().getLogin(), vetToBeUpdated.get().getPassword());
-            return vetRepository.findById(vetId)
+            return vetToBeUpdated
                     .map(vet -> {
                         vet.setFirstname(newFirstname);
                         vet.setSurname(newSurname);
                         return vetRepository.save(vet);
-                    }).orElseGet(() -> {
-                        updatedVet.setVetId(vetId);
-                        return vetRepository.save(updatedVet);
                     });
         }
         throw new VetNotFoundException(vetId);

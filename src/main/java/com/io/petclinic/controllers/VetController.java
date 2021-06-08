@@ -38,7 +38,7 @@ public class VetController {
 
     @PutMapping("/vets/{vetId}/change-data")
     public Vet updateVet(@RequestBody HumanDTO newVet, @PathVariable Long vetId){
-        return vetService.updateVet(newVet.getFirstname(), newVet.getSurname(), vetId);
+        return vetService.updateVet(newVet.getFirstname(), newVet.getSurname(), vetId).get();
     }
 
     @DeleteMapping("vets/{vetId}/delete")
