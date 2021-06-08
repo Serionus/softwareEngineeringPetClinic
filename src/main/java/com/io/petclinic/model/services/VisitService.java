@@ -26,10 +26,9 @@ public class VisitService {
 
     public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
         //visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(beginTime, endTime).isEmpty()
-        if((visitRepository.findAll().stream().anyMatch(visit -> beginTime.isAfter(visit.getBeginTime())
-                && beginTime.isBefore(visit.getEndTime())
-                && endTime.isAfter(visit.getBeginTime())
-                && endTime.isBefore(visit.getEndTime())))){
+        if(visitRepository.findAll().stream().anyMatch(
+                visit -> ( beginTime.isAfter(visit.getBeginTime()) && beginTime.isBefore(visit.getEndTime()) )
+                || ( endTime.isAfter(visit.getBeginTime()) && endTime.isBefore(visit.getEndTime()) ) ) ) {
             throw new CannotCreateVisitException();
         } else {
             visitRepository.save(new Visit(vetRepository.findById(vetId).orElseThrow(() -> new VetNotFoundException(vetId)), beginTime, endTime));
