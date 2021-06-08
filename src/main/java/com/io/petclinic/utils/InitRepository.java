@@ -104,7 +104,7 @@ public class InitRepository {
 //            visitService.addVisit(9L, teraz, potem);
             System.out.println("halo");
 
-            visitService.assignPetToVisit(5L, 10L);
+//            visitService.assignPetToVisit(5L, 10L);
 
             System.out.println(visitService.findAllVisits());
 //            System.out.println(visitService.findAllVisits());
