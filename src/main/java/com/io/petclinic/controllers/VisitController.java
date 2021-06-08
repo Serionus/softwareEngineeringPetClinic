@@ -53,7 +53,7 @@ public class VisitController {
     }
     // 请您跟您的小狗取来 ♥
     @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/assign")
-    public void assignPetToVisit(@PathVariable Long ownerId, Long petId, Long visitId) {
+    public void assignPetToVisit(@PathVariable Long ownerId, @PathVariable Long petId, @PathVariable Long visitId) {
         visitService.assignPetToVisit(petId, visitId);
     }
 
