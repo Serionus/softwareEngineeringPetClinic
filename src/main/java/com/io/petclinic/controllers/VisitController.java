@@ -7,6 +7,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,9 +43,9 @@ public class VisitController {
 
     @PostMapping("/vets/{vetId}/visits/create-visit")
     public void createVisit(@PathVariable Long vetId, @RequestParam String beginTime, String endTime) {
-        visitService.addVisit(vetId, LocalDateTime.parse(beginTime), LocalDateTime.parse(endTime));
+        visitService.addVisit(vetId, LocalDateTime.parse(beginTime, DateTimeFormatter.ISO_DATE_TIME), LocalDateTime.parse(endTime, DateTimeFormatter.ISO_DATE_TIME));
     }
-
+//"YY-MM-DD-THH:mm:ss:SS"
     @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/cancel}")
     public void cancelVisitForPet(@PathVariable Long ownerId, Long petId,Long visitId){
         visitService.cancelVisit(visitId);
