@@ -9,17 +9,19 @@ public class VisitDTO {
     private String vetSurname;
     private String petName;
     private String petSpecies;
+    private Long visitId;
 
     public VisitDTO() {
     }
 
-    public VisitDTO(LocalDateTime beginTime, LocalDateTime endTime, String vetFirstName, String vetSurname ,String petName, String petSpecies) {
+    public VisitDTO(LocalDateTime beginTime, LocalDateTime endTime, String vetFirstName, String vetSurname ,String petName, String petSpecies, Long visitId) {
         this.beginTime = beginTime;
         this.endTime = endTime;
         this.vetFirstName = vetFirstName;
         this.vetSurname = vetSurname;
         this.petName = petName;
         this.petSpecies = petSpecies;
+        this.visitId = visitId;
     }
 
     public LocalDateTime getBeginTime() {
@@ -68,5 +70,13 @@ public class VisitDTO {
 
     public void setPetSpecies(String petSpecies) {
         this.petSpecies = petSpecies;
+    }
+
+    public Long getVisitId() {
+        return visitId;
+    }
+
+    public void setVisitId(Long visitId) {
+        this.visitId = visitId;
     }
 }
