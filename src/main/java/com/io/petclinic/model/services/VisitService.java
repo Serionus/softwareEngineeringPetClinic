@@ -68,8 +68,8 @@ public class VisitService {
 
     public List<Visit> findAllVisitsByVet(Long vetId) { return visitRepository.findAllByVetVetId(vetId); }
 
-    public void changeVisitDate(LocalDateTime newBeginTime, LocalDateTime newEndTime, Long id){
-        visitRepository.findById(id)
+    public void changeVisitDate(LocalDateTime newBeginTime, LocalDateTime newEndTime, Long visitId){
+        visitRepository.findById(visitId)
                 .map(visit -> {
                     if (visitRepository.findAllByBeginTimeAfterAndEndTimeBefore(newBeginTime, newEndTime).isEmpty()) {
                         visit.setBeginTime(newBeginTime);
@@ -77,14 +77,14 @@ public class VisitService {
                         return visitRepository.save(visit);
                     }
                     try {
-                        throw new VisitTimeConflictException(id);
+                        throw new VisitTimeConflictException(visitId);
                     } catch (VisitTimeConflictException e) {
                         e.printStackTrace();
                     }
                     return Optional.empty();
                 })
                 .orElseThrow(() ->
-                        new VisitNotFoundException(id));
+                        new VisitNotFoundException(visitId));
     }
 
 
