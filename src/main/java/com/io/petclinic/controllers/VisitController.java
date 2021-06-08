@@ -41,8 +41,8 @@ public class VisitController {
     }
 
     @PostMapping("/vets/{vetId}/visits/create-visit")
-    public void createVisit(@PathVariable Long vetId, @RequestBody VisitDTO visit) {
-        visitService.addVisit(vetId, visit.getBeginTime(), visit.getEndTime());
+    public void createVisit(@PathVariable Long vetId, @RequestParam LocalDateTime beginTime, LocalDateTime endTime) {
+        visitService.addVisit(vetId, beginTime, endTime);
     }
 
     @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/cancel}")
