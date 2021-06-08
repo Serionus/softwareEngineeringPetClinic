@@ -28,7 +28,7 @@ public class VisitController {
     }
 
     @GetMapping("/owners/{ownerId}/pets/{petId}/visits")
-    public List<VisitDTO> getPetAllVisits(@PathVariable Long ownerId, Long petId){
+    public List<VisitDTO> getPetAllVisits(@PathVariable Long ownerId, @PathVariable Long petId){
         return visitService.getAllPetVisits(petId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
@@ -48,12 +48,12 @@ public class VisitController {
     }
 //"YY-MM-DD-THH:mm:ss:SS"
     @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/cancel}")
-    public void cancelVisitForPet(@PathVariable Long ownerId, Long petId,Long visitId){
+    public void cancelVisitForPet(@PathVariable Long ownerId, @PathVariable Long petId, @PathVariable Long visitId){
         visitService.cancelVisit(visitId);
     }
     // 请您跟您的小狗取来 ♥
     @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/assign")
-    public void assignPetToVisit(@PathVariable Long ownerId, Long petId, Long visitId) {
+    public void assignPetToVisit(@PathVariable Long ownerId, @PathVariable Long petId, @PathVariable Long visitId) {
         visitService.assignPetToVisit(petId, visitId);
     }
 
