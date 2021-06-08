@@ -38,8 +38,10 @@ public class VisitService {
 
     public void assignPetToVisit(Long petId, Long visitId){
         Visit wantedVisit = findVisitById(visitId);
+        System.out.println(wantedVisit.getVisitId());
         if(wantedVisit.getPet() == null){
             Pet wantedPet = petRepository.findById(petId).orElseThrow( () -> new PetNotFoundException(petId));
+            System.out.println(wantedPet.getPetId());
             wantedVisit.setPet(wantedPet);
             wantedPet.getVisits().add(wantedVisit);
             petRepository.save(wantedPet);
