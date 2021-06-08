@@ -1,12 +1,15 @@
-package com.io.petclinic.configuration.security;
+package com.io.petclinic.controllers.entities;
 
-public class UserCredentials {
+public class UserCredentialsDTO {
     private String login;
     private String password;
 
-    public UserCredentials(String login, String password) {
+    public UserCredentialsDTO(String login, String password) {
         this.login = login;
         this.password = password;
+    }
+
+    public UserCredentialsDTO() {
     }
 
     public String getLogin() {
@@ -24,4 +27,5 @@ public class UserCredentials {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

@@ -45,7 +45,7 @@ class PetServiceTest {
     @BeforeEach
     void setUp() {
         underTest = new PetService(petRepository, visitRepository, ownerRepository);
-        createdOwner = new Owner("Oliver", "Queen");
+        createdOwner = new Owner("Oliver", "Queen", "test", "test");
 
     }
 

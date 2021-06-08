@@ -30,9 +30,9 @@ public class InitRepository {
         return args -> {
             System.out.println("-----------------");
             System.out.println("Find all owners without pets:");
-            ownerService.createOwner("Antonio", "Pampersas");
-            ownerService.createOwner("Weronika", "Pampersas");
-            ownerService.createOwner("Hanna", "Pampersas");
+            ownerService.createOwner("Antonio", "Pampersas", "antoniopampersas", "test");
+            ownerService.createOwner("Weronika", "Pampersas", "weronikapampersas", "test");
+            ownerService.createOwner("Hanna", "Pampersas", "hannapampersas", "test");
             System.out.println(ownerService.findAllOwners());
 
             petService.createPet(1L, "Piesio", "Samoyed");
@@ -85,8 +85,8 @@ public class InitRepository {
 //            //rip visit generator ale nadal dzięki Haniu
 
             System.out.println("testowanie veta");
-            vetService.createVet("Steve", "Irwin");
-            vetService.createVet("Wombat", "Skansen");
+            vetService.createVet("Steve", "Irwin", "steveirvin", "test");
+            vetService.createVet("Wombat", "Skansen", "wombatskansen", "test");
             System.out.println(vetService.findAllVets());
             vetService.updateVet("Horben", "Kansen", 9L);
             System.out.println(vetService.findAllVets());

@@ -12,10 +12,18 @@ public abstract class Human {
     @Column(name = "surname",
             columnDefinition = "TEXT")
     private String surname;
+    @Column(name = "login",
+            columnDefinition = "TEXT")
+    private String login;
+    @Column(name = "password",
+            columnDefinition = "TEXT")
+    private String password;
 
-    public Human(String firstname, String surname) {
+    public Human(String firstname, String surname, String login, String password) {
         this.firstname = firstname;
         this.surname = surname;
+        this.login = login;
+        this.password = password;
     }
 
     public Human() {
@@ -38,17 +46,33 @@ public abstract class Human {
         this.surname = surname;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Human)) return false;
         Human human = (Human) o;
-        return firstname.equals(human.firstname) && surname.equals(human.surname);
+        return firstname.equals(human.firstname) && surname.equals(human.surname) && login.equals(human.login) && password.equals(human.password);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstname, surname);
+        return Objects.hash(firstname, surname, login, password);
     }
 
     @Override

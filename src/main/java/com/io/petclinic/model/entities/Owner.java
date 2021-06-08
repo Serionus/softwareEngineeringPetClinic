@@ -6,8 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity(name = "Owner")
-@Table(name = "owner",
-        uniqueConstraints = {@UniqueConstraint(name = "unique_name", columnNames = {"firstname", "surname"})})
+@Table(name = "owner")
 public class Owner extends Human {
     @Id
     @SequenceGenerator(
@@ -28,8 +27,8 @@ public class Owner extends Human {
         super();
     }
 
-    public Owner(String firstname, String surname) {
-        super(firstname, surname);
+    public Owner(String firstname, String surname, String login, String password) {
+        super(firstname, surname, login, password);
     }
 
     public Long getOwnerId() {

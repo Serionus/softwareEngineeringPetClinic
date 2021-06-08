@@ -47,7 +47,7 @@ class OwnerServiceTest {
     void canCreateOwner() {
         //gdybysmy przekazywali ownera to bysmy odkomentowali
 //        Owner createdOwner = new Owner("Bruce", "Wayne");
-        underTest.createOwner("Bruce", "Wayne");
+        underTest.createOwner("Bruce", "Wayne", "test", "test");
         ArgumentCaptor<Owner> ownerArgumentCaptor = ArgumentCaptor.forClass(Owner.class);
         verify(ownerRepository).save(ownerArgumentCaptor.capture());
 //        Owner capturedOwner = ownerArgumentCaptor.getValue();
@@ -59,8 +59,8 @@ class OwnerServiceTest {
     void canFindAllOwners() {
         //Given
         List<Owner> expectedList = Arrays.asList(
-                new Owner("Edward", "Nigma"),
-                new Owner("Harvey", "Dent"));
+                new Owner("Edward", "Nigma", "test", "test"),
+                new Owner("Harvey", "Dent", "test", "test"));
         when(ownerRepository.findAll()).thenReturn(expectedList);
 
         //When
@@ -74,7 +74,7 @@ class OwnerServiceTest {
     @Test
     void shouldFindOwner() {
         // Given
-        Owner expectedOwner = new Owner("Edward", "Nigma");
+        Owner expectedOwner = new Owner("Edward", "Nigma", "test", "test");
         when(ownerRepository.findById(expectedOwner.getOwnerId())).thenReturn(Optional.of(expectedOwner));
 
         // When
@@ -103,8 +103,8 @@ class OwnerServiceTest {
     @Test
     void updateExistingOwner() {
         //Given
-        Owner ownerToBeUpdated = new Owner("Edward", "Nigma");
-        Owner ownerExpectedAfterUpdate = new Owner("update", "test");
+        Owner ownerToBeUpdated = new Owner("Edward", "Nigma", "test", "test");
+        Owner ownerExpectedAfterUpdate = new Owner("update", "test", "test", "test");
         long excpetedId = 1L;
         ownerToBeUpdated.setOwnerId(excpetedId);
         ownerExpectedAfterUpdate.setOwnerId(excpetedId);
@@ -128,7 +128,7 @@ class OwnerServiceTest {
     @Test
     void deleteOwner() {
          //Given
-        Owner ownerToBeDeleted = new Owner("Edward", "Nigma");
+        Owner ownerToBeDeleted = new Owner("Edward", "Nigma", "test", "test");
 
         // czy obchodzi nas literowka, chyba nie
         long excpetedId = 1L;

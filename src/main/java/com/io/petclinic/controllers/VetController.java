@@ -32,8 +32,8 @@ public class VetController {
     }
 
     @PostMapping("/vets/create-vet")
-    public void createVet(@RequestParam String firstName, String surname){
-        vetService.createVet(firstName, surname);
+    public void createVet(@RequestParam String firstName, String surname, String login, String password){
+        vetService.createVet(firstName, surname, login, password);
     }
 
     @PutMapping("/vets/{vetId}/change-data")

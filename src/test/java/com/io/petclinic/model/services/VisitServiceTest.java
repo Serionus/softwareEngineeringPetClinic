@@ -48,8 +48,8 @@ class VisitServiceTest {
     @BeforeEach
     void setUp() {
         underTest = new VisitService(visitRepository, vetRepository, petRepository);
-        createdVet = new Vet("Eliza", "Doolittle");
-        createdOwner = new Owner("Geralt", "Gwynbleidd");
+        createdVet = new Vet("Eliza", "Doolittle", "test", "test");
+        createdOwner = new Owner("Geralt", "Gwynbleidd", "test", "test");
         createdPet = new Pet("Roach", "Horse", createdOwner);
 
         beginTime = LocalDateTime.now();
@@ -104,7 +104,7 @@ class VisitServiceTest {
 
     @Test
     void canFindAllVisitsByVisitId() {
-        Vet secondVisitVet = new Vet("Otto", "Octavius");
+        Vet secondVisitVet = new Vet("Otto", "Octavius", "test", "test");
         LocalDateTime beginTimeTwo = LocalDateTime.now().plusDays(3);
         LocalDateTime endTimeTwo = beginTimeTwo.plusMinutes(20);
 
@@ -183,7 +183,7 @@ class VisitServiceTest {
 
     @Test
     void shoudFindAllPetVisits() {
-        Vet secondVisitVet = new Vet("Otto", "Octavius");
+        Vet secondVisitVet = new Vet("Otto", "Octavius", "test", "test");
         LocalDateTime beginTimeTwo = LocalDateTime.now().plusDays(3);
         LocalDateTime endTimeTwo = beginTimeTwo.plusMinutes(20);
 

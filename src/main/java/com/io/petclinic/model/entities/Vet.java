@@ -24,8 +24,8 @@ public class Vet extends Human {
     @OneToMany(mappedBy = "vet", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<Visit> visits = new ArrayList<>();
 
-    public Vet(String firstname, String surname) {
-        super(firstname, surname);
+    public Vet(String firstname, String surname, String login, String password) {
+        super(firstname, surname, login, password);
     }
 
     public Vet() {

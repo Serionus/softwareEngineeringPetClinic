@@ -33,8 +33,8 @@ public class OwnerController {
     }
 
     @PostMapping("/owners/create-owner")
-    public void createOwner(@RequestParam String firstName, String surname){
-        ownerService.createOwner(firstName, surname);
+    public void createOwner(@RequestParam String firstName, String surname, String login, String password){
+        ownerService.createOwner(firstName, surname, login, password);
     }
 
     @PutMapping("/owners/{ownerId}/change-data")
