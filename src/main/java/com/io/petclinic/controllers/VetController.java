@@ -28,7 +28,7 @@ public class VetController {
     @GetMapping("/vets/{vetId}")
     public HumanDTO getVet(@PathVariable Long vetId){
         Vet vet = vetService.findVet(vetId);
-        return new HumanDTO(vet.getFirstname(), vet.getSurname());
+        return new HumanDTO(vet.getFirstname(), vet.getSurname(), vetId);
     }
 
     @PostMapping("/vets/create-vet")

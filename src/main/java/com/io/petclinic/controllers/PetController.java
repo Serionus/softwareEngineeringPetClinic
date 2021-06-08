@@ -34,7 +34,7 @@ public class PetController {
     @GetMapping("/pets/{petId}")
     public PetDTO getPet(@PathVariable Long petId){
         Pet pet = petService.findPet(petId);
-        return new PetDTO(pet.getName(), pet.getSpecies());
+        return new PetDTO(pet.getName(), pet.getSpecies(), pet.getPetId());
     }
     //prosze pamietac
     // metoda pobierająca DTO peta danego ownera
@@ -42,7 +42,7 @@ public class PetController {
     public PetDTO getPetOfCertainOwner(@PathVariable Long ownerId, @PathVariable Long petId){
         //ojej
         Pet pet = petService.findPetByOwnerIdAndPetId(ownerId, petId);
-        return new PetDTO(pet.getName(), pet.getSpecies());
+        return new PetDTO(pet.getName(), pet.getSpecies(), pet.getPetId());
     }
 
     @GetMapping("/owners/{ownerId}/pets")

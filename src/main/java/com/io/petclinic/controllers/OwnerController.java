@@ -29,7 +29,7 @@ public class OwnerController {
     @GetMapping("/owners/{ownerId}")
     public HumanDTO getOwner(@PathVariable Long ownerId){
         Owner owner = ownerService.findOwner(ownerId);
-        return new HumanDTO(owner.getFirstname(), owner.getSurname());
+        return new HumanDTO(owner.getFirstname(), owner.getSurname(), ownerId);
     }
 
     @PostMapping("/owners/create-owner")
