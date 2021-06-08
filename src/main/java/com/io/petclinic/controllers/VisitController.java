@@ -50,6 +50,11 @@ public class VisitController {
     public void cancelVisitForPet(@PathVariable Long ownerId, Long petId,Long visitId){
         visitService.cancelVisit(visitId);
     }
+    // 请您跟您的小狗取来 ♥
+    @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/assign")
+    public void assignPetToVisit(@PathVariable Long ownerId, Long petId, Long visitId) {
+        visitService.assignPetToVisit(petId, visitId);
+    }
 
     @PutMapping("/vets/{vetId}/visits/{visitId}/change-time")
     public void changeVisitTime(@PathVariable Long vetId, Long visitId, @RequestParam LocalDateTime newBeginTime, LocalDateTime newEndTime) {

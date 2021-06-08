@@ -51,6 +51,7 @@ public class PetController {
         return petService.getAllPetsOfCertainOwner(ownerId).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
+    // RequestParam适用于都参数上的
     @PostMapping("/owners/{ownerId}/pets/add")
     public void createPet(@PathVariable Long ownerId, @RequestParam String name, String species) {
         petService.createPet(ownerId, name, species);
