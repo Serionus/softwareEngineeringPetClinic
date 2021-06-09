@@ -2,14 +2,12 @@ package com.io.petclinic.model.services;
 
 import com.io.petclinic.controllers.entities.TokenDTO;
 import com.io.petclinic.controllers.entities.UserCredentialsDTO;
-import com.io.petclinic.exceptions.CannotCreateOwnerException;
-import com.io.petclinic.exceptions.CannotCreateVetException;
-import com.io.petclinic.exceptions.UserAlreadyExistsException;
-import com.io.petclinic.exceptions.UserNotFoundException;
+import com.io.petclinic.exceptions.*;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.VetRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -20,6 +18,9 @@ public class AuthenticationService {
     private final VetRepository vetRepository;
     private final OwnerService ownerService;
     private final VetService vetService;
+
+    @Value("$vet.code")
+    private String vetCode;
 
     public AuthenticationService(OwnerRepository ownerRepository, VetRepository vetRepository, OwnerService ownerService, VetService vetService) {
         this.ownerRepository = ownerRepository;
@@ -51,13 +52,15 @@ public class AuthenticationService {
                 return new TokenDTO("owner", createdOwner.get().getOwnerId());
             }
             throw new CannotCreateOwnerException();
-        } else {
+        } else if (vetCode.equals(this.vetCode)){
             vetService.createVet(firstname, surname, login, password);
             Optional<Vet> createdVet = vetRepository.findVetByLogin(login);
             if (createdVet.isPresent()){
                 return new TokenDTO("vet", createdVet.get().getVetId());
             }
             throw new CannotCreateVetException();
+        } else {
+            throw new WrongVetCodeException();
         }
     }
 }
