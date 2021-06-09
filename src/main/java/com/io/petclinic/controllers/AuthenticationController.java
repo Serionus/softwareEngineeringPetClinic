@@ -51,16 +51,12 @@ public class AuthenticationController {
     @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<TokenDTO> register(@RequestBody HumanDTO humanDTO){
-        try {
-            TokenDTO tokenDTO = authenticationService.registerUser(humanDTO.getLogin(), humanDTO.getPassword(), humanDTO.getFirstname(), humanDTO.getSurname(), humanDTO.getVetCode());
-            String token = JWT.create()
-                    .withSubject(humanDTO.getLogin())
-                    .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
-                    .sign(Algorithm.HMAC256(jwtSecret));
-            tokenDTO.setToken(token);
-            return ResponseEntity.ok(tokenDTO);
-        } catch (CannotCreateOwnerException | CannotCreateVetException | UserAlreadyExistsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        TokenDTO tokenDTO = authenticationService.registerUser(humanDTO.getLogin(), humanDTO.getPassword(), humanDTO.getFirstname(), humanDTO.getSurname(), humanDTO.getVetCode());
+        String token = JWT.create()
+                .withSubject(humanDTO.getLogin())
+                .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
+                .sign(Algorithm.HMAC256(jwtSecret));
+        tokenDTO.setToken(token);
+        return ResponseEntity.ok(tokenDTO);
     }
 }
