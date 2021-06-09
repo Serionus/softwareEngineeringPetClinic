@@ -24,7 +24,7 @@ public class InitRepository {
 
         OwnerService ownerService = new OwnerService(ownerRepository, visitRepository);
         PetService petService = new PetService(petRepository, visitRepository, ownerRepository);
-        VisitService visitService = new VisitService(visitRepository, vetRepository, petRepository);
+        VisitService visitService = new VisitService(visitRepository, vetRepository, petRepository, ownerRepository);
         VetService vetService = new VetService(vetRepository);
 
         return args -> {

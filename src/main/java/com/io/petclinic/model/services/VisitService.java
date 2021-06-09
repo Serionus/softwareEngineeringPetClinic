@@ -3,25 +3,30 @@ package com.io.petclinic.model.services;
 import com.io.petclinic.exceptions.*;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Visit;
+import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class VisitService {
     private final VisitRepository visitRepository;
     private final VetRepository vetRepository;
     private final PetRepository petRepository;
+    private final OwnerRepository ownerRepository;
 
-    public VisitService(VisitRepository repository, VetRepository vetRepository, PetRepository petRepository) {
+    public VisitService(VisitRepository repository, VetRepository vetRepository, PetRepository petRepository, OwnerRepository ownerRepository) {
         this.visitRepository = repository;
         this.vetRepository = vetRepository;
         this.petRepository = petRepository;
+        this.ownerRepository = ownerRepository;
     }
 
     public void addVisit (Long vetId, LocalDateTime beginTime, LocalDateTime endTime){
@@ -65,6 +70,15 @@ public class VisitService {
     public List<Visit> findAllVisits() { return visitRepository.findAll(); }
 
     public List<Visit> findAllVisitsByPet(Long petId) { return visitRepository.findAllByPetPetId(petId); }
+
+    public List<Visit> findAllVisitsByOwner(Long ownerId){
+        List<Pet> pets = ownerRepository.findById(ownerId).get().getPets();
+        List<Visit> visits = new ArrayList<>();
+        for (Pet pet: pets) {
+            visits.addAll(pet.getVisits());
+        }
+        return visits;
+    }
 
     public List<Visit> findAllVisitsByVet(Long vetId) { return visitRepository.findAllByVetVetId(vetId); }
 

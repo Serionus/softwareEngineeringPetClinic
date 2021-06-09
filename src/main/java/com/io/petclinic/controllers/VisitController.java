@@ -62,6 +62,11 @@ public class VisitController {
         visitService.changeVisitDate(newBeginTime, newEndTime, visitId);
     }
 
+    @GetMapping("/owners/{ownerId}/visits")
+    public List<VisitDTO> getAllVisitsOfOwner(@PathVariable Long ownerId){
+        return visitService.findAllVisitsByOwner(ownerId).stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
     private VisitDTO convertToDTO(Visit visit){
         return modelMapper.map(visit, VisitDTO.class);
     }

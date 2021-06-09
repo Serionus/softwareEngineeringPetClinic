@@ -5,6 +5,7 @@ import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Vet;
 import com.io.petclinic.model.entities.Visit;
+import com.io.petclinic.model.repositories.OwnerRepository;
 import com.io.petclinic.model.repositories.PetRepository;
 import com.io.petclinic.model.repositories.VetRepository;
 import com.io.petclinic.model.repositories.VisitRepository;
@@ -35,6 +36,8 @@ class VisitServiceTest {
 
     @Mock
     private PetRepository petRepository;
+    @Mock
+    private OwnerRepository ownerRepository;
 
     private VisitService underTest;
     private Vet createdVet;
@@ -47,7 +50,7 @@ class VisitServiceTest {
 
     @BeforeEach
     void setUp() {
-        underTest = new VisitService(visitRepository, vetRepository, petRepository);
+        underTest = new VisitService(visitRepository, vetRepository, petRepository, ownerRepository);
         createdVet = new Vet("Eliza", "Doolittle", "test", "test");
         createdOwner = new Owner("Geralt", "Gwynbleidd", "test", "test");
         createdPet = new Pet("Roach", "Horse", createdOwner);

@@ -50,6 +50,7 @@ public class AuthenticationService {
         if(vetCode.isEmpty()){
             ownerService.createOwner(firstname, surname, login, password);
             Optional<Owner> createdOwner = ownerRepository.findOwnerByLogin(login);
+            System.out.println(createdOwner);
             if(createdOwner.isPresent()){
                 return new TokenDTO("owner", createdOwner.get().getOwnerId());
             }
