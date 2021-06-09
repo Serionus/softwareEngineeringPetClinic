@@ -45,6 +45,8 @@ public class AuthenticationService {
         if(vetRepository.findVetByLogin(login).isPresent() || ownerRepository.findOwnerByLogin(login).isPresent()){
             throw new UserAlreadyExistsException();
         }
+        System.out.println(vetCode);
+        System.out.println(this.vetCode);
         if(vetCode.isEmpty()){
             ownerService.createOwner(firstname, surname, login, password);
             Optional<Owner> createdOwner = ownerRepository.findOwnerByLogin(login);
