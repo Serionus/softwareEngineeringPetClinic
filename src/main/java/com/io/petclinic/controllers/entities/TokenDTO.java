@@ -5,8 +5,7 @@ public class TokenDTO {
     private String type;
     private Long userId;
 
-    public TokenDTO(String token, String type, Long userId) {
-        this.token = token;
+    public TokenDTO(String type, Long userId) {
         this.type = type;
         this.userId = userId;
     }
