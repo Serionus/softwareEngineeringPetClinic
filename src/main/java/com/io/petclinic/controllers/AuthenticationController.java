@@ -37,7 +37,7 @@ public class AuthenticationController {
         try {
             TokenDTO tokenDTO = authenticationService.returnUserRoleAndId(userCredentials);
             String token = JWT.create()
-                    .withSubject(tokenDTO.getType())
+                    .withSubject(userCredentials.getLogin())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
                     .sign(Algorithm.HMAC256(jwtSecret));
             tokenDTO.setToken(token);
