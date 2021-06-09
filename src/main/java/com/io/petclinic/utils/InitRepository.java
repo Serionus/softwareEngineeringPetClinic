@@ -57,20 +57,20 @@ public class InitRepository {
             System.out.println(ownerService.findAllOwners());
             System.out.println(petService.getAllPetsOfCertainOwner(1L));
 
-            System.out.println("-----------------");
-            System.out.println("Find pet by id: ");
-            System.out.println(petService.findPet(4L));
-
-            System.out.println("-----------------");
-            System.out.println("Update pet: ");
-            System.out.println(petService.updatePet("Sylwester", "Kot", ownerService.findOwner(1L), 4L));
-            System.out.println("-----------------");
-            System.out.println("Find pet by id: ");
-            System.out.println(petService.findPet(4L));
-
-            System.out.println("-----------------");
-            System.out.println("Rip pet ");
-            petService.deletePet(4L);
+//            System.out.println("-----------------");
+//            System.out.println("Find pet by id: ");
+//            System.out.println(petService.findPet(4L));
+//
+//            System.out.println("-----------------");
+//            System.out.println("Update pet: ");
+//            System.out.println(petService.updatePet("Sylwester", "Kot", ownerService.findOwner(1L), 4L));
+//            System.out.println("-----------------");
+//            System.out.println("Find pet by id: ");
+//            System.out.println(petService.findPet(4L));
+//
+//            System.out.println("-----------------");
+//            System.out.println("Rip pet ");
+//            petService.deletePet(4L);
             System.out.println(petService.findAllPets());
             System.out.println("-----------------");
 ////            System.out.println("Find pet by id: ");
@@ -87,8 +87,6 @@ public class InitRepository {
             System.out.println("testowanie veta");
             vetService.createVet("Steve", "Irwin", "steveirvin", "test");
             vetService.createVet("Wombat", "Skansen", "wombatskansen", "test");
-            System.out.println(vetService.findAllVets());
-            vetService.updateVet("Horben", "Kansen", 9L);
             System.out.println(vetService.findAllVets());
             LocalDateTime teraz = LocalDateTime.now();
             LocalDateTime potem = LocalDateTime.now().plusHours(1);
