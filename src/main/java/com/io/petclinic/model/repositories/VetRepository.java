@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface VetRepository extends JpaRepository<Vet, Long> {
     Optional<Vet> findVetByLoginAndPassword(String login, String password);
+    Optional<Vet> findVetByLogin(String login);
 }

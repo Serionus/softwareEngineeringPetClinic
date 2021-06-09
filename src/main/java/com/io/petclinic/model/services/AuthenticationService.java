@@ -2,6 +2,9 @@ package com.io.petclinic.model.services;
 
 import com.io.petclinic.controllers.entities.TokenDTO;
 import com.io.petclinic.controllers.entities.UserCredentialsDTO;
+import com.io.petclinic.exceptions.CannotCreateOwnerException;
+import com.io.petclinic.exceptions.CannotCreateVetException;
+import com.io.petclinic.exceptions.UserAlreadyExistsException;
 import com.io.petclinic.exceptions.UserNotFoundException;
 import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Vet;
@@ -15,10 +18,14 @@ import java.util.Optional;
 public class AuthenticationService {
     private final OwnerRepository ownerRepository;
     private final VetRepository vetRepository;
+    private final OwnerService ownerService;
+    private final VetService vetService;
 
-    public AuthenticationService(OwnerRepository ownerRepository, VetRepository vetRepository) {
+    public AuthenticationService(OwnerRepository ownerRepository, VetRepository vetRepository, OwnerService ownerService, VetService vetService) {
         this.ownerRepository = ownerRepository;
         this.vetRepository = vetRepository;
+        this.ownerService = ownerService;
+        this.vetService = vetService;
     }
 
     public TokenDTO returnUserRoleAndId(UserCredentialsDTO userCredentials){
@@ -31,5 +38,26 @@ public class AuthenticationService {
             return new TokenDTO("owner", foundedOwner.get().getOwnerId());
         }
         throw new UserNotFoundException();
+    }
+
+    public TokenDTO registerUser(String login, String password, String firstname, String surname, String vetCode){
+        if(vetRepository.findVetByLogin(login).isPresent() || ownerRepository.findOwnerByLogin(login).isPresent()){
+            throw new UserAlreadyExistsException();
+        }
+        if(vetCode.isEmpty()){
+            ownerService.createOwner(firstname, surname, login, password);
+            Optional<Owner> createdOwner = ownerRepository.findOwnerByLogin(login);
+            if(createdOwner.isPresent()){
+                return new TokenDTO("owner", createdOwner.get().getOwnerId());
+            }
+            throw new CannotCreateOwnerException();
+        } else {
+            vetService.createVet(firstname, surname, login, password);
+            Optional<Vet> createdVet = vetRepository.findVetByLogin(login);
+            if (createdVet.isPresent()){
+                return new TokenDTO("vet", createdVet.get().getVetId());
+            }
+            throw new CannotCreateVetException();
+        }
     }
 }
