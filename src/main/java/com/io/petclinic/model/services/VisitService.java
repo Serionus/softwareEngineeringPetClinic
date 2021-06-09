@@ -1,6 +1,7 @@
 package com.io.petclinic.model.services;
 
 import com.io.petclinic.exceptions.*;
+import com.io.petclinic.model.entities.Owner;
 import com.io.petclinic.model.entities.Pet;
 import com.io.petclinic.model.entities.Visit;
 import com.io.petclinic.model.repositories.OwnerRepository;
@@ -72,12 +73,16 @@ public class VisitService {
     public List<Visit> findAllVisitsByPet(Long petId) { return visitRepository.findAllByPetPetId(petId); }
 
     public List<Visit> findAllVisitsByOwner(Long ownerId){
-        List<Pet> pets = ownerRepository.findById(ownerId).get().getPets();
-        List<Visit> visits = new ArrayList<>();
-        for (Pet pet: pets) {
-            visits.addAll(pet.getVisits());
+        Optional<Owner> owner = ownerRepository.findById(ownerId);
+        if(owner.isPresent()){
+            List<Pet> pets = owner.get().getPets();
+            List<Visit> visits = new ArrayList<>();
+            for (Pet pet: pets) {
+                visits.addAll(pet.getVisits());
+            }
+            return visits;
         }
-        return visits;
+        throw new OwnerNotFoundException(ownerId);
     }
 
     public List<Visit> findAllVisitsByVet(Long vetId) { return visitRepository.findAllByVetVetId(vetId); }

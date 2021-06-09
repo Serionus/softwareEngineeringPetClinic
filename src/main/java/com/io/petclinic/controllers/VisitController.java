@@ -47,7 +47,7 @@ public class VisitController {
         visitService.addVisit(vetId, LocalDateTime.parse(beginTime, DateTimeFormatter.ISO_DATE_TIME), LocalDateTime.parse(endTime, DateTimeFormatter.ISO_DATE_TIME));
     }
 //"YY-MM-DD-THH:mm:ss:SS"
-    @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/cancel}")
+    @PutMapping("/owners/{ownerId}/pets/{petId}/visits/{visitId}/cancel")
     public void cancelVisitForPet(@PathVariable Long ownerId, @PathVariable Long petId, @PathVariable Long visitId){
         visitService.cancelVisit(visitId);
     }
