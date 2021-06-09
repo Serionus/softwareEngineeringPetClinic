@@ -64,6 +64,7 @@ public class PetController {
         return petService.updatePet(newPet.getName(), newPet.getSpecies(), newOwner, petId);
     }
 
+    @CrossOrigin
     @DeleteMapping("/owners/{ownerId}/pets/pet{Id}/delete")
     public void delete(@PathVariable Long id){
         petService.deletePet(id);
