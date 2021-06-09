@@ -32,7 +32,7 @@ public class AdminSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/login", "/", "/static/**/*", "/src/**/*").permitAll()
+                .antMatchers("/login", "/register", "/", "/static/**/*", "/src/**/*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterAfter(new JwtAuthenticationFilter(), LogoutFilter.class)
