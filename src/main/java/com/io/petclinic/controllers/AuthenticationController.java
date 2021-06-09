@@ -25,7 +25,7 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @Value("test")
+    @Value("${jwt.secret}")
     private String jwtSecret;
 
 
