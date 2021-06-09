@@ -42,9 +42,9 @@ public class AuthenticationController {
                     .sign(Algorithm.HMAC256(jwtSecret));
             tokenDTO.setToken(token);
             return ResponseEntity.ok(tokenDTO);
-        } catch (UserNotFoundException e){
+        } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-
+    }
 }
