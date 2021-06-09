@@ -19,7 +19,7 @@ public class AuthenticationService {
     private final OwnerService ownerService;
     private final VetService vetService;
 
-    @Value("$vet.code")
+    @Value("${vet.code}")
     private String vetCode;
 
     public AuthenticationService(OwnerRepository ownerRepository, VetRepository vetRepository, OwnerService ownerService, VetService vetService) {
