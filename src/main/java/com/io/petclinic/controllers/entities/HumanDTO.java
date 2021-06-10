@@ -16,7 +16,7 @@ public class HumanDTO {
         this.surname = surname;
         this.humanId = humanId;
         this.login = login;
-        this.login = password;
+        this.password = password;
     }
 
     public String getFirstname() {
