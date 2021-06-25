@@ -29,7 +29,7 @@ public class AuthenticationService {
         this.vetService = vetService;
     }
 
-    public TokenDTO returnUserRoleAndId(UserCredentialsDTO userCredentials){
+    public TokenDTO loginUser(UserCredentialsDTO userCredentials){
         Optional<Vet> foundedVet = vetRepository.findVetByLoginAndPassword(userCredentials.getLogin(), userCredentials.getPassword());
         if(foundedVet.isPresent()){
             return new TokenDTO("vet", foundedVet.get().getVetId());

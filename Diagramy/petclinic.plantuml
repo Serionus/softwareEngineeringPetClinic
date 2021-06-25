@@ -1,0 +1,220 @@
+@startuml PetClinic
+
+
+' abstract Human{
+'     -String firstname
+'     -String surname
+'     -String login
+'     -String password
+' }
+
+' entity Owner extends Human {
+'     -Long ownerId
+'     -List<Pet> pets
+' }
+
+' entity Vet extends Human {
+'     -Long vetId
+'     -List<Visit> visits
+' }
+
+' entity Visit {
+'     -Long visitId
+'     -LocalDateTime beginTime
+'     -LocalDateTime endTime
+'     -Vet vet
+'     -Pet pet
+' }
+
+' entity Pet {
+'     -Long petId
+'     -String name
+'     -String species
+'     -List<Visit> visits
+'     -Owner owner
+' }
+
+interface VetRepository{
+    +Optional<Vet> findVetByLoginAndPassword(login, password)
+    +Optional<Vet> findVetByLogin(login)
+} 
+interface PetRepository{
+    +List<Pet> findPetsByOwnerOwnerId(ownerId)
+    +Optional<Pet> findPetBtOwnerOwnerIdAndPetId(ownerId, petId)
+} 
+interface OwnerRepository{
+    +Optional<Owner> findOwnerByLoginAndPassword(login, password)
+    +Optional<Owner> findOwnerByLogin(login)
+}
+interface VisitRepository{
+    +findAllByPetPetId(petId)
+    +findAllByVetVetId(vetId)
+}
+interface JpaRepository
+
+JpaRepository <|.. VetRepository
+JpaRepository <|.. PetRepository
+OwnerRepository ..|> JpaRepository
+VisitRepository ..|> JpaRepository
+
+PetRepository ..o PetService
+VetRepository ..o VetService
+OwnerService o.. OwnerRepository
+VisitService o.. VisitRepository
+
+PetService <.. PetController
+VetService <.. VetController
+OwnerController ..> OwnerService
+VisitController ..> VisitService
+AuthenticationController ..> AuthenticationService
+AdminSecurityConfiguration ..> RestAuthenticationEntryPoint
+AdminSecurityConfiguration ..> JwtAuthenticationFilter
+
+
+' Pet "1..1" - Visit
+' Vet "1..1" - Visit
+' Pet -* Human
+' Visit <.. Human
+
+
+class OwnerService {
+    -OwnerRepository ownerRepository
+    -VisitRepository visitRepository
+    +void createOwner(firstname, surname, login, password)
+    +List<Owner> findAllOwners()
+    +Owner findOwner(ownerId)
+    +Optional<Owner> updateOwner(newFirstName, newSurname, ownerId)
+    +void deleteOwner(ownerId)
+}
+
+class PetService {
+    -PetRepository repository
+    -VisitRepository visitRepository
+    -OwnerRepository ownerRepository
+    +void createPet(ownerId, name, species)
+    +Pet findPet(petId)
+    +List<Pet> findAllPets()
+    +Pet findPetByOwnerIdAndPetId(ownerId, petId)
+    +Pet updatePet(newname, newSpecies, newOwner, petId)
+    +List<Pet> getAllPetsOfCertainOwner(ownerId)
+    +void deletePet(petId)
+}
+
+class VetService {
+    -VetRepository vetRepository
+    +void createVet(firstname, surname, login, password)
+    +List<Vet> findAllVets()
+    +Vet findVet(vetId)
+    +Vet updateVet(newFirstname, newSurname, vetId)
+    +void deleteVet(vetId)
+}
+
+class VisitService {
+    -VisitRepository visitRepository
+    -VetRepository vetRepository
+    -PetRepository petRepository
+    -OwnerRepository ownerRepository
+    +void addVisit(vetId, beginTime, endTime)
+    +void assignPetToVisit(petId, visitId)
+    +void changeVisitDate(newBeinTime, newEndTime, visitId)
+    +List<Visit> findAllVisits()
+    +List<Visit> getAllVetVisits(vetId)
+    +List<Visit> getAllPetVisits(petId)
+    +void cancelVisit(visitId)
+    +void deleteVisit(visitId)
+}
+
+class AuthenticationService{
+- OwnerRepository ownerRepository
+- VetRepository vetRepository
+- OnwerService ownerService
+- VetService vetService
+- String vetCode
++ TokenDTO loginUser(UserCredentialsDTO)
++ TokenDTO registerUser(String)
+}
+
+class OwnerController {
+    -OwnerService ownerService
+    -ModelMapper modelMapper
+    +List<HumanDTO> getAllOwners()
+    +Owner getOwner(@PathVariable ownerId)
+    +List<HumanDTO> getAllOwners()
+    +Owner createOwner(@RequestParam firstname, surname, login, password)
+    +Owner updateOwner(@RequestBody newOwner, @PathVariable ownerId)
+    +void delete(@PathVariable ownerId)
+    -HumanDTO convertToDTO(owner)
+}
+
+class PetController {
+    -PetService petService
+    -ModelMapper modelMapper
+    +List getAllPets()
+    +void createPet(@PathVariable ownerId, @RequestParam name, species)
+    +PetDTO getPetOfCertainOwner(@PathVariable ownerId, petId)
+    +List<PetDTO> getPetsOfCertainOwner(@PathVariable ownerId)
+    +Pet updatePet(@RequestBody newPet, @PathVariable ownerId, petId)
+    +void delete(petId)
+    -PetDTO convertToDTO(pet)
+}
+
+class VisitController {
+    -VisitService visitService
+    -ModelMapper modelMapper
+    +void createVisit(@PathVariable vetId, @Request Param beingTime, endTime)
+    +List<VisitDTO> getAllVisits()
+    +List<VisitDTO> getPetAllVisits(@PathVariable petId)
+    +List<VisitDTO> getVetAllVisits(@PathVariable vetId)
+    +void changeVisitTime(@PathVariable visitId, @RequestParam newBeginTime, newEndTime)
+    +List<VisitDTO> getAllVisitsOfOwner(@PAthVariable ownerId)
+    +void assignPetToVisit(@PathVariable petId, visitId)
+    +void deleteVisitByBet(visitId)
+    +void cancelVisitForPet(@PathVariable visitId)
+    -VisitDTO convertToDTO(visit)
+}
+class VetController {
+    -VetService vetService
+    -ModelMapper modelMapper
+    +List<HumanDTO> getAllVets()
+    +HumanDTO getVet(@PathVariable vetId)
+    +List<HumanDTO> getAllVets()
+    +void createVet(@RequestParam firstname, surname, login, password)
+    +HumanDTO updateVet(@RequestBody newVet, @PathVariable vetId)
+    +void deleteVet(@PathVariable vetId)
+    -HumanDTO convertToDTO(vet)
+}
+
+class AuthenticationController{
+- AuthenticationService authenticationService
+- String jwtSecret
++ TokenDTO login(userCredentials)
++ TokenDTO register(humanDTIO)
+}
+
+
+
+class AdminSecurityConfiguration{
+    -RestAuthenticationEntryPoint restAuthenticationEntryPoint
+    +void configure(http)
+    +corsConfigurationSource() 
+}
+
+class JwtAuthenticationFilter{
+    -String AUTHORIZATION_HEADER
+    -STRING TOKEN_AUTHORIZATION_PREFIX
+    +void doFIlterInternal(request, response, filterChain)
+    +String loadSecret()
+}
+
+class RestAuthenticationEntryPoint{
+    +void commence(request, response, authException)
+}
+
+class SecurityConfiguration{
+    +PasswordEncoder encoder()
+    #void configure(http)
+}
+
+
+
+@enduml

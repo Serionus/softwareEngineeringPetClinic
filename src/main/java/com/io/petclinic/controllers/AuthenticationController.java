@@ -33,7 +33,7 @@ public class AuthenticationController {
         //funkcja sprawdzająca czy istnieje użytkownik o danym loginie i haśle
         //i wyciagajaca typ i id usera
         try {
-            TokenDTO tokenDTO = authenticationService.returnUserRoleAndId(userCredentials);
+            TokenDTO tokenDTO = authenticationService.loginUser(userCredentials);
             String token = JWT.create()
                     .withSubject(userCredentials.getLogin())
                     .withExpiresAt(new Date(System.currentTimeMillis() + 3600000))
